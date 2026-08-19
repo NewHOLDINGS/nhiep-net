@@ -90,34 +90,6 @@ export default function HeroSection({
             ))}
           </div>
         </div>
-
-        {/* Stats Grid Bar */}
-        <div className="mt-14 max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 p-6 glass-panel rounded-2xl border border-surface-border">
-          <div className="text-center p-3 border-r border-surface-border/50 last:border-none">
-            <p className="font-heading font-black text-2xl sm:text-3xl text-brand">
-              {dict.hero.stat1Number}
-            </p>
-            <p className="text-xs text-zinc-400 mt-1 font-medium">{dict.hero.stat1Label}</p>
-          </div>
-          <div className="text-center p-3 border-r border-surface-border/50 last:border-none">
-            <p className="font-heading font-black text-2xl sm:text-3xl text-white">
-              {dict.hero.stat2Number}
-            </p>
-            <p className="text-xs text-zinc-400 mt-1 font-medium">{dict.hero.stat2Label}</p>
-          </div>
-          <div className="text-center p-3 border-r border-surface-border/50 last:border-none">
-            <p className="font-heading font-black text-2xl sm:text-3xl text-amber-400">
-              {dict.hero.stat3Number}
-            </p>
-            <p className="text-xs text-zinc-400 mt-1 font-medium">{dict.hero.stat3Label}</p>
-          </div>
-          <div className="text-center p-3">
-            <p className="font-heading font-black text-2xl sm:text-3xl text-emerald-400">
-              {dict.hero.stat4Number}
-            </p>
-            <p className="text-xs text-zinc-400 mt-1 font-medium">{dict.hero.stat4Label}</p>
-          </div>
-        </div>
       </div>
     </section>
   );

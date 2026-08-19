@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Locale } from '@/types';
-import { Phone, MessageCircle, Sparkles, X } from 'lucide-react';
+import { MessageCircle, Sparkles, X } from 'lucide-react';
 import AiChatbotModal from './AiChatbotModal';
 
 export default function FloatingContacts({ locale }: { locale: Locale }) {
@@ -36,18 +36,6 @@ export default function FloatingContacts({ locale }: { locale: Locale }) {
           <MessageCircle className="w-6 h-6" />
           <span className="absolute right-14 bg-surface-elevated text-white border border-surface-border text-xs px-2.5 py-1 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-xl">
             WhatsApp: +84 932 513 678
-          </span>
-        </a>
-
-        {/* Hotline Call Button */}
-        <a
-          href="tel:0932513678"
-          className="group relative flex items-center justify-center w-12 h-12 rounded-full bg-red-600 hover:bg-red-500 text-white shadow-lg transition-transform hover:scale-110 animate-bounce"
-          aria-label="Call Hotline 0932513678"
-        >
-          <Phone className="w-5 h-5" />
-          <span className="absolute right-14 bg-surface-elevated text-white border border-surface-border text-xs px-2.5 py-1 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-xl">
-            Hotline: 0932.513.678
           </span>
         </a>
 
