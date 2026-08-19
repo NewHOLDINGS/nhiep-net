@@ -81,7 +81,7 @@ export default function AiChatbotModal({
       const errorMsg: ChatMessage = {
         id: `err-${Date.now()}`,
         role: 'assistant',
-        content: `Đã xảy ra lỗi kết nối. Vui lòng liên hệ trực tiếp hotline 0932513678 hoặc Zalo 0931513678 để được tư vấn tức thì!`,
+        content: `Đã xảy ra lỗi kết nối. Vui lòng liên hệ trực tiếp hotline 0932513678 hoặc Zalo 0932513678 để được tư vấn tức thì!`,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
       setMessages((prev) => [...prev, errorMsg]);
@@ -102,8 +102,8 @@ export default function AiChatbotModal({
         {/* Header */}
         <div className="p-4 bg-gradient-to-r from-surface-elevated via-surface-card to-brand/10 border-b border-surface-border flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-orange-600 to-amber-400 text-black flex items-center justify-center shadow-glow">
-              <Sparkles className="w-5 h-5 fill-black" />
+            <div className="relative w-10 h-10 rounded-xl overflow-hidden border border-brand/50 shadow-glow shrink-0">
+              <Image src="/logo.jpg" alt="nhiep.net Logo" fill className="object-cover" />
             </div>
             <div>
               <h3 className="font-heading font-bold text-sm text-white flex items-center gap-2">
@@ -129,8 +129,8 @@ export default function AiChatbotModal({
               className={`flex gap-2.5 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               {msg.role === 'assistant' && (
-                <div className="w-7 h-7 rounded-lg bg-brand/20 border border-brand/40 text-brand flex items-center justify-center shrink-0 mt-0.5">
-                  <Bot className="w-4 h-4" />
+                <div className="relative w-7 h-7 rounded-lg overflow-hidden border border-brand/40 shrink-0 mt-0.5 shadow-sm">
+                  <Image src="/logo.jpg" alt="nhiep.net" fill className="object-cover" />
                 </div>
               )}
               <div
@@ -234,8 +234,8 @@ export default function AiChatbotModal({
             </button>
           </form>
           <div className="mt-2 flex items-center justify-between text-[10px] text-zinc-400">
-            <span>{dict.chat.directHotline} <a href="tel:0932513678" className="text-brand font-bold">0932.513.678</a></span>
-            <span className="text-zinc-500">Zalo: 0931.513.678</span>
+            <span>{dict.chat.directHotline} <a href="tel:0932513678" className="text-brand font-bold hover:underline">0932513678</a></span>
+            <a href="https://zalo.me/0932513678" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-brand transition-colors font-medium">Zalo: 0932513678</a>
           </div>
         </div>
       </div>

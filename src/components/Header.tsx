@@ -119,7 +119,7 @@ export default function Header({ locale }: { locale: Locale }) {
                 className="flex items-center justify-center gap-2.5 py-3 rounded-xl bg-surface-elevated border border-brand/30 text-white font-bold text-sm"
               >
                 <Phone className="w-4 h-4 text-brand" />
-                <span>Hotline: 0932.513.678</span>
+                <span>Hotline: 0932513678</span>
               </a>
             </div>
           </div>

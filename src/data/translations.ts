@@ -11,7 +11,7 @@ export const DICTIONARY = {
       gallery: 'Bộ Sưu Tập',
       admin: 'Quản Trị',
       hotline: 'Hotline 24/7',
-      callNow: '0932.513.678',
+      callNow: '0932513678',
       selectProvince: 'Chọn Khu Vực'
     },
     hero: {
@@ -21,7 +21,7 @@ export const DICTIONARY = {
       subtitle: 'Kết nối mạng lưới nhiếp ảnh gia, đạo diễn hình ảnh & ekip sản xuất hàng đầu tại Đà Nẵng, Huế, Quảng Trị và Khánh Hòa. Minh bạch giá cả, chất lượng điện ảnh, phục vụ tận tâm.',
       explorePackages: 'Xem Các Gói Dịch Vụ',
       instantBooking: 'Đặt Lịch Nhanh 2 Phút',
-      aiConsultant: 'Tư Vấn AI Gemini',
+      aiConsultant: 'Tư Vấn AI nhiep.net',
       stat1Number: '45+',
       stat1Label: 'Gói Dịch Vụ Chuẩn Cinema',
       stat2Number: '4 Tỉnh',
@@ -92,7 +92,7 @@ export const DICTIONARY = {
       viewAdmin: 'Kiểm Tra Trong Quản Trị'
     },
     chat: {
-      widgetTitle: 'Trợ Lý AI nhiep.net (Gemini)',
+      widgetTitle: 'Tư Vấn AI nhiep.net',
       onlineStatus: 'Tư Vấn & Báo Giá Trực Tuyến 24/7',
       welcomeMessage: 'Xin chào! Tôi là trợ lý AI thông minh của nhiep.net. Tôi có thể tư vấn gói quay chụp cưới, sự kiện, du lịch tại Đà Nẵng, Huế, Quảng Trị, Khánh Hòa kèm báo giá chuẩn xác nhất. Bạn đang tìm dịch vụ nào?',
       inputPlaceholder: 'Hỏi về giá chụp ảnh cưới Đà Nẵng, quay sự kiện...',
@@ -147,10 +147,10 @@ export const DICTIONARY = {
       quickLinks: 'Liên Kết Nhanh',
       services: 'Dịch Vụ Nổi Bật',
       contactInfo: 'Thông Tin Liên Hệ',
-      hotline: 'Hotline: 0932.513.678 (Gọi trực tiếp)',
-      zalo: 'Zalo: 0931.513.678 (Hỗ trợ 24/7)',
+      hotline: 'Hotline: 0932513678 (Gọi trực tiếp)',
+      zalo: 'Zalo: 0932513678 (Hỗ trợ 24/7)',
       whatsapp: 'WhatsApp: +84 932 513 678',
-      address: 'Văn phòng: 120 Nguyễn Văn Linh, Q. Hải Châu, TP. Đà Nẵng',
+      address: 'Văn phòng: 522 Tôn Đức Thắng, Phường Hoà Khánh, TP. Đà Nẵng',
       rights: 'Bản quyền thuộc về nhiep.net. Tất cả các quyền được bảo lưu.'
     }
   },
@@ -164,7 +164,7 @@ export const DICTIONARY = {
       gallery: 'Portfolio',
       admin: 'Admin Portal',
       hotline: '24/7 Hotline',
-      callNow: '0932.513.678',
+      callNow: '0932513678',
       selectProvince: 'Select Region'
     },
     hero: {
@@ -174,7 +174,7 @@ export const DICTIONARY = {
       subtitle: 'Connect with elite photographers, cinema directors, and production crews across Da Nang, Hue, Quang Tri, and Khanh Hoa (Nha Trang). Transparent pricing and cinematic quality.',
       explorePackages: 'Explore Packages',
       instantBooking: 'Instant 2-Min Booking',
-      aiConsultant: 'Gemini AI Assistant',
+      aiConsultant: 'nhiep.net AI Consultant',
       stat1Number: '45+',
       stat1Label: 'Cinema-Grade Packages',
       stat2Number: '4 Hubs',
@@ -245,7 +245,7 @@ export const DICTIONARY = {
       viewAdmin: 'View in Admin Portal'
     },
     chat: {
-      widgetTitle: 'nhiep.net AI Consultant (Gemini)',
+      widgetTitle: 'nhiep.net AI Consultant',
       onlineStatus: '24/7 Intelligent Consultation & Quotes',
       welcomeMessage: 'Hello! I am the AI consultant for nhiep.net. I can assist you with pre-wedding shoots, corporate videos, travel phototours across Da Nang, Hue, Quang Tri, and Nha Trang with instant pricing. What service are you looking for?',
       inputPlaceholder: 'Ask about wedding packages in Da Nang, event videography...',
@@ -300,10 +300,10 @@ export const DICTIONARY = {
       quickLinks: 'Quick Links',
       services: 'Featured Services',
       contactInfo: 'Direct Contact Channels',
-      hotline: 'Hotline: 0932.513.678 (Direct Call)',
-      zalo: 'Zalo: 0931.513.678 (24/7 Support)',
+      hotline: 'Hotline: 0932513678 (Direct Call)',
+      zalo: 'Zalo: 0932513678 (24/7 Support)',
       whatsapp: 'WhatsApp: +84 932 513 678',
-      address: 'Office: 120 Nguyen Van Linh, Hai Chau Dist, Da Nang City',
+      address: 'Office: 522 Ton Duc Thang, Hoa Khanh Ward, Da Nang City',
       rights: 'Copyright nhiep.net. All rights reserved.'
     }
   },
@@ -317,7 +317,7 @@ export const DICTIONARY = {
       gallery: '作品画廊',
       admin: '管理后台',
       hotline: '24/7服务热线',
-      callNow: '0932.513.678',
+      callNow: '0932513678',
       selectProvince: '选择地区'
     },
     hero: {
@@ -327,7 +327,7 @@ export const DICTIONARY = {
       subtitle: '汇聚岘港、顺化、广治与庆和（芽庄）顶级摄影师、影视导演及专业摄制团队。透明价格、电影质感、全程贴心服务。',
       explorePackages: '查阅精选套餐',
       instantBooking: '2分钟极速预约',
-      aiConsultant: 'Gemini AI智能顾问',
+      aiConsultant: 'nhiep.net AI智能顾问',
       stat1Number: '45+',
       stat1Label: '电影级标准套餐',
       stat2Number: '4大区域',
@@ -398,7 +398,7 @@ export const DICTIONARY = {
       viewAdmin: '前往管理后台查看'
     },
     chat: {
-      widgetTitle: 'nhiep.net AI 智能顾问 (Gemini)',
+      widgetTitle: 'nhiep.net AI 智能顾问',
       onlineStatus: '24/7 在线智能咨询与精准报价',
       welcomeMessage: '您好！我是 nhiep.net 的AI智能顾问。我可以为您提供岘港、顺化、广治、芽庄的婚纱摄影、会议录像、度假旅拍等全方位咨询与实时报价。请问您正在寻找哪项服务？',
       inputPlaceholder: '咨询岘港婚纱摄影价格、芽庄活动拍摄...',
@@ -453,10 +453,10 @@ export const DICTIONARY = {
       quickLinks: '快速链接',
       services: '核心服务',
       contactInfo: '官方联系渠道',
-      hotline: '客服热线：0932.513.678（一键直拨）',
-      zalo: 'Zalo 客服：0931.513.678（24/7在线）',
+      hotline: '客服热线：0932513678（一键直拨）',
+      zalo: 'Zalo 客服：0932513678（24/7在线）',
       whatsapp: 'WhatsApp：+84 932 513 678',
-      address: '办公地址：岘港市海洲郡阮文灵路120号',
+      address: '办公地址：岘港市和庆坊尊德胜路522号',
       rights: '版权所有 © nhiep.net 保留所有权利。'
     }
   }

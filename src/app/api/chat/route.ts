@@ -62,9 +62,10 @@ export async function POST(req: NextRequest) {
       const knowledgeContext = `
 nhiep.net Knowledge Base:
 - Operating regions: Da Nang (Đà Nẵng), Thừa Thiên Huế, Quảng Trị, Khánh Hòa (Nha Trang / Cam Ranh).
+- Address: 522 Tôn Đức Thắng, Phường Hoà Khánh, TP. Đà Nẵng
 - Hotline 24/7: 0932513678 (tel:0932513678)
 - WhatsApp: +84932513678 (https://wa.me/84932513678)
-- Zalo: 0931513678 (https://zalo.me/0931513678)
+- Zalo: 0932513678 (https://zalo.me/0932513678)
 - Core Categories:
   1. Photography (Pre-wedding, Portraits, Ao Dai, Resort Architecture, Food, Family)
   2. Videography (4K Cinema Wedding Films, Corporate TVC 6K, Event Highlight, Travel Vlog, FPV Drone)
@@ -79,9 +80,9 @@ ${recommended.map(r => `- ${r.name}: ${r.price} (ID: ${r.id})`).join('\n')}
       const systemPrompt = `You are the friendly, professional AI Booking Consultant for nhiep.net (Nền tảng đặt lịch quay chụp hàng đầu miền Trung Việt Nam).
 Language rule: Detect and respond fluently in the customer's language (${locale.toUpperCase()}: Vietnamese, English, or Simplified Chinese).
 Instructions:
-1. Always stay on topic (nhiep.net's photography, videography, post-production, event coverage, and travel photo services in Da Nang, Hue, Quang Tri, Khanh Hoa).
+1. Always stay on topic (nhiep.net's photography, videography, post-production, event coverage, and travel photo services in Da Nang, Hue, Quang Tri, Khanh Hòa).
 2. Answer customer queries with warmth, expert production advice (e.g. golden hour light, outfit tips, gear), clear price ranges in VND, and recommend suitable packages.
-3. Encourage the customer to book online at nhiep.net or contact Hotline/Zalo: 0932513678 / 0931513678.
+3. Encourage the customer to book online at nhiep.net or contact Hotline/Zalo: 0932513678.
 4. Keep answers concise, beautiful, formatted in clean markdown bullet points.`;
 
       try {
@@ -125,15 +126,15 @@ Instructions:
     if (locale === 'zh') {
       replyText = `您好！感谢您咨询 **nhiep.net**。针对您关注的拍摄需求，我们在岘港、顺化、广治及芽庄拥有丰富实战经验的资深摄制团队。\n\n📸 **为您推荐的专属高性价比方案：**\n` +
         recommended.map(r => `• **${r.name}**：标准报价 **${r.price}**\n  👉 [点击进入在线预约](/zh/booking?package=${r.id})`).join('\n') +
-        `\n\n💡 **我们的服务优势：**\n- 交付全部原始高清底片，绝无隐形加价\n- 影棚级电影灯光与Sony/Canon专业器材\n- 支持24小时极速出片通道\n\n📞 **需要专人一对一顾问对接？**\n- 客服热线：[0932.513.678](tel:0932513678)\n- 微信/Zalo：**0931.513.678** | WhatsApp：**+84932513678**`;
+        `\n\n💡 **我们的服务优势：**\n- 交付全部原始高清底片，绝无隐形加价\n- 影棚级电影灯光与Sony/Canon专业器材\n- 支持24小时极速出片通道\n\n📞 **需要专人一对一顾问对接？**\n- 客服热线：[0932513678](tel:0932513678)\n- 微信/Zalo：**0932513678** | WhatsApp：**+84932513678**`;
     } else if (locale === 'en') {
       replyText = `Hello! Thank you for contacting **nhiep.net**. We are Central Vietnam’s premier photography & videography booking platform covering Da Nang, Hue, Quang Tri, and Nha Trang.\n\n📸 **Recommended packages for your inquiry:**\n` +
         recommended.map(r => `• **${r.name}**: **${r.price}**\n  👉 [Book this package online](/en/booking?package=${r.id})`).join('\n') +
-        `\n\n✨ **Why Choose nhiep.net:**\n- All original RAW/high-res files included\n- Cinema-grade 4K equipment & English-fluent directors\n- Free local location advice & 24h rapid delivery options\n\n📞 **Need direct consultation?**\n- Hotline: [0932.513.678](tel:0932513678)\n- WhatsApp: [+84932513678](https://wa.me/84932513678) | Zalo: **0931.513.678**`;
+        `\n\n✨ **Why Choose nhiep.net:**\n- All original RAW/high-res files included\n- Cinema-grade 4K equipment & English-fluent directors\n- Free local location advice & 24h rapid delivery options\n\n📞 **Need direct consultation?**\n- Hotline: [0932513678](tel:0932513678)\n- WhatsApp: [+84932513678](https://wa.me/84932513678) | Zalo: **0932513678**`;
     } else {
       replyText = `Chào bạn! Cảm ơn bạn đã liên hệ **nhiep.net** — Nền tảng quay chụp chuyên nghiệp hàng đầu tại Đà Nẵng, Huế, Quảng Trị và Khánh Hòa.\n\n📸 **Dưới đây là các gói dịch vụ tối ưu nhất theo nhu cầu của bạn:**\n` +
         recommended.map(r => `• **${r.name}**: Giá niêm yết **${r.price}**\n  👉 [Nhấp để đặt lịch giữ chỗ ngay](/vi/booking?package=${r.id})`).join('\n') +
-        `\n\n✨ **Cam kết chất lượng từ nhiep.net:**\n- Trả 100% file ảnh gốc trong 24h, không phụ phí phát sinh\n- Ekip đạo diễn hình ảnh nhiệt tình, thiết bị Sony FX3 / A7R V / Flycam 4K\n- Hỗ trợ chỉnh sửa ảnh đến khi hoàn toàn hài lòng\n\n📞 **Cần tư vấn trực tiếp 1-1 ngay lập tức?**\n- Hotline 24/7: [0932.513.678](tel:0932513678)\n- Zalo: [0931.513.678](https://zalo.me/0931513678) | WhatsApp: **+84932513678**`;
+        `\n\n✨ **Cam kết chất lượng từ nhiep.net:**\n- Trả 100% file ảnh gốc trong 24h, không phụ phí phát sinh\n- Ekip đạo diễn hình ảnh nhiệt tình, thiết bị Sony FX3 / A7R V / Flycam 4K\n- Hỗ trợ chỉnh sửa ảnh đến khi hoàn toàn hài lòng\n\n📞 **Cần tư vấn trực tiếp 1-1 ngay lập tức?**\n- Hotline 24/7: [0932513678](tel:0932513678)\n- Zalo: [0932513678](https://zalo.me/0932513678) | WhatsApp: **+84932513678**`;
     }
 
     return NextResponse.json({

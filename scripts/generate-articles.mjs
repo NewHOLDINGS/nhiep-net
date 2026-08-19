@@ -162,7 +162,7 @@ Khu vực ${province.nameVi} sở hữu những lợi thế hiếm có:
 3. **Thống nhất kịch bản chi tiết**: Hãy chia sẻ mong muốn, phong cách yêu thích và các yêu cầu đặc biệt với đạo diễn hình ảnh trước buổi bấm máy ít nhất 2 ngày.
 
 > [!TIP]
-> Bạn có thể tham khảo trực tiếp các gói dịch vụ chuẩn xác theo ngân sách và nhu cầu tại [nhiep.net Gói Dịch Vụ](/vi/packages) hoặc liên hệ Hotline **0932513678** (Zalo: 0931513678) để được cố vấn 1-1 miễn phí.
+> Bạn có thể tham khảo trực tiếp các gói dịch vụ chuẩn xác theo ngân sách và nhu cầu tại [nhiep.net Gói Dịch Vụ](/vi/packages) hoặc liên hệ Hotline **0932513678** (Zalo: 0932513678) để được cố vấn 1-1 miễn phí.
 
 ---
 
@@ -252,7 +252,7 @@ ${province.nameZh}地区具备得天独厚的视觉优势：
 3. **提前沟通分镜头脚本**：在开机前与主创团队确认画面风格参考与重点记录诉求。
 
 > [!TIP]
-> 您可在 [nhiep.net 套餐中心](/zh/packages) 实时查阅透明价格与服务明细，或添加中文客服微信/Zalo：**0931513678**（WhatsApp：**+84932513678**）。
+> 您可在 [nhiep.net 套餐中心](/zh/packages) 实时查阅透明价格与服务明细，或添加中文客服微信/Zalo：**0932513678**（WhatsApp：**+84932513678**）。
 
 ---
 

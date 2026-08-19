@@ -98,18 +98,18 @@ export default function Footer({ locale }: { locale: Locale }) {
                   className="flex items-center gap-2.5 p-2 rounded-lg bg-surface-muted hover:bg-surface-elevated border border-surface-border text-white hover:text-brand transition-colors"
                 >
                   <Phone className="w-4 h-4 text-brand" />
-                  <span className="font-semibold">Hotline: 0932.513.678</span>
+                  <span className="font-semibold">Hotline: 0932513678</span>
                 </a>
               </li>
               <li>
                 <a
-                  href="https://zalo.me/0931513678"
+                  href="https://zalo.me/0932513678"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2.5 p-2 rounded-lg bg-surface-muted hover:bg-surface-elevated border border-surface-border text-white hover:text-blue-400 transition-colors"
                 >
                   <MessageCircle className="w-4 h-4 text-blue-400" />
-                  <span className="font-semibold">Zalo: 0931.513.678</span>
+                  <span className="font-semibold">Zalo: 0932513678</span>
                 </a>
               </li>
               <li>
@@ -123,9 +123,9 @@ export default function Footer({ locale }: { locale: Locale }) {
                   <span className="font-semibold">WhatsApp: +84 932 513 678</span>
                 </a>
               </li>
-              <li className="pt-2 text-zinc-500 flex items-start gap-2">
-                <MapPin className="w-4 h-4 text-zinc-400 shrink-0 mt-0.5" />
-                <span>120 Nguyễn Văn Linh, Q. Hải Châu, TP. Đà Nẵng</span>
+              <li className="pt-2 text-zinc-400 flex items-start gap-2">
+                <MapPin className="w-4 h-4 text-brand shrink-0 mt-0.5" />
+                <span>522 Tôn Đức Thắng, Phường Hoà Khánh, TP. Đà Nẵng</span>
               </li>
             </ul>
           </div>

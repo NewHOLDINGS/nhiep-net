@@ -37,16 +37,16 @@ export default function LocaleLayout({
     priceRange: '1500000VND - 28000000VND',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: '120 Nguyễn Văn Linh',
-      addressLocality: 'Hải Châu',
+      streetAddress: '522 Tôn Đức Thắng',
+      addressLocality: 'Hoà Khánh',
       addressRegion: 'Đà Nẵng',
       postalCode: '550000',
       addressCountry: 'VN'
     },
     geo: {
       '@type': 'GeoCoordinates',
-      latitude: 16.0610,
-      longitude: 108.2198
+      latitude: 16.0594,
+      longitude: 108.1492
     },
     openingHoursSpecification: {
       '@type': 'OpeningHoursSpecification',
@@ -63,7 +63,7 @@ export default function LocaleLayout({
       closes: '23:59'
     },
     sameAs: [
-      'https://zalo.me/0931513678',
+      'https://zalo.me/0932513678',
       'https://wa.me/84932513678'
     ],
     areaServed: [
