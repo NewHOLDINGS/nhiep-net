@@ -1,0 +1,22 @@
+{
+  "name": "nhiep.net — Photography & Videography Platform",
+  "short_name": "nhiep.net",
+  "description": "Nền tảng đặt lịch chụp ảnh, quay phim, hậu kỳ & sự kiện chuyên nghiệp tại Đà Nẵng, Huế, Quảng Trị, Khánh Hòa.",
+  "start_url": "/vi",
+  "display": "standalone",
+  "background_color": "#09090b",
+  "theme_color": "#ff7a00",
+  "icons": [
+    {
+      "src": "/logo.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "/logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ],
+  "categories": ["photography", "lifestyle", "business"]
+}
