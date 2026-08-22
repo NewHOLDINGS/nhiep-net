@@ -292,8 +292,11 @@ export interface CartItem {
 export interface CustomerUser {
   id: string;
   name: string;
-  phone: string;
+  phone?: string;
   email?: string;
+  avatar?: string;
+  provider?: 'google' | 'facebook' | 'phone' | 'custom';
+  facebookUrl?: string;
   zalo?: string;
   address?: string;
   loggedInAt: string;

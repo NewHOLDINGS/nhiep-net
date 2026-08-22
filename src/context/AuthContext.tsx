@@ -5,7 +5,10 @@ import { CustomerUser, SavedAiQuote } from '@/types';
 
 interface AuthContextType {
   user: CustomerUser | null;
-  login: (name: string, phone: string, email?: string, address?: string) => void;
+  login: (name: string, phone?: string, email?: string, address?: string) => void;
+  loginWithGoogle: (googleData?: { name?: string; email?: string; avatar?: string; phone?: string }) => void;
+  loginWithFacebook: (facebookData?: { name?: string; email?: string; avatar?: string; facebookUrl?: string; phone?: string }) => void;
+  updateProfile: (data: Partial<CustomerUser>) => void;
   logout: () => void;
   isAuthModalOpen: boolean;
   openAuthModal: () => void;
@@ -67,18 +70,64 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [savedQuotes, isInitialized]);
 
-  const login = (name: string, phone: string, email?: string, address?: string) => {
+  const login = (name: string, phone?: string, email?: string, address?: string) => {
     const newUser: CustomerUser = {
       id: `usr-${Date.now()}`,
-      name: name.trim(),
-      phone: phone.trim(),
-      email: email?.trim(),
-      zalo: phone.trim(),
-      address: address?.trim(),
+      name: name.trim() || 'Khách Hàng',
+      phone: phone?.trim() || '',
+      email: email?.trim() || '',
+      zalo: phone?.trim() || '',
+      address: address?.trim() || '',
+      provider: 'custom',
       loggedInAt: new Date().toISOString()
     };
     setUser(newUser);
     setIsAuthModalOpen(false);
+  };
+
+  const loginWithGoogle = (googleData?: { name?: string; email?: string; avatar?: string; phone?: string }) => {
+    const defaultName = googleData?.name?.trim() || 'Khách Hàng Google';
+    const defaultEmail = googleData?.email?.trim() || 'khachhang@gmail.com';
+    const newUser: CustomerUser = {
+      id: `google-${Date.now()}`,
+      name: defaultName,
+      email: defaultEmail,
+      phone: googleData?.phone?.trim() || '',
+      zalo: googleData?.phone?.trim() || '',
+      avatar: googleData?.avatar || `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(defaultName)}`,
+      provider: 'google',
+      loggedInAt: new Date().toISOString()
+    };
+    setUser(newUser);
+    setIsAuthModalOpen(false);
+  };
+
+  const loginWithFacebook = (facebookData?: { name?: string; email?: string; avatar?: string; facebookUrl?: string; phone?: string }) => {
+    const defaultName = facebookData?.name?.trim() || 'Khách Hàng Facebook';
+    const defaultFbUrl = facebookData?.facebookUrl?.trim() || 'https://facebook.com/khachhang';
+    const newUser: CustomerUser = {
+      id: `fb-${Date.now()}`,
+      name: defaultName,
+      email: facebookData?.email?.trim() || '',
+      facebookUrl: defaultFbUrl,
+      phone: facebookData?.phone?.trim() || '',
+      zalo: facebookData?.phone?.trim() || defaultFbUrl,
+      avatar: facebookData?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(defaultName)}`,
+      provider: 'facebook',
+      loggedInAt: new Date().toISOString()
+    };
+    setUser(newUser);
+    setIsAuthModalOpen(false);
+  };
+
+  const updateProfile = (data: Partial<CustomerUser>) => {
+    setUser((prev) => {
+      if (!prev) return null;
+      return {
+        ...prev,
+        ...data
+      };
+    });
   };
 
   const logout = () => {
@@ -106,6 +155,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       value={{
         user,
         login,
+        loginWithGoogle,
+        loginWithFacebook,
+        updateProfile,
         logout,
         isAuthModalOpen,
         openAuthModal,

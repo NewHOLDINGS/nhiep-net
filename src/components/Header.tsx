@@ -6,20 +6,18 @@ import Image from 'next/image';
 import { Locale } from '@/types';
 import { getDictionary } from '@/data/translations';
 import LanguageSwitcher from './LanguageSwitcher';
-import PaymentQrModal from './PaymentQrModal';
 import CartDrawer from './CartDrawer';
 import CustomerAuthModal from './CustomerAuthModal';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
 import {
-  Phone, Menu, X, Sparkles, CalendarCheck, ShieldCheck, QrCode,
-  ShoppingBag, User, LogIn
+  Phone, Menu, X, CalendarCheck, ShieldCheck,
+  ShoppingBag, User
 } from 'lucide-react';
 import { PAYMENT_CONFIG } from '@/lib/payment';
 
 export default function Header({ locale }: { locale: Locale }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isQrModalOpen, setIsQrModalOpen] = useState(false);
   const dict = getDictionary(locale);
 
   const { totalCount, openCart } = useCart();
@@ -98,23 +96,19 @@ export default function Header({ locale }: { locale: Locale }) {
               <button
                 type="button"
                 onClick={openAuthModal}
-                className="p-2 sm:px-3 sm:py-2 rounded-xl bg-surface-elevated hover:bg-surface border border-surface-border hover:border-brand/50 text-zinc-200 hover:text-brand transition-all flex items-center gap-1.5"
+                className="p-1.5 sm:px-3 sm:py-2 rounded-xl bg-surface-elevated hover:bg-surface border border-surface-border hover:border-brand/50 text-zinc-200 hover:text-brand transition-all flex items-center gap-2"
                 title="Tài khoản khách hàng"
               >
-                <User className="w-4 h-4 text-brand" />
-                <span className="hidden sm:inline text-xs font-bold max-w-[90px] truncate">
+                {user?.avatar ? (
+                  <div className="w-5 h-5 rounded-full overflow-hidden border border-brand/40 shrink-0">
+                    <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+                  </div>
+                ) : (
+                  <User className="w-4 h-4 text-brand" />
+                )}
+                <span className="hidden sm:inline text-xs font-bold max-w-[100px] truncate">
                   {user ? user.name : 'Đăng Nhập'}
                 </span>
-              </button>
-
-              {/* VietQR Quick Deposit Button */}
-              <button
-                type="button"
-                onClick={() => setIsQrModalOpen(true)}
-                className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 text-xs font-bold transition-all shadow-sm"
-              >
-                <QrCode className="w-3.5 h-3.5" />
-                <span>VietQR MB BANK</span>
               </button>
 
               {/* Direct Click to Call Hotline */}
@@ -187,20 +181,14 @@ export default function Header({ locale }: { locale: Locale }) {
                   }}
                   className="flex items-center justify-center gap-2 py-3 rounded-xl bg-surface-elevated border border-surface-border text-white font-bold text-sm"
                 >
-                  <User className="w-4 h-4 text-brand" />
-                  <span>{user ? `Tài Khoản: ${user.name}` : 'Đăng Nhập Khách Hàng'}</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    setIsQrModalOpen(true);
-                  }}
-                  className="flex items-center justify-center gap-2 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-md"
-                >
-                  <QrCode className="w-4 h-4" />
-                  <span>Quét Mã VietQR MB BANK 89052667799</span>
+                  {user?.avatar ? (
+                    <div className="w-5 h-5 rounded-full overflow-hidden border border-brand/40 shrink-0">
+                      <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+                    </div>
+                  ) : (
+                    <User className="w-4 h-4 text-brand" />
+                  )}
+                  <span>{user ? `Tài Khoản: ${user.name}` : 'Đăng Nhập Khách Hàng (1-Chạm)'}</span>
                 </button>
 
                 <a
@@ -215,15 +203,6 @@ export default function Header({ locale }: { locale: Locale }) {
           </div>
         )}
       </header>
-
-      {/* Global VietQR Deposit Modal */}
-      <PaymentQrModal
-        isOpen={isQrModalOpen}
-        onClose={() => setIsQrModalOpen(false)}
-        bookingCode={`NHP-${Math.floor(10000 + Math.random() * 90000)}`}
-        packageName="Đặt Cọc Dịch Vụ nhiep.net"
-        totalAmountVnd={6800000}
-      />
 
       {/* Global Cart Drawer */}
       <CartDrawer locale={locale} />

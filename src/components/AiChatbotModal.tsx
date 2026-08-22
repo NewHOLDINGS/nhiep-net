@@ -89,8 +89,10 @@ export default function AiChatbotModal({
 
   useEffect(() => {
     if (user) {
-      if (!customerNameInput) setCustomerNameInput(user.name);
-      if (!customerPhoneInput) setCustomerPhoneInput(user.phone);
+      if (!customerNameInput && user.name) setCustomerNameInput(user.name);
+      if (!customerPhoneInput && (user.phone || user.email || user.facebookUrl)) {
+        setCustomerPhoneInput(user.phone || user.email || user.facebookUrl || '');
+      }
     }
   }, [user]);
 

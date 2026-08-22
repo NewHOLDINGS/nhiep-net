@@ -17,6 +17,7 @@ import {
 import confetti from 'canvas-confetti';
 import { useAuth } from '@/context/AuthContext';
 import { PAYMENT_CONFIG, generateVietQrUrl } from '@/lib/payment';
+import { GoogleIcon, FacebookIcon } from '@/components/SocialIcons';
 
 const ADDONS = [
   { id: 'addonDrone', nameVi: 'Flycam 4K / 5.1K trên không', nameEn: '4K / 5.1K Aerial Drone Flight', nameZh: '4K/5.1K高清航拍无人机', priceVnd: 1500000 },
@@ -29,7 +30,7 @@ const ADDONS = [
 function BookingForm({ locale }: { locale: Locale }) {
   const dict = getDictionary(locale);
   const searchParams = useSearchParams();
-  const { user } = useAuth();
+  const { user, loginWithGoogle, loginWithFacebook, openAuthModal } = useAuth();
   const preselectedPackageId = searchParams.get('package');
 
   // Multi-step state (1 to 5)
@@ -56,10 +57,15 @@ function BookingForm({ locale }: { locale: Locale }) {
   // Auto sync user from auth
   useEffect(() => {
     if (user) {
-      if (!fullName) setFullName(user.name);
-      if (!phone) setPhone(user.phone);
-      if (!email && user.email) setEmail(user.email);
-      if (!shootAddress && user.address) setShootAddress(user.address);
+      if (user.name) setFullName(user.name);
+      if (user.phone) setPhone(user.phone);
+      if (user.email) setEmail(user.email);
+      if (user.facebookUrl && !zaloOrWhatsapp) {
+        setZaloOrWhatsapp(user.facebookUrl);
+      } else if (user.zalo && !zaloOrWhatsapp) {
+        setZaloOrWhatsapp(user.zalo);
+      }
+      if (user.address && !shootAddress) setShootAddress(user.address);
     }
   }, [user]);
 
@@ -489,14 +495,94 @@ function BookingForm({ locale }: { locale: Locale }) {
           {/* STEP 4: CONTACT INFO & SUBMIT */}
           {step === 4 && (
             <form onSubmit={handleSubmitBooking} className="space-y-6 animate-in fade-in duration-200">
-              <h3 className="font-heading font-bold text-lg text-white mb-2">
-                {dict.booking.step4}
-              </h3>
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-surface-border pb-3">
+                <h3 className="font-heading font-bold text-lg text-white">
+                  {dict.booking.step4}
+                </h3>
+                {user ? (
+                  <span className="text-xs text-emerald-400 font-bold flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                    <span>Đã tự động đồng bộ thông tin</span>
+                  </span>
+                ) : (
+                  <span className="text-xs text-zinc-400">
+                    Chỉ cần 30 giây để hoàn tất thông tin
+                  </span>
+                )}
+              </div>
+
+              {/* Fast Social Sign-In Banner if Not Logged In */}
+              {!user ? (
+                <div className="p-4 rounded-2xl bg-gradient-to-r from-surface-elevated to-surface-card border border-brand/40 space-y-3 shadow-lg">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-xs font-bold text-white">
+                      <Sparkles className="w-4 h-4 text-brand animate-pulse" />
+                      <span>Đăng nhập 1-chạm để tự động điền Họ tên & Gmail / Facebook:</span>
+                    </div>
+                    <span className="text-[10px] text-zinc-400 hidden sm:inline">Không cần mật khẩu</span>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    <button
+                      type="button"
+                      onClick={() => openAuthModal()}
+                      className="w-full py-3 px-4 rounded-xl bg-white hover:bg-zinc-100 text-zinc-800 font-bold text-xs flex items-center justify-center gap-2.5 transition-all shadow-md active:scale-95"
+                    >
+                      <GoogleIcon className="w-4 h-4" />
+                      <span>Tiếp tục với Google / Gmail</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => openAuthModal()}
+                      className="w-full py-3 px-4 rounded-xl bg-[#1877F2] hover:bg-[#166FE5] text-white font-bold text-xs flex items-center justify-center gap-2.5 transition-all shadow-md active:scale-95"
+                    >
+                      <div className="w-4 h-4 rounded-full bg-white flex items-center justify-center p-0.5">
+                        <FacebookIcon className="w-3 h-3" />
+                      </div>
+                      <span>Tiếp tục với Facebook</span>
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                /* Auto-fill confirmation notification when logged in */
+                <div className="p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className="relative w-9 h-9 rounded-xl overflow-hidden bg-brand/20 border border-brand/40 flex items-center justify-center text-brand font-bold text-xs shrink-0">
+                      {user.avatar ? (
+                        <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+                      ) : (
+                        user.name.charAt(0).toUpperCase()
+                      )}
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-white flex items-center gap-1.5">
+                        <span>Đã tự động điền từ tài khoản {user.provider === 'google' ? 'Google' : user.provider === 'facebook' ? 'Facebook' : ''}: <strong>{user.name}</strong></span>
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                      </p>
+                      <p className="text-[11px] text-zinc-400">
+                        {user.email || user.facebookUrl || user.phone || 'Thông tin liên hệ đã sẵn sàng để giữ lịch'}
+                      </p>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={openAuthModal}
+                    className="text-[11px] text-brand hover:underline font-bold shrink-0 px-2 py-1 rounded-lg bg-surface-elevated border border-surface-border"
+                  >
+                    Đổi tài khoản
+                  </button>
+                </div>
+              )}
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
-                    {dict.booking.fullName} *
+                  <label className="block text-xs font-semibold text-zinc-300 mb-1.5 flex items-center justify-between">
+                    <span>{dict.booking.fullName} *</span>
+                    {user?.name && fullName === user.name && (
+                      <span className="text-[10px] text-emerald-400 font-normal">✓ Đã tự động điền</span>
+                    )}
                   </label>
                   <input
                     type="text"
@@ -509,8 +595,11 @@ function BookingForm({ locale }: { locale: Locale }) {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
-                    {dict.booking.phoneNumber} *
+                  <label className="block text-xs font-semibold text-zinc-300 mb-1.5 flex items-center justify-between">
+                    <span>{dict.booking.phoneNumber} *</span>
+                    {user?.phone && phone === user.phone && (
+                      <span className="text-[10px] text-emerald-400 font-normal">✓ Đã tự động điền</span>
+                    )}
                   </label>
                   <input
                     type="tel"
@@ -525,8 +614,11 @@ function BookingForm({ locale }: { locale: Locale }) {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
-                    {dict.booking.emailAddress}
+                  <label className="block text-xs font-semibold text-zinc-300 mb-1.5 flex items-center justify-between">
+                    <span>{dict.booking.emailAddress} (Gmail nhận file / hợp đồng)</span>
+                    {user?.email && email === user.email && (
+                      <span className="text-[10px] text-emerald-400 font-normal">✓ Đã tự động điền</span>
+                    )}
                   </label>
                   <input
                     type="email"
@@ -538,14 +630,17 @@ function BookingForm({ locale }: { locale: Locale }) {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
-                    {dict.booking.zaloOrWhatsapp}
+                  <label className="block text-xs font-semibold text-zinc-300 mb-1.5 flex items-center justify-between">
+                    <span>{dict.booking.zaloOrWhatsapp} (Số Zalo / Link Facebook)</span>
+                    {user && (user.facebookUrl || user.zalo) && (
+                      <span className="text-[10px] text-emerald-400 font-normal">✓ Đã tự động điền</span>
+                    )}
                   </label>
                   <input
                     type="text"
                     value={zaloOrWhatsapp}
                     onChange={(e) => setZaloOrWhatsapp(e.target.value)}
-                    placeholder="Số Zalo hoặc WhatsApp nhận liên hệ nhanh"
+                    placeholder="Số Zalo hoặc link Facebook để ekip liên hệ nhanh"
                     className="w-full bg-surface-muted border border-surface-border rounded-xl px-4 py-3 text-xs sm:text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-brand"
                   />
                 </div>
