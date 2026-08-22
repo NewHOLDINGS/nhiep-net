@@ -134,10 +134,55 @@ export interface Booking {
   createdAt: string;
 }
 
+export interface ChatAttachment {
+  id: string;
+  type: 'image' | 'doc' | 'audio' | 'drive';
+  name: string;
+  size?: string;
+  url?: string;
+  dataUrl?: string; // base64 or link
+  mimeType?: string;
+}
+
+export interface CustomPackageOption {
+  id: string;
+  tier: string;
+  name: string;
+  cameraCount: string;
+  crewDetails: string;
+  gear: string;
+  deliverables: string[];
+  estimatedPriceVnd: number;
+  estimatedPriceVndFormatted: string;
+  highlights: string;
+}
+
+export interface AiScriptPlan {
+  conceptTitle: string;
+  summary: string;
+  cameraCrewProposal: {
+    videoCameras: string;
+    photoCameras: string;
+    drones: string;
+    directors: string;
+    lightingAndAudio: string;
+    recommendedTotalCrew: string;
+  };
+  timelineBreakdown: {
+    scene: string;
+    time: string;
+    description: string;
+    recommendedGear: string;
+  }[];
+  customPackages: CustomPackageOption[];
+}
+
 export interface ChatMessage {
   id: string;
   role: 'user' | 'assistant' | 'system';
   content: string;
+  attachments?: ChatAttachment[];
+  driveLink?: string;
   recommendedPackages?: {
     id: string;
     name: string;
@@ -145,5 +190,43 @@ export interface ChatMessage {
     category: string;
     imageUrl: string;
   }[];
+  scriptPlan?: AiScriptPlan;
+  customPackages?: CustomPackageOption[];
+  orderLead?: {
+    customerName: string;
+    phone: string;
+    selectedPackageName?: string;
+    selectedPrice?: string;
+    status?: 'sent_zalo';
+  };
   timestamp: string;
 }
+
+export interface ChatSession {
+  id: string;
+  sessionId: string;
+  locale: Locale;
+  createdAt: string;
+  updatedAt: string;
+  customerInfo: {
+    name?: string;
+    phone?: string;
+    email?: string;
+    zalo?: string;
+  };
+  messages: ChatMessage[];
+  scriptSummary?: string;
+  filesCount: number;
+  driveLinksCount: number;
+  convertedToLead: boolean;
+  status: 'active' | 'closed' | 'converted';
+  userPlatform?: string;
+}
+
+export interface AdminOtpSession {
+  email: string;
+  otp: string;
+  expiresAt: number;
+  createdAt: number;
+}
+

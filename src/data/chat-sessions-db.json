@@ -1,0 +1,225 @@
+[
+  {
+    "id": "ses-1787359405852",
+    "sessionId": "session_1787359405827",
+    "locale": "vi",
+    "createdAt": "2026-08-22T00:43:25.852Z",
+    "updatedAt": "2026-08-22T00:43:26.177Z",
+    "customerInfo": {},
+    "messages": [
+      {
+        "id": "user-1787359405827",
+        "role": "user",
+        "content": "Tư vấn kịch bản quay phóng sự cưới 2 máy tại resort Đà Nẵng",
+        "attachments": [],
+        "driveLink": "https://drive.google.com/drive/folders/demo-resort-wedding",
+        "timestamp": "07:43 AM"
+      },
+      {
+        "id": "bot-1787359406177",
+        "role": "assistant",
+        "content": "Chào bạn! Đạo diễn AI của **nhiep.net** đã tiếp nhận thông tin (Link Drive: https://drive.google.com/drive/folders/demo-resort-wedding) để lập kịch bản và phân bổ ekip tối ưu:\n\n🎬 **Kịch Bản & Phương Án Máy Quay Đề Xuất:**\n- **Số lượng máy & nhân sự**: 1 - 2 Máy quay Cinema, 1 Máy chụp Sony A7R V 61MP bắt trọn khoảnh khắc, 1 Flycam 5.1K quay toàn cảnh địa điểm/resort.\n- **Phân cảnh thực hiện**: Bố trí nhịp nhàng từ toàn cảnh không gian, cảm xúc trung tâm đến những thước phim drone trên không choáng ngợp.\n\n📦 **Các tùy chọn gói linh hoạt theo số lượng máy để bạn dễ dàng lựa chọn:**\n• **Gói Phóng Sự Cưới Basic 1 Máy** (01 Máy quay/chụp Sony 4K Full-frame): **3.500.000 ₫**\n  _Phù hợp không gian nhỏ, ngân sách tiết kiệm, bắt trọn diễn biến chính._\n\n• **Gói Phóng Sự Cưới Cinema 2 Máy** (02 Máy (01 Máy quay 4K Cinema + 01 Máy chụp phóng sự)): **6.800.000 ₫**\n  _Đa góc máy toàn cảnh và cận cảnh cảm xúc, đầy đủ cả hình ảnh lẫn video clip._\n\n• **Gói Đám Cưới Hoàng Gia 3 Máy + Flycam 5.1K** (03 Máy quay chụp + 01 Flycam DJI Mavic 3 Pro 5.1K): **12.500.000 ₫**\n  _Quy mô đỉnh cao, góc quay trên không choáng ngợp, phục vụ sự kiện & đám cưới lớn._\n\n👉 Bạn hãy nhập **Tên và Số điện thoại (có Zalo)** bên dưới để hệ thống tự động gửi kịch bản và thông tin đơn hàng này qua **Zalo 0932513678** cho chuyên viên tư vấn giữ lịch ngay!",
+        "recommendedPackages": [
+          {
+            "id": "photo-pre-wedding-premium",
+            "name": "Gói Cưới Pre-Wedding Hoàng Gia Miền Trung",
+            "price": "12.500.000 ₫",
+            "category": "photography",
+            "imageUrl": "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1000&q=80",
+            "slug": "pre-wedding-premium-central-vietnam"
+          },
+          {
+            "id": "photo-portrait-artistic",
+            "name": "Chân Dung Nghệ Thuật & Lookbook Cá Nhân",
+            "price": "2.800.000 ₫",
+            "category": "photography",
+            "imageUrl": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1000&q=80",
+            "slug": "artistic-personal-portrait"
+          },
+          {
+            "id": "photo-traditional-aodai",
+            "name": "Bộ Ảnh Cổ Phục & Áo Dài Di Sản Huế - Hội An",
+            "price": "3.200.000 ₫",
+            "category": "photography",
+            "imageUrl": "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=1000&q=80",
+            "slug": "heritage-aodai-photo-session"
+          }
+        ],
+        "scriptPlan": {
+          "conceptTitle": "Kịch Bản Phóng Sự Cưới Nghệ Thuật Cinema & Cảm Xúc",
+          "summary": "Dựa trên dữ liệu phân tích  (Link Drive: https://drive.google.com/drive/folders/demo-resort-wedding), nhiep.net đã xây dựng phương án sản xuất tối ưu nhất cho bạn.",
+          "cameraCrewProposal": {
+            "videoCameras": "1 - 2 Máy quay Cinema",
+            "photoCameras": "1 Máy chụp Sony A7R V 61MP bắt trọn khoảnh khắc",
+            "drones": "1 Flycam 5.1K quay toàn cảnh địa điểm/resort",
+            "directors": "1 Đạo diễn hình ảnh & điều phối âm thanh",
+            "lightingAndAudio": "Hệ thống mic thu âm không dây Rode/Sennheiser & Đèn studio Aputure",
+            "recommendedTotalCrew": "2 - 3 Nhân sự"
+          },
+          "timelineBreakdown": [
+            {
+              "scene": "Phân cảnh 1: Chuẩn bị & Không gian (Establishing Shots)",
+              "time": "Trước sự kiện 1 - 2 giờ",
+              "description": "Quay chụp toàn cảnh kiến trúc resort/khách sạn, chi tiết trang trí, backdrop, khoảnh khắc trang điểm và trang phục.",
+              "recommendedGear": "Ống kính góc rộng 16-35mm + Gimbal chống rung"
+            },
+            {
+              "scene": "Phân cảnh 2: Diễn biến chính (The Main Ceremony / Event)",
+              "time": "Thời lượng sự kiện",
+              "description": "Góc máy chính quay toàn cảnh sân khấu, máy phụ bắt cận biểu cảm, nụ cười, tràng pháo tay và khoảnh khắc xúc động.",
+              "recommendedGear": "Ống kính chân dung 85mm f/1.4 + 70-200mm tele"
+            },
+            {
+              "scene": "Phân cảnh 3: Toàn cảnh trên không & Bế mạc (Aerial & Finale)",
+              "time": "Thời điểm vàng (Golden Hour / Gala)",
+              "description": "Flycam cất cánh ghi lại quy mô hoành tráng, tiệc chúc mừng, nâng ly và các hoạt động tương tác.",
+              "recommendedGear": "Flycam DJI 5.1K + Đèn LED Fill-light"
+            }
+          ],
+          "customPackages": [
+            {
+              "id": "cust-1-camera",
+              "tier": "Gói Tiết Kiệm (1 Máy)",
+              "name": "Gói Phóng Sự Cưới Basic 1 Máy",
+              "cameraCount": "01 Máy quay/chụp Sony 4K Full-frame",
+              "crewDetails": "01 Chuyên viên quay/chụp chính + Bộ mic không dây + Đèn LED On-camera",
+              "gear": "Sony A7 IV / FX3 + Ống kính G-Master 24-70mm f/2.8",
+              "deliverables": [
+                "Toàn bộ file gốc độ phân giải cao",
+                "Video Highlight 2-3 phút hoặc 40 ảnh chỉnh sửa chi tiết",
+                "Bàn giao online trong 48h"
+              ],
+              "estimatedPriceVnd": 3500000,
+              "estimatedPriceVndFormatted": "3.500.000 ₫",
+              "highlights": "Phù hợp không gian nhỏ, ngân sách tiết kiệm, bắt trọn diễn biến chính."
+            },
+            {
+              "id": "cust-2-cameras",
+              "tier": "Gói Tiêu Chuẩn (2 Máy - Đề xuất)",
+              "name": "Gói Phóng Sự Cưới Cinema 2 Máy",
+              "cameraCount": "02 Máy (01 Máy quay 4K Cinema + 01 Máy chụp phóng sự)",
+              "crewDetails": "02 Chuyên viên giàu kinh nghiệm + Đạo diễn hiện trường + Hệ thống âm thanh Wireless",
+              "gear": "Sony FX3 Cinema + Sony A7R V + Hệ thống Gimbal Ronin RS3 Pro",
+              "deliverables": [
+                "Trả 100% file gốc RAW/4K",
+                "01 Video Highlight điện ảnh 4-6 phút 4K",
+                "60-80 ảnh retouch cao cấp da & màu sắc",
+                "Giao file hỏa tốc trong 24h"
+              ],
+              "estimatedPriceVnd": 6800000,
+              "estimatedPriceVndFormatted": "6.800.000 ₫",
+              "highlights": "Đa góc máy toàn cảnh và cận cảnh cảm xúc, đầy đủ cả hình ảnh lẫn video clip."
+            },
+            {
+              "id": "cust-3-cameras-drone",
+              "tier": "Gói VIP Toàn Diện (3 Máy + Flycam)",
+              "name": "Gói Đám Cưới Hoàng Gia 3 Máy + Flycam 5.1K",
+              "cameraCount": "03 Máy quay chụp + 01 Flycam DJI Mavic 3 Pro 5.1K",
+              "crewDetails": "03 Quay/chụp chính + 01 Phi công Flycam + 01 Đạo diễn ánh sáng/âm thanh",
+              "gear": "2x Sony FX3 Cinema + Sony A7R V + DJI Mavic 3 Pro + Đèn Aputure Studio",
+              "deliverables": [
+                "Toàn bộ file gốc + Video Teaser 60s cho TikTok/Reels trong 12h",
+                "01 Phim tài liệu/Highlight 8-12 phút chuẩn 4K Cinema",
+                "120+ ảnh Master Retouch da & màu DaVinci Resolve",
+                "Tặng 01 Photobook cao cấp 30x30cm hoặc Live-Photo nhận ảnh tức thì"
+              ],
+              "estimatedPriceVnd": 12500000,
+              "estimatedPriceVndFormatted": "12.500.000 ₫",
+              "highlights": "Quy mô đỉnh cao, góc quay trên không choáng ngợp, phục vụ sự kiện & đám cưới lớn."
+            }
+          ]
+        },
+        "customPackages": [
+          {
+            "id": "cust-1-camera",
+            "tier": "Gói Tiết Kiệm (1 Máy)",
+            "name": "Gói Phóng Sự Cưới Basic 1 Máy",
+            "cameraCount": "01 Máy quay/chụp Sony 4K Full-frame",
+            "crewDetails": "01 Chuyên viên quay/chụp chính + Bộ mic không dây + Đèn LED On-camera",
+            "gear": "Sony A7 IV / FX3 + Ống kính G-Master 24-70mm f/2.8",
+            "deliverables": [
+              "Toàn bộ file gốc độ phân giải cao",
+              "Video Highlight 2-3 phút hoặc 40 ảnh chỉnh sửa chi tiết",
+              "Bàn giao online trong 48h"
+            ],
+            "estimatedPriceVnd": 3500000,
+            "estimatedPriceVndFormatted": "3.500.000 ₫",
+            "highlights": "Phù hợp không gian nhỏ, ngân sách tiết kiệm, bắt trọn diễn biến chính."
+          },
+          {
+            "id": "cust-2-cameras",
+            "tier": "Gói Tiêu Chuẩn (2 Máy - Đề xuất)",
+            "name": "Gói Phóng Sự Cưới Cinema 2 Máy",
+            "cameraCount": "02 Máy (01 Máy quay 4K Cinema + 01 Máy chụp phóng sự)",
+            "crewDetails": "02 Chuyên viên giàu kinh nghiệm + Đạo diễn hiện trường + Hệ thống âm thanh Wireless",
+            "gear": "Sony FX3 Cinema + Sony A7R V + Hệ thống Gimbal Ronin RS3 Pro",
+            "deliverables": [
+              "Trả 100% file gốc RAW/4K",
+              "01 Video Highlight điện ảnh 4-6 phút 4K",
+              "60-80 ảnh retouch cao cấp da & màu sắc",
+              "Giao file hỏa tốc trong 24h"
+            ],
+            "estimatedPriceVnd": 6800000,
+            "estimatedPriceVndFormatted": "6.800.000 ₫",
+            "highlights": "Đa góc máy toàn cảnh và cận cảnh cảm xúc, đầy đủ cả hình ảnh lẫn video clip."
+          },
+          {
+            "id": "cust-3-cameras-drone",
+            "tier": "Gói VIP Toàn Diện (3 Máy + Flycam)",
+            "name": "Gói Đám Cưới Hoàng Gia 3 Máy + Flycam 5.1K",
+            "cameraCount": "03 Máy quay chụp + 01 Flycam DJI Mavic 3 Pro 5.1K",
+            "crewDetails": "03 Quay/chụp chính + 01 Phi công Flycam + 01 Đạo diễn ánh sáng/âm thanh",
+            "gear": "2x Sony FX3 Cinema + Sony A7R V + DJI Mavic 3 Pro + Đèn Aputure Studio",
+            "deliverables": [
+              "Toàn bộ file gốc + Video Teaser 60s cho TikTok/Reels trong 12h",
+              "01 Phim tài liệu/Highlight 8-12 phút chuẩn 4K Cinema",
+              "120+ ảnh Master Retouch da & màu DaVinci Resolve",
+              "Tặng 01 Photobook cao cấp 30x30cm hoặc Live-Photo nhận ảnh tức thì"
+            ],
+            "estimatedPriceVnd": 12500000,
+            "estimatedPriceVndFormatted": "12.500.000 ₫",
+            "highlights": "Quy mô đỉnh cao, góc quay trên không choáng ngợp, phục vụ sự kiện & đám cưới lớn."
+          }
+        ],
+        "timestamp": "07:43 AM"
+      }
+    ],
+    "scriptSummary": "Kịch Bản Phóng Sự Cưới Nghệ Thuật Cinema & Cảm Xúc",
+    "filesCount": 0,
+    "driveLinksCount": 1,
+    "convertedToLead": false,
+    "status": "active"
+  },
+  {
+    "id": "ses-101",
+    "sessionId": "session_demo_da_nang_wedding",
+    "locale": "vi",
+    "createdAt": "2026-08-21T08:30:00.000Z",
+    "updatedAt": "2026-08-21T08:45:00.000Z",
+    "customerInfo": {
+      "name": "Vũ Đức Thành",
+      "phone": "0935123456",
+      "zalo": "0935123456",
+      "email": "ducthanh.dn@gmail.com"
+    },
+    "messages": [
+      {
+        "id": "msg-1",
+        "role": "user",
+        "content": "Chào bạn, tôi muốn quay phóng sự cưới tại resort Đà Nẵng quy mô 150 khách vào tháng 10 tới. Cần tư vấn kịch bản và số lượng máy quay.",
+        "timestamp": "08:30"
+      },
+      {
+        "id": "msg-2",
+        "role": "assistant",
+        "content": "Chào anh Thành! nhiep.net xin gửi đến anh bản phân tích kịch bản và phương án ekip tối ưu:\n\n🎬 **Kịch bản đề xuất:**\n- Buổi sáng: Chuẩn bị cô dâu chú rể, first look cảm xúc tại biệt thự biển.\n- Buổi chiều: Lễ thành hôn hoàng hôn ngoài bãi biển, drone quay toàn cảnh biển.\n- Buổi tối: Tiệc Gala dinner, khiêu vũ First Dance và pháo hoa nghệ thuật.\n\n🎥 **Số lượng máy & nhân sự đề xuất:**\n- 02 Máy quay 4K Cinema (Sony FX3)\n- 01 Máy chụp phóng sự bắt khoảnh khắc (Sony A7R V)\n- 01 Flycam 5.1K quay toàn cảnh resort\n- 01 Đạo diễn hình ảnh & điều phối âm thanh ánh sáng.",
+        "timestamp": "08:32"
+      }
+    ],
+    "scriptSummary": "Quay phóng sự cưới 150 khách tại Resort Đà Nẵng, 2 máy quay FX3 + 1 máy chụp + Flycam 5.1K",
+    "filesCount": 0,
+    "driveLinksCount": 0,
+    "convertedToLead": true,
+    "status": "converted"
+  }
+]
