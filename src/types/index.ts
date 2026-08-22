@@ -113,6 +113,20 @@ export interface BookingAddon {
   priceVnd: number;
 }
 
+export interface CustomBuilderConfig {
+  gimbalOperators: number;
+  photographers: number;
+  drones: number;
+  editingQuality: 'fullhd' | '4k' | '6k';
+  express24h: boolean;
+  makeupMUA: boolean;
+  luxuryPhotobook: boolean;
+  totalVnd: number;
+  depositVnd: number;
+  shootDate?: string;
+  location?: string;
+}
+
 export interface Booking {
   id: string;
   bookingCode: string;
@@ -130,6 +144,19 @@ export interface Booking {
   notes?: string;
   addOns: string[];
   estimatedTotalVnd: number;
+  depositAmountVnd?: number;
+  depositStatus?: 'unpaid' | 'paid_deposit' | 'paid_full';
+  paymentMethod?: 'vietqr' | 'cash';
+  qrPaymentUrl?: string;
+  customConfig?: {
+    gimbalOperators?: number;
+    photographers?: number;
+    drones?: number;
+    editingQuality?: string;
+    express24h?: boolean;
+    makeupMUA?: boolean;
+    luxuryPhotobook?: boolean;
+  };
   status: 'pending' | 'confirmed' | 'completed' | 'cancelled';
   createdAt: string;
 }
@@ -141,6 +168,8 @@ export interface ChatAttachment {
   size?: string;
   url?: string;
   dataUrl?: string; // base64 or link
+  textContent?: string; // text extracted for .csv, .html, .txt, .xlsx, .ods, .pptx, .docx
+  fileExtension?: string;
   mimeType?: string;
 }
 
@@ -230,3 +259,50 @@ export interface AdminOtpSession {
   createdAt: number;
 }
 
+/**
+ * Customer Shopping Cart Item
+ */
+export interface CartItem {
+  id: string;
+  type: 'standard_package' | 'ai_package' | 'custom_builder';
+  name: string;
+  priceVnd: number;
+  depositVnd: number;
+  quantity: number;
+  image?: string;
+  details?: string;
+  crewSummary?: string;
+  deliverables?: string[];
+  shootDate?: string;
+  province?: string;
+  customConfig?: {
+    gimbalOperators?: number;
+    photographers?: number;
+    drones?: number;
+    editingQuality?: string;
+    express24h?: boolean;
+    makeupMUA?: boolean;
+    luxuryPhotobook?: boolean;
+  };
+}
+
+/**
+ * Customer User Session
+ */
+export interface CustomerUser {
+  id: string;
+  name: string;
+  phone: string;
+  email?: string;
+  zalo?: string;
+  address?: string;
+  loggedInAt: string;
+}
+
+export interface SavedAiQuote {
+  id: string;
+  conceptTitle: string;
+  summary: string;
+  createdAt: string;
+  packages: CustomPackageOption[];
+}

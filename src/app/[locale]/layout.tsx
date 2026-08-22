@@ -5,6 +5,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import FloatingContacts from '@/components/FloatingContacts';
 import StickyMobileNav from '@/components/StickyMobileNav';
+import Providers from '@/components/Providers';
 
 export function generateStaticParams() {
   return [{ locale: 'vi' }, { locale: 'en' }, { locale: 'zh' }];
@@ -75,16 +76,18 @@ export default function LocaleLayout({
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-      <Header locale={validLocale} />
-      <main className="flex-1 pb-16 md:pb-0">{children}</main>
-      <Footer locale={validLocale} />
-      <FloatingContacts locale={validLocale} />
-      <StickyMobileNav locale={validLocale} />
-    </div>
+    <Providers>
+      <div className="flex flex-col min-h-screen">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <Header locale={validLocale} />
+        <main className="flex-1 pb-16 md:pb-0">{children}</main>
+        <Footer locale={validLocale} />
+        <FloatingContacts locale={validLocale} />
+        <StickyMobileNav locale={validLocale} />
+      </div>
+    </Providers>
   );
 }

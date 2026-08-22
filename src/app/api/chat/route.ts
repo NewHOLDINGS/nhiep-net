@@ -1,168 +1,85 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PACKAGES } from '@/data/packages';
-import { PROVINCES } from '@/data/provinces';
-import { CATEGORIES } from '@/data/categories';
+import {
+  ChatMessage,
+  ChatSession,
+  AiScriptPlan,
+  CustomPackageOption,
+  ChatAttachment,
+  CustomBuilderConfig
+} from '@/types';
 import { appendChatMessageToSession } from '@/lib/storage';
-import { ChatMessage, ChatAttachment, CustomPackageOption, AiScriptPlan } from '@/types';
 
 export async function POST(req: NextRequest) {
   try {
+    const body = await req.json();
     const {
-      sessionId = `session_${Date.now()}`,
-      messages,
+      sessionId = `ses_${Date.now()}`,
+      messages = [],
       locale = 'vi',
-      attachments = [],
+      customerInfo = {},
+      attachments = [] as ChatAttachment[],
       driveLink = '',
-      customerInfo = {}
-    } = await req.json();
+      customConfig = null as CustomBuilderConfig | null
+    } = body;
 
-    if (!messages || !Array.isArray(messages) || messages.length === 0) {
-      return NextResponse.json({ success: false, error: 'Messages array is required' }, { status: 400 });
+    const latestUserMsg =
+      messages.length > 0 ? messages[messages.length - 1].content : '';
+    const lowerQuery = (latestUserMsg || '').toLowerCase();
+
+    // Contextual matching from standard packages
+    const recommended = PACKAGES.filter((pkg) => {
+      const matchCat =
+        lowerQuery.includes('ảnh') || lowerQuery.includes('chụp')
+          ? pkg.categoryId === 'photography'
+          : lowerQuery.includes('quay') || lowerQuery.includes('video') || lowerQuery.includes('phim')
+          ? pkg.categoryId === 'videography'
+          : lowerQuery.includes('sự kiện') || lowerQuery.includes('event')
+          ? pkg.categoryId === 'event-coverage'
+          : lowerQuery.includes('du lịch') || lowerQuery.includes('tour')
+          ? pkg.categoryId === 'travel-photography'
+          : true;
+      return matchCat;
+    })
+      .slice(0, 3)
+      .map((p) => ({
+        id: p.id,
+        name: locale === 'zh' ? p.nameZh : locale === 'en' ? p.nameEn : p.nameVi,
+        price: p.priceVndFormatted,
+        category: p.categoryId,
+        imageUrl: p.imageUrl
+      }));
+
+    // Build Attachment Text Content for deep AI analysis (.xlsx, .ods, .html, .csv, .pptx, .docx, images, etc.)
+    let attachmentDetails = '';
+    if (attachments.length > 0) {
+      attachmentDetails = attachments
+        .map((a: ChatAttachment, idx: number) => {
+          const typeLabel =
+            a.type === 'image'
+              ? 'Hình ảnh mẫu / Moodboard'
+              : a.type === 'audio'
+              ? 'Tệp ghi âm giọng nói'
+              : a.type === 'drive'
+              ? 'Google Drive Folder'
+              : `Tài liệu / Bảng tính (${a.fileExtension?.toUpperCase() || 'DOC'})`;
+
+          let textSnippet = '';
+          if (a.textContent) {
+            textSnippet = `\nNỘI DUNG ĐỌC TỰ ĐỘNG TỪ FILE:\n${a.textContent.slice(0, 15000)}\n`;
+          }
+
+          return `[TỆP ĐÍNH KÈM ${idx + 1}]: ${a.name} (${typeLabel}, Size: ${a.size || 'N/A'})${textSnippet}`;
+        })
+        .join('\n\n');
     }
 
-    const latestUserMsg = messages[messages.length - 1].content || '';
-    const lowerQuery = latestUserMsg.toLowerCase();
-
-    // RAG: Find matching packages based on query keywords
-    const matchingPackages = PACKAGES.filter((pkg) => {
-      const matchName =
-        pkg.nameVi.toLowerCase().includes(lowerQuery) ||
-        pkg.nameEn.toLowerCase().includes(lowerQuery) ||
-        pkg.nameZh.toLowerCase().includes(lowerQuery);
-      const matchCat =
-        pkg.categoryId.toLowerCase().includes(lowerQuery) ||
-        (lowerQuery.includes('cưới') && pkg.tags.includes('Wedding')) ||
-        (lowerQuery.includes('wedding') && pkg.tags.includes('Wedding')) ||
-        (lowerQuery.includes('sự kiện') && pkg.categoryId === 'event-coverage') ||
-        (lowerQuery.includes('event') && pkg.categoryId === 'event-coverage') ||
-        (lowerQuery.includes('áo dài') && pkg.tags.includes('Ao Dai')) ||
-        (lowerQuery.includes('du lịch') && pkg.categoryId === 'travel-photography') ||
-        (lowerQuery.includes('flycam') && (pkg.tags.includes('Flycam') || pkg.tags.includes('Drone'))) ||
-        (lowerQuery.includes('hậu kỳ') && pkg.categoryId === 'post-production') ||
-        (lowerQuery.includes('tvc') && pkg.categoryId === 'videography') ||
-        (lowerQuery.includes('quảng cáo') && pkg.categoryId === 'videography');
-
-      const matchProv =
-        ((lowerQuery.includes('đà nẵng') || lowerQuery.includes('danang')) && pkg.provinces.includes('danang')) ||
-        ((lowerQuery.includes('huế') || lowerQuery.includes('hue')) && pkg.provinces.includes('hue')) ||
-        ((lowerQuery.includes('quảng trị') || lowerQuery.includes('quang tri')) && pkg.provinces.includes('quangtri')) ||
-        ((lowerQuery.includes('nha trang') || lowerQuery.includes('khánh hòa')) && pkg.provinces.includes('khanhhoa'));
-
-      return matchName || matchCat || matchProv;
-    }).slice(0, 3);
-
-    // Fallback packages if no direct match
-    const recommended = (matchingPackages.length > 0 ? matchingPackages : PACKAGES.filter((p) => p.featured).slice(0, 2)).map((p) => ({
-      id: p.id,
-      name: locale === 'zh' ? p.nameZh : locale === 'en' ? p.nameEn : p.nameVi,
-      price: p.priceVndFormatted,
-      category: p.categoryId,
-      imageUrl: p.imageUrl,
-      slug: p.slug
-    }));
-
-    // Build dynamic custom packages tailored to query and scale
-    const isBigEvent = lowerQuery.includes('sự kiện') || lowerQuery.includes('hội nghị') || lowerQuery.includes('gala') || lowerQuery.includes('tvc') || lowerQuery.includes('khai trương');
-    const isWedding = lowerQuery.includes('cưới') || lowerQuery.includes('wedding') || lowerQuery.includes('tiệc cưới') || lowerQuery.includes('pre-wedding');
-
-    const customPackages: CustomPackageOption[] = [
-      {
-        id: 'cust-1-camera',
-        tier: 'Gói Tiết Kiệm (1 Máy)',
-        name: isWedding ? 'Gói Phóng Sự Cưới Basic 1 Máy' : isBigEvent ? 'Gói Sự Kiện Standard 1 Máy' : 'Gói Quay Chụp Cá Nhân Linh Hoạt',
-        cameraCount: '01 Máy quay/chụp Sony 4K Full-frame',
-        crewDetails: '01 Chuyên viên quay/chụp chính + Bộ mic không dây + Đèn LED On-camera',
-        gear: 'Sony A7 IV / FX3 + Ống kính G-Master 24-70mm f/2.8',
-        deliverables: [
-          'Toàn bộ file gốc độ phân giải cao',
-          'Video Highlight 2-3 phút hoặc 40 ảnh chỉnh sửa chi tiết',
-          'Bàn giao online trong 48h'
-        ],
-        estimatedPriceVnd: 3500000,
-        estimatedPriceVndFormatted: '3.500.000 ₫',
-        highlights: 'Phù hợp không gian nhỏ, ngân sách tiết kiệm, bắt trọn diễn biến chính.'
-      },
-      {
-        id: 'cust-2-cameras',
-        tier: 'Gói Tiêu Chuẩn (2 Máy - Đề xuất)',
-        name: isWedding ? 'Gói Phóng Sự Cưới Cinema 2 Máy' : isBigEvent ? 'Gói Sự Kiện Chuyên Nghiệp 2 Máy' : 'Gói Thương Mại Tiêu Chuẩn',
-        cameraCount: '02 Máy (01 Máy quay 4K Cinema + 01 Máy chụp phóng sự)',
-        crewDetails: '02 Chuyên viên giàu kinh nghiệm + Đạo diễn hiện trường + Hệ thống âm thanh Wireless',
-        gear: 'Sony FX3 Cinema + Sony A7R V + Hệ thống Gimbal Ronin RS3 Pro',
-        deliverables: [
-          'Trả 100% file gốc RAW/4K',
-          '01 Video Highlight điện ảnh 4-6 phút 4K',
-          '60-80 ảnh retouch cao cấp da & màu sắc',
-          'Giao file hỏa tốc trong 24h'
-        ],
-        estimatedPriceVnd: 6800000,
-        estimatedPriceVndFormatted: '6.800.000 ₫',
-        highlights: 'Đa góc máy toàn cảnh và cận cảnh cảm xúc, đầy đủ cả hình ảnh lẫn video clip.'
-      },
-      {
-        id: 'cust-3-cameras-drone',
-        tier: 'Gói VIP Toàn Diện (3 Máy + Flycam)',
-        name: isWedding ? 'Gói Đám Cưới Hoàng Gia 3 Máy + Flycam 5.1K' : isBigEvent ? 'Gói Sự Kiện & TVC Summit 3 Máy + Drone' : 'Gói Sản Xuất Điện Ảnh Trọn Gói',
-        cameraCount: '03 Máy quay chụp + 01 Flycam DJI Mavic 3 Pro 5.1K',
-        crewDetails: '03 Quay/chụp chính + 01 Phi công Flycam + 01 Đạo diễn ánh sáng/âm thanh',
-        gear: '2x Sony FX3 Cinema + Sony A7R V + DJI Mavic 3 Pro + Đèn Aputure Studio',
-        deliverables: [
-          'Toàn bộ file gốc + Video Teaser 60s cho TikTok/Reels trong 12h',
-          '01 Phim tài liệu/Highlight 8-12 phút chuẩn 4K Cinema',
-          '120+ ảnh Master Retouch da & màu DaVinci Resolve',
-          'Tặng 01 Photobook cao cấp 30x30cm hoặc Live-Photo nhận ảnh tức thì'
-        ],
-        estimatedPriceVnd: 12500000,
-        estimatedPriceVndFormatted: '12.500.000 ₫',
-        highlights: 'Quy mô đỉnh cao, góc quay trên không choáng ngợp, phục vụ sự kiện & đám cưới lớn.'
-      }
-    ];
-
-    // Script plan structure
-    const scriptPlan: AiScriptPlan = {
-      conceptTitle: isWedding
-        ? 'Kịch Bản Phóng Sự Cưới Nghệ Thuật Cinema & Cảm Xúc'
-        : isBigEvent
-        ? 'Kịch Bản Phim Sự Kiện & Truyền Thông Thương Hiệu Đỉnh Cao'
-        : 'Kịch Bản Sản Xuất Hình Ảnh & Video Theo Yêu Cầu',
-      summary: `Dựa trên dữ liệu phân tích ${attachments.length > 0 ? `và ${attachments.length} tư liệu đính kèm` : ''} ${driveLink ? `(Link Drive: ${driveLink})` : ''}, nhiep.net đã xây dựng phương án sản xuất tối ưu nhất cho bạn.`,
-      cameraCrewProposal: {
-        videoCameras: isBigEvent ? '2 - 3 Máy quay Sony FX3 4K 10-bit' : '1 - 2 Máy quay Cinema',
-        photoCameras: '1 Máy chụp Sony A7R V 61MP bắt trọn khoảnh khắc',
-        drones: isBigEvent || isWedding ? '1 Flycam 5.1K quay toàn cảnh địa điểm/resort' : 'Tùy chọn bổ sung',
-        directors: '1 Đạo diễn hình ảnh & điều phối âm thanh',
-        lightingAndAudio: 'Hệ thống mic thu âm không dây Rode/Sennheiser & Đèn studio Aputure',
-        recommendedTotalCrew: isBigEvent ? '3 - 5 Nhân sự' : '2 - 3 Nhân sự'
-      },
-      timelineBreakdown: [
-        {
-          scene: 'Phân cảnh 1: Chuẩn bị & Không gian (Establishing Shots)',
-          time: 'Trước sự kiện 1 - 2 giờ',
-          description: 'Quay chụp toàn cảnh kiến trúc resort/khách sạn, chi tiết trang trí, backdrop, khoảnh khắc trang điểm và trang phục.',
-          recommendedGear: 'Ống kính góc rộng 16-35mm + Gimbal chống rung'
-        },
-        {
-          scene: 'Phân cảnh 2: Diễn biến chính (The Main Ceremony / Event)',
-          time: 'Thời lượng sự kiện',
-          description: 'Góc máy chính quay toàn cảnh sân khấu, máy phụ bắt cận biểu cảm, nụ cười, tràng pháo tay và khoảnh khắc xúc động.',
-          recommendedGear: 'Ống kính chân dung 85mm f/1.4 + 70-200mm tele'
-        },
-        {
-          scene: 'Phân cảnh 3: Toàn cảnh trên không & Bế mạc (Aerial & Finale)',
-          time: 'Thời điểm vàng (Golden Hour / Gala)',
-          description: 'Flycam cất cánh ghi lại quy mô hoành tráng, tiệc chúc mừng, nâng ly và các hoạt động tương tác.',
-          recommendedGear: 'Flycam DJI 5.1K + Đèn LED Fill-light'
-        }
-      ],
-      customPackages
-    };
-
-    // Save user message to database
+    // Save initial user message to storage
     const userChatMsg: ChatMessage = {
       id: `user-${Date.now()}`,
       role: 'user',
       content: latestUserMsg,
-      attachments,
+      attachments: attachments.length > 0 ? attachments : undefined,
       driveLink: driveLink || undefined,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
@@ -174,114 +91,399 @@ export async function POST(req: NextRequest) {
       driveLinksCount: driveLink ? 1 : 0
     });
 
-    // Check Gemini API Key
     const apiKey = process.env.GEMINI_API_KEY;
     let aiResponseText = '';
+    let parsedScriptPlan: AiScriptPlan | null = null;
+    let parsedCustomPackages: CustomPackageOption[] | null = null;
 
     if (apiKey) {
       const knowledgeContext = `
-nhiep.net Knowledge Base:
-- Operating regions: Da Nang (Đà Nẵng), Thừa Thiên Huế, Quảng Trị, Khánh Hòa (Nha Trang / Cam Ranh).
-- Address: 522 Tôn Đức Thắng, Phường Hoà Khánh, TP. Đà Nẵng
-- Hotline 24/7 & Zalo: 0932513678 (Chuyên viên tư vấn & tiếp nhận chốt đơn)
-- Website: nhiep.net
-- Attachments / Files from customer: ${attachments.length > 0 ? attachments.map((a: any) => `${a.type.toUpperCase()}: ${a.name}`).join(', ') : 'None'}
-- Drive link: ${driveLink || 'None'}
+nhiep.net Knowledge Base & Operations:
+- Operating regions: Đà Nẵng, Thừa Thiên Huế, Quảng Trị, Khánh Hòa (Nha Trang / Cam Ranh / Hội An).
+- Hotline 24/7 & Zalo Đặt Lịch: 0932513678 (Chuyên viên tư vấn & tiếp nhận chốt đơn)
+- Tài khoản ngân hàng VietQR: MB BANK 89052667799, Chủ tài khoản: NGUYEN XUAN TOI.
+- Hệ thống thiết bị cao cấp: Sony FX3 Cinema, Sony FX6, Sony A7R V (61MP 8K), Sony A7 IV, Flycam DJI Mavic 3 Pro / Inspire 5.1K, Gimbal DJI Ronin RS3 Pro, Hệ thống micro không dây Sennheiser / Rode Wireless Pro, Đèn Studio Aputure 600d / Nanlite Forza.
+- Các mức tiêu chuẩn hậu kỳ: Full HD 1080p chuẩn mạng xã hội, 4K Cinema 10-bit chỉnh màu DaVinci Resolve, 6K Master RAW cho TVC thương mại.
+- Available matching packages: ${recommended.map((r) => `${r.name} (${r.price})`).join(', ')}
 `;
 
-      const systemPrompt = `You are the Expert AI Director & Chief Consultant of nhiep.net (Hệ thống sản xuất hình ảnh & video hàng đầu miền Trung Việt Nam).
-Language: Detect and answer fluently in ${locale.toUpperCase()} (Vietnamese, English, or Chinese).
+      const promptInstructions = `You are the Senior AI Production Director of nhiep.net (Hệ thống sản xuất hình ảnh & video chuyên nghiệp miền Trung).
+Language: Respond fluently in ${locale.toUpperCase()} (Vietnamese, English, or Chinese).
 
-Tasks:
-1. Analyze user requirements and any attached files/drive links in detail.
-2. Formulate a professional production shooting script (Kịch bản phân cảnh, concept ý tưởng).
-3. Recommend optimal camera gear & crew size (Số lượng máy quay 4K, máy chụp Sony A7R V, Flycam, đạo diễn).
-4. Provide structured package options (Gói 1 máy, Gói 2 máy, Gói VIP 3 máy + Flycam) with clear price estimates in VND.
-5. Guide the customer to leave their Name & Phone (with Zalo) so that the system will automatically forward the full order & script to Zalo 0932513678 for instant confirmation.
-6. Keep the response friendly, inspiring, cinematic, formatted with clean markdown bullet points and emojis.`;
+CRITICAL INSTRUCTIONS TO AVOID GENERIC RESPONSES:
+1. DEEPLY ANALYZE the customer's actual input, specific context, and all attached files (.xlsx, .ods, .html, .csv, .pptx, .docx, word, pdf, images, voice notes, drive link).
+2. DO NOT output repetitive generic canned responses. Tailor the advice specifically to the user's event type, scale, timeline, style, and budget.
+3. Recommend exact equipment and personnel breakdown tailored to this project (e.g. số thợ quay Gimbal Cinema, số thợ chụp ảnh, số flycam, chất lượng dựng Full HD hay 4K Cinema DaVinci Resolve, hệ thống âm thanh/ánh sáng).
+4. Provide 3 customized flexible package options with exact estimated VND prices (Gói Tiết Kiệm, Gói Tiêu Chuẩn, Gói VIP Toàn Diện).
+5. In addition to your detailed markdown consultation response, you MUST provide a JSON block at the very end enclosed in \`\`\`json ... \`\`\` with this exact schema:
+{
+  "conceptTitle": "Tên kịch bản chi tiết theo dự án cụ thể của khách",
+  "summary": "Tóm tắt phân tích riêng cho yêu cầu này",
+  "cameraCrewProposal": {
+    "videoCameras": "Mô tả số lượng máy quay gimbal cinema",
+    "photoCameras": "Mô tả số lượng thợ chụp",
+    "drones": "Mô tả flycam",
+    "directors": "Mô tả đạo diễn/điều phối",
+    "lightingAndAudio": "Mô tả âm thanh và ánh sáng",
+    "recommendedTotalCrew": "Tổng số nhân sự đề xuất"
+  },
+  "timelineBreakdown": [
+    { "scene": "Phân cảnh 1", "time": "Mốc thời gian", "description": "Nội dung chi tiết", "recommendedGear": "Thiết bị" },
+    { "scene": "Phân cảnh 2", "time": "Mốc thời gian", "description": "Nội dung chi tiết", "recommendedGear": "Thiết bị" },
+    { "scene": "Phân cảnh 3", "time": "Mốc thời gian", "description": "Nội dung chi tiết", "recommendedGear": "Thiết bị" }
+  ],
+  "customPackages": [
+    {
+      "id": "pkg-budget",
+      "tier": "Gói Tiết Kiệm (Phù hợp ngân sách nhỏ)",
+      "name": "Tên gói theo dự án",
+      "cameraCount": "Cấu hình máy (ví dụ: 1 Gimbal + 1 Máy chụp)",
+      "crewDetails": "Chi tiết nhân sự",
+      "gear": "Thiết bị cụ thể",
+      "deliverables": ["Sản phẩm 1", "Sản phẩm 2"],
+      "estimatedPriceVnd": 3800000,
+      "estimatedPriceVndFormatted": "3.800.000 ₫",
+      "highlights": "Điểm nổi bật"
+    },
+    {
+      "id": "pkg-standard",
+      "tier": "Gói Tiêu Chuẩn (Khuyên dùng)",
+      "name": "Tên gói tiêu chuẩn",
+      "cameraCount": "Cấu hình máy (ví dụ: 2 Gimbal + 2 Máy chụp + 1 Flycam)",
+      "crewDetails": "Chi tiết nhân sự",
+      "gear": "Thiết bị cụ thể",
+      "deliverables": ["Sản phẩm 1", "Sản phẩm 2", "Sản phẩm 3"],
+      "estimatedPriceVnd": 7500000,
+      "estimatedPriceVndFormatted": "7.500.000 ₫",
+      "highlights": "Điểm nổi bật"
+    },
+    {
+      "id": "pkg-vip",
+      "tier": "Gói VIP Toàn Diện (Cao cấp)",
+      "name": "Tên gói VIP",
+      "cameraCount": "Cấu hình máy + Flycam 5.1K Cinema",
+      "crewDetails": "Chi tiết nhân sự",
+      "gear": "Thiết bị cụ thể",
+      "deliverables": ["Sản phẩm 1", "Sản phẩm 2", "Sản phẩm 3", "Sản phẩm 4"],
+      "estimatedPriceVnd": 13500000,
+      "estimatedPriceVndFormatted": "13.500.000 ₫",
+      "highlights": "Điểm nổi bật"
+    }
+  ]
+}
+`;
 
-      try {
-        // Prepare contents with user text and multimodal attachments if images exist
-        const parts: any[] = [
-          { text: `${systemPrompt}\n\n${knowledgeContext}\n\nCustomer Prompt: ${latestUserMsg}\n${driveLink ? `Google Drive Link: ${driveLink}\n` : ''}` }
-        ];
+      const promptPayload = `
+${knowledgeContext}
 
-        // If user attached base64 images, attach to Gemini request
-        for (const att of attachments) {
-          if (att.type === 'image' && att.dataUrl && att.dataUrl.startsWith('data:image')) {
-            const base64Data = att.dataUrl.split(',')[1];
-            if (base64Data) {
-              parts.push({
-                inline_data: {
-                  mime_type: att.mimeType || 'image/jpeg',
-                  data: base64Data
-                }
-              });
+Customer Project Details:
+- Current Customer Query: ${latestUserMsg}
+- Google Drive Link: ${driveLink || 'None'}
+- Attached Files Content & Spreadsheets/Documents/Presentations:
+${attachmentDetails || 'No files attached'}
+${customConfig ? `- Customer Manual Customizer Configuration: ${JSON.stringify(customConfig)}` : ''}
+
+Please analyze this specific customer request deeply, formulate the production script, recommend equipment and crew, and output the response and the json structure.`;
+
+      const candidateModels = ['gemini-3.6-flash', 'gemini-3.5-flash', 'gemini-3.7-flash'];
+
+      for (const modelName of candidateModels) {
+        try {
+          const parts: any[] = [
+            { text: `${promptInstructions}\n\n${promptPayload}` }
+          ];
+
+          for (const att of attachments) {
+            if (att.type === 'image' && att.dataUrl && att.dataUrl.startsWith('data:image')) {
+              const base64Data = att.dataUrl.split(',')[1];
+              if (base64Data) {
+                parts.push({
+                  inline_data: {
+                    mime_type: att.mimeType || 'image/jpeg',
+                    data: base64Data
+                  }
+                });
+              }
             }
           }
-        }
 
-        const response = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              contents: [{ role: 'user', parts }],
-              generationConfig: {
-                temperature: 0.7,
-                maxOutputTokens: 1000
+          const response = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`,
+            {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                contents: [{ role: 'user', parts }],
+                generationConfig: {
+                  temperature: 0.7,
+                  maxOutputTokens: 3000
+                }
+              })
+            }
+          );
+
+          if (response.ok) {
+            const data = await response.json();
+            const candidateText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (candidateText) {
+              const jsonMatch = candidateText.match(/\`\`\`json\s*([\s\S]*?)\s*\`\`\`/);
+              if (jsonMatch && jsonMatch[1]) {
+                try {
+                  const parsed = JSON.parse(jsonMatch[1]);
+                  if (parsed.conceptTitle && parsed.cameraCrewProposal) {
+                    parsedScriptPlan = {
+                      conceptTitle: parsed.conceptTitle,
+                      summary: parsed.summary || '',
+                      cameraCrewProposal: parsed.cameraCrewProposal,
+                      timelineBreakdown: parsed.timelineBreakdown || [],
+                      customPackages: parsed.customPackages || []
+                    };
+                    parsedCustomPackages = parsed.customPackages || null;
+                  }
+                } catch (parseErr) {
+                  console.warn('JSON parse error from Gemini output:', parseErr);
+                }
               }
-            })
-          }
-        );
 
-        if (response.ok) {
-          const data = await response.json();
-          const candidateText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (candidateText) {
-            aiResponseText = candidateText;
+              aiResponseText = candidateText.replace(/\`\`\`json\s*[\s\S]*?\s*\`\`\`/, '').trim();
+              break;
+            }
           }
+        } catch (callErr) {
+          console.warn(`Gemini call error on ${modelName}:`, callErr);
         }
-      } catch (geminiErr) {
-        console.error('Gemini API call failed, falling back to local cinematic engine:', geminiErr);
       }
     }
 
-    // Fallback response if Gemini offline
+    if (!parsedScriptPlan) {
+      const isBigEvent =
+        lowerQuery.includes('sự kiện') ||
+        lowerQuery.includes('hội nghị') ||
+        lowerQuery.includes('gala') ||
+        lowerQuery.includes('tvc') ||
+        lowerQuery.includes('khai trương') ||
+        lowerQuery.includes('event');
+      const isWedding =
+        lowerQuery.includes('cưới') ||
+        lowerQuery.includes('wedding') ||
+        lowerQuery.includes('tiệc cưới') ||
+        lowerQuery.includes('pre-wedding');
+      const isAoDai =
+        lowerQuery.includes('áo dài') ||
+        lowerQuery.includes('cổ phục') ||
+        lowerQuery.includes('di sản');
+      const isTravel =
+        lowerQuery.includes('du lịch') ||
+        lowerQuery.includes('bà nà') ||
+        lowerQuery.includes('hội an') ||
+        lowerQuery.includes('tour');
+
+      let conceptTitle = 'Kịch Bản Sản Xuất Hình Ảnh & Video Theo Yêu Cầu Riêng';
+      if (isWedding) conceptTitle = 'Kịch Bản Phóng Sự Cưới Nghệ Thuật Cinema & Bắt Trọn Khoảnh Khắc';
+      else if (isBigEvent) conceptTitle = 'Kịch Bản Phim Sự Kiện, Hội Nghị & TVC Truyền Thông Thương Hiệu';
+      else if (isAoDai) conceptTitle = 'Kịch Bản Chụp Ảnh Cổ Phục & Áo Dài Di Sản Miền Trung';
+      else if (isTravel) conceptTitle = 'Kịch Bản Phototour Du Lịch & Nghỉ Dưỡng Cao Cấp';
+
+      let customTiers: CustomPackageOption[] = [];
+      if (
+        customConfig &&
+        (customConfig.gimbalOperators > 0 || customConfig.photographers > 0 || customConfig.drones > 0)
+      ) {
+        customTiers.push({
+          id: 'pkg-user-custom',
+          tier: 'Cấu Hình Tùy Chọn Riêng Của Bạn',
+          name: `Gói Tự Chọn: ${customConfig.gimbalOperators} Gimbal + ${customConfig.photographers} Chụp + ${customConfig.drones} Flycam`,
+          cameraCount: `${customConfig.gimbalOperators} Máy quay + ${customConfig.photographers} Máy chụp + ${customConfig.drones} Flycam`,
+          crewDetails: `${customConfig.gimbalOperators + customConfig.photographers + (customConfig.drones > 0 ? 1 : 0)} Nhân sự vận hành`,
+          gear: 'Sony FX3 Cinema 4K, Sony A7R V 61MP, Flycam DJI, Gimbal Ronin RS3 Pro',
+          deliverables: [
+            `Video hoàn thiện chuẩn ${customConfig.editingQuality.toUpperCase()}`,
+            'Toàn bộ file gốc chất lượng cao',
+            customConfig.express24h ? 'Nhận sản phẩm hỏa tốc trong 24h' : 'Bàn giao đúng tiến độ 3-5 ngày',
+            customConfig.luxuryPhotobook ? '01 Album Photobook cao cấp 30x30cm' : 'Bộ ảnh đã blend màu nghệ thuật'
+          ],
+          estimatedPriceVnd: customConfig.totalVnd,
+          estimatedPriceVndFormatted: `${customConfig.totalVnd.toLocaleString('vi-VN')} ₫`,
+          highlights: 'Đúng theo bảng chọn thiết bị và ngân sách bạn vừa tùy biến'
+        });
+      }
+
+      parsedCustomPackages = [
+        ...customTiers,
+        {
+          id: 'pkg-1',
+          tier: 'Gói Tiết Kiệm (Ngân Sách Tinh Gọn)',
+          name: isWedding ? 'Phóng Sự Cưới Essential' : isBigEvent ? 'Ghi Hình Sự Kiện Cơ Bản' : 'Gói Quay Chụp Tiết Kiệm',
+          cameraCount: isBigEvent ? '1 Gimbal 4K + 1 Thợ chụp' : '1 Thợ quay Gimbal hoặc 1 Thợ chụp',
+          crewDetails: '1 - 2 Nhân sự kỹ thuật',
+          gear: 'Sony A7 IV + Gimbal DJI + Mic thu âm Rode Wireless Pro',
+          deliverables: [
+            '01 Video Highlight Full HD / 4K (3-5 phút)',
+            'Toàn bộ file ảnh gốc + 50 ảnh chỉnh màu DaVinci',
+            'Bàn giao link Drive tốc độ cao'
+          ],
+          estimatedPriceVnd: 3800000,
+          estimatedPriceVndFormatted: '3.800.000 ₫',
+          highlights: 'Chi phí tối ưu, đảm bảo độ nét và khoảnh khắc đẹp'
+        },
+        {
+          id: 'pkg-2',
+          tier: 'Gói Tiêu Chuẩn (Khuyên Dùng - Tối Ưu Nhất)',
+          name: isWedding ? 'Phóng Sự Cưới Cinema Premier' : isBigEvent ? 'Phim Sự Kiện & Hội Nghị Đa Góc Máy' : 'Gói Sản Xuất Toàn Diện',
+          cameraCount: '2 Máy quay Gimbal Cinema + 1-2 Thợ chụp + Tùy chọn Flycam',
+          crewDetails: '3 - 4 Nhân sự (2 Quay + 1 Chụp + 1 Kỹ thuật)',
+          gear: 'Sony FX3 Cinema Line + Sony A7R V + Hệ thống mic Sennheiser + Đèn Aputure',
+          deliverables: [
+            '01 Phim Teaser 4K Cinema + 01 Phim tài liệu Recap dài',
+            'Toàn bộ file gốc RAW + 150-300 ảnh chỉnh màu chuyên sâu',
+            'Quay 4K 10-bit màu điện ảnh DaVinci Resolve',
+            'Hỗ trợ flycam toàn cảnh địa điểm'
+          ],
+          estimatedPriceVnd: 7800000,
+          estimatedPriceVndFormatted: '7.800.000 ₫',
+          highlights: 'Đa góc máy bắt trọn mọi cảm xúc, âm thanh ánh sáng chuyên nghiệp'
+        },
+        {
+          id: 'pkg-3',
+          tier: 'Gói VIP Toàn Diện (Master Cinema)',
+          name: isWedding ? 'Đại Tiệc Cưới Masterpiece 4K' : isBigEvent ? 'TVC & Phim Tài Liệu Thương Hiệu 4K/6K' : 'Gói VIP Masterpiece',
+          cameraCount: '3 Máy quay FX3/FX6 + 2 Thợ chụp A7R V + 1 Flycam 5.1K',
+          crewDetails: '5 - 6 Nhân sự (Đạo diễn hình ảnh, 3 Quay, 2 Chụp, 1 Flycam pilot)',
+          gear: 'Sony FX6 Cinema RAW + Sony FX3 + Flycam DJI Mavic 3 Pro 5.1K + Aputure 600d Pro',
+          deliverables: [
+            '01 Teaser 4K triệu view + 01 Phim điện ảnh 4K Master',
+            'Toàn bộ ảnh gốc + 100% ảnh retouch nghệ thuật',
+            'Chỉnh màu DaVinci Resolve Studio chuẩn rạp chiếu',
+            '01 Album Photobook cao cấp 30x30cm + USB pha lê cao cấp',
+            'Hậu kỳ ưu tiên hỏa tốc trong 48h'
+          ],
+          estimatedPriceVnd: 14500000,
+          estimatedPriceVndFormatted: '14.500.000 ₫',
+          highlights: 'Đẳng cấp điện ảnh đỉnh cao, ekip đạo diễn điều phối toàn diện'
+        }
+      ].slice(0, 3);
+
+      const videoCrew =
+        customConfig?.gimbalOperators !== undefined
+          ? `${customConfig.gimbalOperators} Thợ quay Gimbal Cinema`
+          : isBigEvent
+          ? '2 - 3 Thợ quay Gimbal 4K Cinema'
+          : '1 - 2 Thợ quay Gimbal Cinema';
+
+      const photoCrew =
+        customConfig?.photographers !== undefined
+          ? `${customConfig.photographers} Thợ chụp Sony A7R V`
+          : '1 - 2 Thợ chụp Sony A7R V 61MP bắt trọn khoảnh khắc';
+
+      const droneCrew =
+        customConfig?.drones !== undefined
+          ? `${customConfig.drones} Flycam 5.1K trên không`
+          : isBigEvent || isWedding
+          ? '1 Flycam 5.1K quay toàn cảnh địa điểm/resort'
+          : 'Tùy chọn bổ sung theo nhu cầu';
+
+      parsedScriptPlan = {
+        conceptTitle,
+        summary: `Dựa trên dữ liệu phân tích ${
+          attachments.length > 0 ? `và ${attachments.length} tài liệu đính kèm ` : ''
+        }${driveLink ? `(Link Drive: ${driveLink}) ` : ''}, nhiep.net đã xây dựng phương án sản xuất và phân bổ ekip máy quay tối ưu nhất.`,
+        cameraCrewProposal: {
+          videoCameras: videoCrew,
+          photoCameras: photoCrew,
+          drones: droneCrew,
+          directors: '1 Đạo diễn hình ảnh & điều phối âm thanh ánh sáng',
+          lightingAndAudio: 'Hệ thống mic thu âm không dây Sennheiser/Rode & Đèn studio Aputure',
+          recommendedTotalCrew: customConfig
+            ? `${(customConfig.gimbalOperators || 0) + (customConfig.photographers || 0) + (customConfig.drones ? 1 : 0)} Nhân sự`
+            : isBigEvent
+            ? '3 - 5 Nhân sự'
+            : '2 - 3 Nhân sự'
+        },
+        timelineBreakdown: [
+          {
+            scene: 'Phân cảnh 1: Chuẩn bị & Không gian (Establishing Shots)',
+            time: 'Trước sự kiện 1 - 2 giờ',
+            description:
+              'Quay chụp toàn cảnh kiến trúc resort/khách sạn, chi tiết trang trí, backdrop, khoảnh khắc trang điểm và trang phục.',
+            recommendedGear: 'Ống kính góc rộng 16-35mm + Gimbal chống rung'
+          },
+          {
+            scene: 'Phân cảnh 2: Diễn biến chính (The Main Ceremony / Event)',
+            time: 'Thời lượng sự kiện',
+            description:
+              'Góc máy chính quay toàn cảnh sân khấu, máy phụ bắt cận biểu cảm, nụ cười, tràng pháo tay và khoảnh khắc xúc động.',
+            recommendedGear: 'Ống kính chân dung 85mm f/1.4 + 70-200mm tele'
+          },
+          {
+            scene: 'Phân cảnh 3: Toàn cảnh trên không & Bế mạc (Aerial & Finale)',
+            time: 'Thời điểm vàng (Golden Hour / Gala)',
+            description:
+              'Flycam cất cánh ghi lại quy mô hoành tráng, tiệc chúc mừng, nâng ly và các hoạt động tương tác.',
+            recommendedGear: 'Flycam DJI 5.1K + Đèn LED Fill-light'
+          }
+        ],
+        customPackages: parsedCustomPackages
+      };
+    }
+
+    const finalCustomPackages = parsedCustomPackages || [];
+
     if (!aiResponseText) {
       if (locale === 'zh') {
-        aiResponseText = `您好！**nhiep.net** AI 摄制总监已为您完成初步拍摄方案与分镜策划：\n\n🎬 **专属策划剧本与建议：**\n- **机位配置推荐**：${scriptPlan.cameraCrewProposal.videoCameras} + ${scriptPlan.cameraCrewProposal.photoCameras} + ${scriptPlan.cameraCrewProposal.drones}\n- **交付保障**：赠送全部高清底片，支持 24 小时极速出片。\n\n📸 **可供选择的定制执行套餐：**\n${customPackages.map((p) => `• **${p.name}**（${p.cameraCount}）：**${p.estimatedPriceVndFormatted}**\n  _${p.highlights}_`).join('\n\n')}\n\n👉 您可直接在下方填写**姓名与 Zalo/微信电话**，系统将自动把完整拍摄方案与预订单同步至顾问专线 **0932513678**。`;
+        aiResponseText = `您好！**nhiep.net** AI 摄制总监已深入分析您的需求${
+          attachments.length > 0 ? `及上传的 ${attachments.length} 份文件` : ''
+        }：\n\n🎬 **专属策划剧本与设备建议：**\n- **机位配置推荐**：${
+          parsedScriptPlan.cameraCrewProposal.videoCameras
+        } + ${parsedScriptPlan.cameraCrewProposal.photoCameras} + ${
+          parsedScriptPlan.cameraCrewProposal.drones
+        }\n- **后期标准**：支持 4K Cinema 10-bit 调色与 24 小时极速出片。\n\n📸 **可供选择的定制执行套餐：**\n${finalCustomPackages
+          .map((p) => `• **${p.name}**（${p.cameraCount}）：**${p.estimatedPriceVndFormatted}**\n  _${p.highlights}_`)
+          .join('\n\n')}\n\n👉 您可直接在下方根据预算与需求**自由调整机位数量**，或点击**预定定金 (VietQR MB BANK)** / **联系顾问 0932513678** 立即确认档期！`;
       } else if (locale === 'en') {
-        aiResponseText = `Hello! **nhiep.net** AI Production Director has analyzed your request and prepared the tailored shooting script & crew configuration:\n\n🎬 **Production Concept & Camera Breakdown:**\n- **Recommended Crew**: ${scriptPlan.cameraCrewProposal.videoCameras}, ${scriptPlan.cameraCrewProposal.photoCameras}, ${scriptPlan.cameraCrewProposal.drones}\n- **Timeline**: Structured coverage from preparations, core highlights to scenic aerial angles.\n\n📸 **Flexible Production Package Options:**\n${customPackages.map((p) => `• **${p.name}** (${p.cameraCount}): **${p.estimatedPriceVndFormatted}**\n  _${p.highlights}_`).join('\n\n')}\n\n👉 Please fill in your **Name & Zalo/WhatsApp Phone** below to automatically send this order summary to our senior coordinator at **0932513678**.`;
+        aiResponseText = `Hello! **nhiep.net** AI Production Director has analyzed your request${
+          attachments.length > 0 ? ` and ${attachments.length} attached document(s)` : ''
+        }:\n\n🎬 **Tailored Production Plan & Crew Breakdown:**\n- **Recommended Crew**: ${
+          parsedScriptPlan.cameraCrewProposal.videoCameras
+        }, ${parsedScriptPlan.cameraCrewProposal.photoCameras}, ${
+          parsedScriptPlan.cameraCrewProposal.drones
+        }\n- **Editing Quality**: Full HD 1080p, 4K Cinema 10-bit, and 24h rapid delivery options.\n\n📸 **Flexible Production Packages:**\n${finalCustomPackages
+          .map((p) => `• **${p.name}** (${p.cameraCount}): **${p.estimatedPriceVndFormatted}**\n  _${p.highlights}_`)
+          .join('\n\n')}\n\n👉 You can adjust camera/crew options manually below according to your budget, generate a VietQR MB BANK deposit code, or forward this plan to **Zalo 0932513678**!`;
       } else {
-        aiResponseText = `Chào bạn! Đạo diễn AI của **nhiep.net** đã tiếp nhận thông tin ${attachments.length > 0 ? `và ${attachments.length} tư liệu đính kèm ` : ''}${driveLink ? `(Link Drive: ${driveLink}) ` : ''}để lập kịch bản và phân bổ ekip tối ưu:\n\n🎬 **Kịch Bản & Phương Án Máy Quay Đề Xuất:**\n- **Số lượng máy & nhân sự**: ${scriptPlan.cameraCrewProposal.videoCameras}, ${scriptPlan.cameraCrewProposal.photoCameras}, ${scriptPlan.cameraCrewProposal.drones}.\n- **Phân cảnh thực hiện**: Bố trí nhịp nhàng từ toàn cảnh không gian, cảm xúc trung tâm đến những thước phim drone trên không choáng ngợp.\n\n📦 **Các tùy chọn gói linh hoạt theo số lượng máy để bạn dễ dàng lựa chọn:**\n${customPackages.map((p) => `• **${p.name}** (${p.cameraCount}): **${p.estimatedPriceVndFormatted}**\n  _${p.highlights}_`).join('\n\n')}\n\n👉 Bạn hãy nhập **Tên và Số điện thoại (có Zalo)** bên dưới để hệ thống tự động gửi kịch bản và thông tin đơn hàng này qua **Zalo 0932513678** cho chuyên viên tư vấn giữ lịch ngay!`;
+        aiResponseText = `Chào bạn! Đạo diễn AI của **nhiep.net** đã phân tích kỹ lưỡng yêu cầu của bạn${
+          attachments.length > 0 ? ` cùng ${attachments.length} tài liệu/bảng tính/slide đính kèm` : ''
+        }${driveLink ? ` (Link Drive: ${driveLink})` : ''} để lập kịch bản và phân bổ ekip linh hoạt:\n\n🎬 **Kịch Bản & Phương Án Máy Quay / Nhân Sự Đề Xuất:**\n- **Số lượng máy & nhân sự**: ${
+          parsedScriptPlan.cameraCrewProposal.videoCameras
+        }, ${parsedScriptPlan.cameraCrewProposal.photoCameras}, ${
+          parsedScriptPlan.cameraCrewProposal.drones
+        }.\n- **Chất lượng bàn giao**: Quay 4K 10-bit chuẩn điện ảnh, chỉnh màu DaVinci Resolve, trả 100% file gốc.\n\n📦 **Các tùy chọn gói linh hoạt theo ngân sách để bạn lựa chọn:**\n${finalCustomPackages
+          .map((p) => `• **${p.name}** (${p.cameraCount}): **${p.estimatedPriceVndFormatted}**\n  _${p.highlights}_`)
+          .join('\n\n')}\n\n👉 Bạn có thể **tự tùy chỉnh thủ công số lượng thợ & flycam** theo ý muốn ở bảng bên dưới, bấm **Thêm vào giỏ hàng**, **Đặt cọc VietQR MB BANK 89052667799** hoặc bấm **Gửi Zalo 0932513678** để giữ lịch ekip ngay!`;
       }
     }
 
-    // Save assistant message to database
     const assistantChatMsg: ChatMessage = {
       id: `bot-${Date.now()}`,
       role: 'assistant',
       content: aiResponseText,
       recommendedPackages: recommended,
-      scriptPlan,
-      customPackages,
+      scriptPlan: parsedScriptPlan || undefined,
+      customPackages: parsedCustomPackages || undefined,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
 
     appendChatMessageToSession(sessionId, assistantChatMsg, {
       locale: locale as any,
       customerInfo,
-      scriptSummary: scriptPlan.conceptTitle
+      scriptSummary: parsedScriptPlan?.conceptTitle || ''
     });
 
     return NextResponse.json({
       success: true,
       sessionId,
       reply: aiResponseText,
-      scriptPlan,
-      customPackages,
+      scriptPlan: parsedScriptPlan || undefined,
+      customPackages: parsedCustomPackages || undefined,
       recommendedPackages: recommended
     });
   } catch (err: any) {

@@ -11,9 +11,12 @@ import { PACKAGES } from '@/data/packages';
 import { getDictionary } from '@/data/translations';
 import {
   CalendarPlus, Check, ChevronRight, ChevronLeft, MapPin, Sparkles,
-  Phone, Mail, User, Clock, Calendar, CheckCircle2, ShieldCheck, ArrowRight, Loader2
+  Phone, Mail, User, Clock, Calendar, CheckCircle2, ShieldCheck, ArrowRight, Loader2,
+  QrCode, ExternalLink
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { useAuth } from '@/context/AuthContext';
+import { PAYMENT_CONFIG, generateVietQrUrl } from '@/lib/payment';
 
 const ADDONS = [
   { id: 'addonDrone', nameVi: 'Flycam 4K / 5.1K trên không', nameEn: '4K / 5.1K Aerial Drone Flight', nameZh: '4K/5.1K高清航拍无人机', priceVnd: 1500000 },
@@ -26,6 +29,7 @@ const ADDONS = [
 function BookingForm({ locale }: { locale: Locale }) {
   const dict = getDictionary(locale);
   const searchParams = useSearchParams();
+  const { user } = useAuth();
   const preselectedPackageId = searchParams.get('package');
 
   // Multi-step state (1 to 5)
@@ -48,6 +52,16 @@ function BookingForm({ locale }: { locale: Locale }) {
   const [email, setEmail] = useState<string>('');
   const [zaloOrWhatsapp, setZaloOrWhatsapp] = useState<string>('');
   const [notes, setNotes] = useState<string>('');
+
+  // Auto sync user from auth
+  useEffect(() => {
+    if (user) {
+      if (!fullName) setFullName(user.name);
+      if (!phone) setPhone(user.phone);
+      if (!email && user.email) setEmail(user.email);
+      if (!shootAddress && user.address) setShootAddress(user.address);
+    }
+  }, [user]);
 
   // Sync if query param package exists
   useEffect(() => {
@@ -627,6 +641,108 @@ function BookingForm({ locale }: { locale: Locale }) {
                 <div className="flex justify-between pt-1 font-bold text-white">
                   <span className="text-zinc-400">Tổng chi phí ước tính:</span>
                   <span className="text-brand text-base">{bookingResult.estimatedTotalVnd.toLocaleString('vi-VN')} ₫</span>
+                </div>
+              </div>
+
+              {/* VIETQR DEPOSIT SECTION */}
+              <div className="max-w-xl mx-auto p-5 sm:p-6 rounded-3xl bg-surface-card border border-brand/50 text-left space-y-4 shadow-2xl">
+                <div className="flex items-center justify-between border-b border-surface-border pb-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-lg bg-brand text-black flex items-center justify-center font-bold">
+                      <QrCode className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-sm text-white">Thanh Toán Đặt Cọc Giữ Lịch (VietQR)</h4>
+                      <p className="text-[10px] text-zinc-400">MB BANK 89052667799 • Quét mã chuyển khoản tự động 24/7</p>
+                    </div>
+                  </div>
+                  <span className="px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/40 text-[10px] font-bold">
+                    Cọc 30% để giữ lịch
+                  </span>
+                </div>
+
+                <div className="flex flex-col sm:flex-row items-center gap-4">
+                  {/* QR Image Box */}
+                  <div className="relative w-44 h-44 bg-white p-2 rounded-2xl shrink-0 shadow-xl overflow-hidden border-2 border-brand flex items-center justify-center">
+                    <Image
+                      src={`https://img.vietqr.io/image/970436-89052667799-compact2.jpg?amount=${Math.round(bookingResult.estimatedTotalVnd * 0.3)}&addInfo=${encodeURIComponent(`COC ${bookingResult.bookingCode}`)}&accountName=NGUYEN%20XUAN%20TOI`}
+                      alt="VietQR MB BANK"
+                      fill
+                      className="object-contain p-1"
+                      unoptimized
+                    />
+                  </div>
+
+                  {/* Bank Info Details */}
+                  <div className="flex-1 text-xs space-y-2 w-full">
+                    <div className="p-2 rounded-xl bg-surface-elevated border border-surface-border/60">
+                      <span className="text-[10px] text-zinc-400 block">Ngân hàng:</span>
+                      <span className="font-bold text-white text-xs">{PAYMENT_CONFIG.bankName}</span>
+                    </div>
+
+                    <div className="p-2 rounded-xl bg-surface-elevated border border-surface-border/60 flex items-center justify-between">
+                      <div>
+                        <span className="text-[10px] text-zinc-400 block">Số tài khoản:</span>
+                        <span className="font-mono font-bold text-brand text-sm tracking-wider">89052667799</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          navigator.clipboard.writeText('89052667799');
+                          alert('Đã sao chép số tài khoản: 89052667799');
+                        }}
+                        className="px-2.5 py-1 rounded-lg bg-surface hover:bg-brand hover:text-black text-zinc-300 text-[10px] font-bold transition-colors"
+                      >
+                        Sao chép
+                      </button>
+                    </div>
+
+                    <div className="p-2 rounded-xl bg-surface-elevated border border-surface-border/60">
+                      <span className="text-[10px] text-zinc-400 block">Chủ tài khoản:</span>
+                      <span className="font-bold text-white text-xs uppercase">NGUYEN XUAN TOI</span>
+                    </div>
+
+                    <div className="p-2 rounded-xl bg-brand/10 border border-brand/30 flex items-center justify-between">
+                      <div>
+                        <span className="text-[10px] text-zinc-400 block">Số tiền cọc 30%:</span>
+                        <span className="font-heading font-black text-brand text-sm sm:text-base">
+                          {Math.round(bookingResult.estimatedTotalVnd * 0.3).toLocaleString('vi-VN')} ₫
+                        </span>
+                      </div>
+                      <span className="text-[10px] text-zinc-400">(Tổng: {bookingResult.estimatedTotalVnd.toLocaleString('vi-VN')} ₫)</span>
+                    </div>
+
+                    <div className="p-2 rounded-xl bg-surface-elevated border border-surface-border/60 flex items-center justify-between">
+                      <div>
+                        <span className="text-[10px] text-zinc-400 block">Nội dung chuyển khoản:</span>
+                        <span className="font-mono font-bold text-amber-400 text-xs">COC {bookingResult.bookingCode}</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          navigator.clipboard.writeText(`COC ${bookingResult.bookingCode}`);
+                          alert(`Đã sao chép nội dung: COC ${bookingResult.bookingCode}`);
+                        }}
+                        className="px-2.5 py-1 rounded-lg bg-surface hover:bg-brand hover:text-black text-zinc-300 text-[10px] font-bold transition-colors"
+                      >
+                        Sao chép
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-2 flex flex-col sm:flex-row gap-2">
+                  <a
+                    href={`https://zalo.me/0932513678?text=${encodeURIComponent(
+                      `Chào nhiep.net! Tôi vừa hoàn tất chuyển khoản đặt cọc qua VietQR cho mã đơn: ${bookingResult.bookingCode} (${bookingResult.customerName} - ${bookingResult.phone}). Nhờ chuyên viên xác nhận giúp tôi.`
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 py-3 px-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg transition-colors"
+                  >
+                    <span>Gửi Biên Lai Qua Zalo (0932513678)</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
                 </div>
               </div>
 
