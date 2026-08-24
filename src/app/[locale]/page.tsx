@@ -31,7 +31,8 @@ export async function generateMetadata({
       languages: {
         vi: 'https://nhiep.net/vi',
         en: 'https://nhiep.net/en',
-        zh: 'https://nhiep.net/zh'
+        zh: 'https://nhiep.net/zh',
+        'x-default': 'https://nhiep.net/vi'
       }
     },
     openGraph: {

@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { Locale } from '@/types';
 import { Globe, ChevronDown } from 'lucide-react';
+import { getArticleBySlug } from '@/data/articles';
 
 const LANGUAGES = [
   { code: 'vi', label: 'Tiếng Việt', flag: '🇻🇳', short: 'VI' },
@@ -18,17 +19,35 @@ export default function LanguageSwitcher({ currentLocale }: { currentLocale: Loc
 
   const current = LANGUAGES.find((l) => l.code === currentLocale) || LANGUAGES[0];
 
-  const handleSelect = (locale: string) => {
+  const handleSelect = (targetLocale: string) => {
     setOpen(false);
-    if (locale === currentLocale) return;
+    if (targetLocale === currentLocale) return;
 
-    // Replace /[locale]/... with /[newLocale]/...
+    const queryString = typeof window !== 'undefined' && window.location.search ? window.location.search : '';
     const segments = pathname.split('/');
+
+    // Handle localized blog article slugs: /[locale]/blog/[slug]
+    if (segments.length >= 4 && segments[2] === 'blog' && segments[3]) {
+      const currentSlug = decodeURIComponent(segments[3]);
+      const article = getArticleBySlug(currentSlug);
+
+      if (article) {
+        let localizedSlug = article.slug;
+        if (targetLocale === 'vi') localizedSlug = article.slugVi || article.slug;
+        else if (targetLocale === 'en') localizedSlug = article.slugEn || article.slug;
+        else if (targetLocale === 'zh') localizedSlug = article.slugZh || article.slug;
+
+        router.push(`/${targetLocale}/blog/${encodeURIComponent(localizedSlug)}${queryString}`);
+        return;
+      }
+    }
+
+    // Default route localized transition
     if (segments.length > 1 && ['vi', 'en', 'zh'].includes(segments[1])) {
-      segments[1] = locale;
-      router.push(segments.join('/'));
+      segments[1] = targetLocale;
+      router.push(`${segments.join('/')}${queryString}`);
     } else {
-      router.push(`/${locale}`);
+      router.push(`/${targetLocale}${queryString}`);
     }
   };
 

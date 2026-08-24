@@ -54,7 +54,7 @@ export default function CategorySection({ locale }: { locale: Locale }) {
               <div className="relative w-full h-40 overflow-hidden">
                 <Image
                   src={cat.heroImage}
-                  alt={cat.nameVi}
+                  alt={locale === 'zh' ? cat.nameZh : locale === 'en' ? cat.nameEn : cat.nameVi}
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-500"
                 />
@@ -79,7 +79,9 @@ export default function CategorySection({ locale }: { locale: Locale }) {
                 </div>
 
                 <div className="pt-2 flex items-center text-xs font-bold text-brand group-hover:translate-x-1 transition-transform">
-                  <span>Khám phá gói</span>
+                  <span>
+                    {locale === 'zh' ? '查看所有服务' : locale === 'en' ? 'Explore packages' : 'Khám phá gói'}
+                  </span>
                   <ArrowRight className="w-3.5 h-3.5 ml-1" />
                 </div>
               </div>

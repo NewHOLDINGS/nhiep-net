@@ -45,18 +45,20 @@ export async function generateMetadata({
     description: desc,
     keywords: article.keywords,
     alternates: {
-      canonical: `https://nhiep.net/${locale}/blog/${params.slug}`,
+      canonical: `https://nhiep.net/${locale}/blog/${locale === 'zh' ? article.slugZh : locale === 'en' ? article.slugEn : article.slugVi}`,
       languages: {
         vi: `https://nhiep.net/vi/blog/${article.slugVi}`,
         en: `https://nhiep.net/en/blog/${article.slugEn}`,
-        zh: `https://nhiep.net/zh/blog/${article.slugZh}`
+        zh: `https://nhiep.net/zh/blog/${article.slugZh}`,
+        'x-default': `https://nhiep.net/vi/blog/${article.slugVi}`
       }
     },
     openGraph: {
       title,
       description: desc,
-      url: `https://nhiep.net/${locale}/blog/${params.slug}`,
+      url: `https://nhiep.net/${locale}/blog/${locale === 'zh' ? article.slugZh : locale === 'en' ? article.slugEn : article.slugVi}`,
       siteName: 'nhiep.net',
+      locale: locale === 'zh' ? 'zh_CN' : locale === 'en' ? 'en_US' : 'vi_VN',
       images: [{ url: article.featuredImage, width: 1200, height: 630, alt: title }],
       type: 'article',
       publishedTime: article.publishedAt,
@@ -67,6 +69,13 @@ export async function generateMetadata({
       title,
       description: desc,
       images: [article.featuredImage]
+    },
+    other: {
+      'geo.region': article.provinceId === 'danang' ? 'VN-DN' : article.provinceId === 'hue' ? 'VN-26' : article.provinceId === 'quangtri' ? 'VN-25' : 'VN-34',
+      'geo.placename': article.provinceId === 'danang' ? 'Đà Nẵng, Việt Nam' : article.provinceId === 'hue' ? 'Thừa Thiên Huế, Việt Nam' : article.provinceId === 'quangtri' ? 'Quảng Trị, Việt Nam' : 'Khánh Hòa, Nha Trang, Việt Nam',
+      'geo.position': '16.0594;108.1492',
+      ICBM: '16.0594, 108.1492',
+      'DC.Language': locale
     }
   };
 }
@@ -131,9 +140,14 @@ export default function ArticleDetailPage({
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: `https://nhiep.net/${locale}` },
-      { '@type': 'ListItem', position: 2, name: 'Blog', item: `https://nhiep.net/${locale}/blog` },
-      { '@type': 'ListItem', position: 3, name: title, item: `https://nhiep.net/${locale}/blog/${params.slug}` }
+      { '@type': 'ListItem', position: 1, name: dict.nav.home, item: `https://nhiep.net/${locale}` },
+      { '@type': 'ListItem', position: 2, name: dict.nav.blog, item: `https://nhiep.net/${locale}/blog` },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: title,
+        item: `https://nhiep.net/${locale}/blog/${locale === 'zh' ? article.slugZh : locale === 'en' ? article.slugEn : article.slugVi}`
+      }
     ]
   };
 
@@ -303,14 +317,14 @@ export default function ArticleDetailPage({
             className="inline-flex items-center gap-2 text-xs font-bold text-zinc-300 hover:text-brand transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Quay lại danh sách 200 bài viết cẩm nang</span>
+            <span>{dict.blog.allArticles} (200 Guides)</span>
           </Link>
 
           <Link
             href={`/${locale}/booking`}
             className="px-6 py-3 rounded-xl bg-brand text-black font-extrabold text-xs shadow-glow hover:bg-brand-400 transition-colors"
           >
-            Đặt lịch tư vấn & giữ chỗ ngay
+            {dict.booking.title}
           </Link>
         </div>
       </div>
