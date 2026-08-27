@@ -68,7 +68,7 @@ export default function StickyMobileNav({ locale }: { locale: Locale }) {
 
         {/* Direct Call */}
         <a
-          href="tel:0932513678"
+          href="tel:0943391369"
           className="flex flex-col items-center gap-1 py-1 px-2 text-[10px] font-medium text-emerald-400 hover:text-emerald-300"
         >
           <PhoneCall className="w-5 h-5 animate-bounce" />

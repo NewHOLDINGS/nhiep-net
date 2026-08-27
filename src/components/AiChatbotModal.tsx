@@ -174,7 +174,7 @@ export default function AiChatbotModal({
       const errorMsg: ChatMessage = {
         id: `err-${Date.now()}`,
         role: 'assistant',
-        content: `Đã xảy ra sự cố kết nối AI. Bạn có thể liên hệ trực tiếp hotline / Zalo: 0932513678 hoặc chọn cấu hình thủ công bên dưới để chốt lịch nhanh nhất!`,
+        content: `Đã xảy ra sự cố kết nối AI. Bạn có thể liên hệ trực tiếp hotline / Zalo: 0943391369 hoặc chọn cấu hình thủ công bên dưới để chốt lịch nhanh nhất!`,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
       setMessages((prev) => [...prev, errorMsg]);
@@ -250,7 +250,7 @@ export default function AiChatbotModal({
       `- Tổng chi phí ước tính: ${config.totalVnd.toLocaleString('vi-VN')} ₫\n` +
       `Nhờ chuyên viên liên hệ chốt lịch giúp tôi!`
     );
-    window.open(`https://zalo.me/0932513678?text=${zaloMsg}`, '_blank');
+    window.open(`https://zalo.me/0943391369?text=${zaloMsg}`, '_blank');
   };
 
   const handleSubmitOrderToZalo = async (e: React.FormEvent) => {
@@ -299,7 +299,7 @@ export default function AiChatbotModal({
         `Nhờ chuyên viên liên hệ lại xác nhận kịch bản chi tiết giúp tôi.`
       );
 
-      const zaloUrl = `https://zalo.me/0932513678?text=${zaloMessage}`;
+      const zaloUrl = `https://zalo.me/0943391369?text=${zaloMessage}`;
 
       setSubmittedOrderInfo({
         bookingCode,
@@ -322,7 +322,7 @@ export default function AiChatbotModal({
       } catch {}
     } catch (err) {
       console.error('Order submission error:', err);
-      window.open('https://zalo.me/0932513678', '_blank');
+      window.open('https://zalo.me/0943391369', '_blank');
     }
   };
 
@@ -695,7 +695,7 @@ export default function AiChatbotModal({
                   <input
                     type="tel"
                     required
-                    placeholder="0932513678"
+                    placeholder="0943391369"
                     value={customerPhoneInput}
                     onChange={(e) => setCustomerPhoneInput(e.target.value)}
                     className="w-full bg-surface-muted border border-surface-border rounded-xl px-3 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-brand"

@@ -94,33 +94,33 @@ export default function Footer({ locale }: { locale: Locale }) {
             <ul className="space-y-3 text-xs sm:text-sm">
               <li>
                 <a
-                  href="tel:0932513678"
+                  href="tel:0943391369"
                   className="flex items-center gap-2.5 p-2 rounded-lg bg-surface-muted hover:bg-surface-elevated border border-surface-border text-white hover:text-brand transition-colors"
                 >
                   <Phone className="w-4 h-4 text-brand" />
-                  <span className="font-semibold">Hotline: 0932513678</span>
+                  <span className="font-semibold">Hotline: 0943391369</span>
                 </a>
               </li>
               <li>
                 <a
-                  href="https://zalo.me/0932513678"
+                  href="https://zalo.me/0943391369"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2.5 p-2 rounded-lg bg-surface-muted hover:bg-surface-elevated border border-surface-border text-white hover:text-blue-400 transition-colors"
                 >
                   <MessageCircle className="w-4 h-4 text-blue-400" />
-                  <span className="font-semibold">Zalo: 0932513678</span>
+                  <span className="font-semibold">Zalo: 0943391369</span>
                 </a>
               </li>
               <li>
                 <a
-                  href="https://wa.me/84932513678"
+                  href="https://wa.me/84943391369"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2.5 p-2 rounded-lg bg-surface-muted hover:bg-surface-elevated border border-surface-border text-white hover:text-emerald-400 transition-colors"
                 >
                   <MessageCircle className="w-4 h-4 text-emerald-400" />
-                  <span className="font-semibold">WhatsApp: +84 932 513 678</span>
+                  <span className="font-semibold">WhatsApp: +84 943 391 369</span>
                 </a>
               </li>
               <li className="pt-2 text-zinc-400 flex items-start gap-2">

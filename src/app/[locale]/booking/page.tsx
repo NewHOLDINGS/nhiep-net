@@ -163,7 +163,7 @@ function BookingForm({ locale }: { locale: Locale }) {
         alert(data.error || 'Có lỗi xảy ra khi lưu lịch đặt.');
       }
     } catch (err: any) {
-      alert('Không thể kết nối đến máy chủ. Vui lòng liên hệ Hotline 0932513678.');
+      alert('Không thể kết nối đến máy chủ. Vui lòng liên hệ Hotline 0943391369.');
     } finally {
       setLoading(false);
     }
@@ -828,14 +828,14 @@ function BookingForm({ locale }: { locale: Locale }) {
 
                 <div className="pt-2 flex flex-col sm:flex-row gap-2">
                   <a
-                    href={`https://zalo.me/0932513678?text=${encodeURIComponent(
+                    href={`https://zalo.me/0943391369?text=${encodeURIComponent(
                       `Chào nhiep.net! Tôi vừa hoàn tất chuyển khoản đặt cọc qua VietQR cho mã đơn: ${bookingResult.bookingCode} (${bookingResult.customerName} - ${bookingResult.phone}). Nhờ chuyên viên xác nhận giúp tôi.`
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex-1 py-3 px-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg transition-colors"
                   >
-                    <span>Gửi Biên Lai Qua Zalo (0932513678)</span>
+                    <span>Gửi Biên Lai Qua Zalo (0943391369)</span>
                     <ExternalLink className="w-3.5 h-3.5" />
                   </a>
                 </div>
@@ -859,7 +859,7 @@ function BookingForm({ locale }: { locale: Locale }) {
                   {dict.booking.viewAdmin}
                 </Link>
                 <a
-                  href="tel:0932513678"
+                  href="tel:0943391369"
                   className="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-colors flex items-center justify-center gap-1.5"
                 >
                   <Phone className="w-3.5 h-3.5" />

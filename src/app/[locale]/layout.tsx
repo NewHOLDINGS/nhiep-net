@@ -109,7 +109,7 @@ export default function LocaleLayout({
     image: 'https://nhiep.net/logo.jpg',
     '@id': 'https://nhiep.net',
     url: `https://nhiep.net/${validLocale}`,
-    telephone: '+84932513678',
+    telephone: '+84943391369',
     priceRange: '1500000VND - 28000000VND',
     address: {
       '@type': 'PostalAddress',
@@ -139,8 +139,8 @@ export default function LocaleLayout({
       closes: '23:59'
     },
     sameAs: [
-      'https://zalo.me/0932513678',
-      'https://wa.me/84932513678'
+      'https://zalo.me/0943391369',
+      'https://wa.me/84943391369'
     ],
     areaServed: [
       {

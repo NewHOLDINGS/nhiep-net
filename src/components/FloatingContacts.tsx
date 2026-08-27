@@ -14,29 +14,29 @@ export default function FloatingContacts({ locale }: { locale: Locale }) {
       <div className="fixed right-4 bottom-20 md:bottom-6 z-40 flex flex-col items-end gap-2.5">
         {/* Zalo Button */}
         <a
-          href="https://zalo.me/0932513678"
+          href="https://zalo.me/0943391369"
           target="_blank"
           rel="noopener noreferrer"
           className="group relative flex items-center justify-center w-12 h-12 rounded-full bg-blue-600 hover:bg-blue-500 text-white shadow-lg transition-transform hover:scale-110"
-          aria-label="Chat Zalo 0932513678"
+          aria-label="Chat Zalo 0943391369"
         >
           <span className="font-bold text-xs">Zalo</span>
           <span className="absolute right-14 bg-surface-elevated text-white border border-surface-border text-xs px-2.5 py-1 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-xl">
-            Zalo: 0932513678
+            Zalo: 0943391369
           </span>
         </a>
 
         {/* WhatsApp Button */}
         <a
-          href="https://wa.me/84932513678"
+          href="https://wa.me/84943391369"
           target="_blank"
           rel="noopener noreferrer"
           className="group relative flex items-center justify-center w-12 h-12 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg transition-transform hover:scale-110"
-          aria-label="Chat WhatsApp +84932513678"
+          aria-label="Chat WhatsApp +84943391369"
         >
           <MessageCircle className="w-6 h-6" />
           <span className="absolute right-14 bg-surface-elevated text-white border border-surface-border text-xs px-2.5 py-1 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-xl">
-            WhatsApp: +84 932 513 678
+            WhatsApp: +84 943 391 369
           </span>
         </a>
 

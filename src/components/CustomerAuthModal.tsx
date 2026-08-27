@@ -501,7 +501,7 @@ export default function CustomerAuthModal({ locale }: { locale: Locale }) {
                           <Phone className="absolute left-3 top-2.5 w-4 h-4 text-zinc-500" />
                           <input
                             type="tel"
-                            placeholder="0932513678"
+                            placeholder="0943391369"
                             value={phone}
                             onChange={(e) => setPhone(e.target.value)}
                             className="w-full pl-9 pr-3 py-2 bg-surface-elevated border border-surface-border rounded-xl text-white text-xs placeholder-zinc-500 focus:outline-none focus:border-brand"
@@ -640,7 +640,7 @@ export default function CustomerAuthModal({ locale }: { locale: Locale }) {
                           </label>
                           <input
                             type="tel"
-                            placeholder="0932513678"
+                            placeholder="0943391369"
                             value={editPhone}
                             onChange={(e) => setEditPhone(e.target.value)}
                             className="w-full px-3 py-2 bg-surface border border-surface-border rounded-xl text-white text-xs placeholder-zinc-500 focus:outline-none focus:border-brand"
@@ -713,7 +713,7 @@ export default function CustomerAuthModal({ locale }: { locale: Locale }) {
                     </div>
                     <p className="text-zinc-300 font-bold">Chưa tìm thấy lịch quay chụp nào khớp với tài khoản này.</p>
                     <p className="text-[11px] text-zinc-500">
-                      Hãy chọn gói dịch vụ để đặt lịch hoặc liên hệ Hotline 0932513678 để kiểm tra hợp đồng!
+                      Hãy chọn gói dịch vụ để đặt lịch hoặc liên hệ Hotline 0943391369 để kiểm tra hợp đồng!
                     </p>
                   </div>
                 ) : (

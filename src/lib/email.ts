@@ -60,7 +60,7 @@ export async function sendAdminOtpEmail(email: string, otp: string): Promise<Sen
           <p class="warning">⚠️ Tuyệt đối không chia sẻ mã OTP này cho bất kỳ ai.</p>
           <div class="footer">
             &copy; 2026 NHIEP.NET — Cinema & Photography Platform Đà Nẵng • Huế • Quảng Trị • Khánh Hòa.<br>
-            Hotline Hỗ trợ: 0932513678
+            Hotline Hỗ trợ: 0943391369
           </div>
         </div>
       </body>

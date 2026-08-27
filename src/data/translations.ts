@@ -11,7 +11,7 @@ export const DICTIONARY = {
       gallery: 'Bộ Sưu Tập',
       admin: 'Quản Trị',
       hotline: 'Hotline 24/7',
-      callNow: '0932513678',
+      callNow: '0943391369',
       selectProvince: 'Chọn Khu Vực'
     },
     hero: {
@@ -147,9 +147,9 @@ export const DICTIONARY = {
       quickLinks: 'Liên Kết Nhanh',
       services: 'Dịch Vụ Nổi Bật',
       contactInfo: 'Thông Tin Liên Hệ',
-      hotline: 'Hotline: 0932513678 (Gọi trực tiếp)',
-      zalo: 'Zalo: 0932513678 (Hỗ trợ 24/7)',
-      whatsapp: 'WhatsApp: +84 932 513 678',
+      hotline: 'Hotline: 0943391369 (Gọi trực tiếp)',
+      zalo: 'Zalo: 0943391369 (Hỗ trợ 24/7)',
+      whatsapp: 'WhatsApp: +84 943 391 369',
       address: 'Văn phòng: 522 Tôn Đức Thắng, Phường Hoà Khánh, TP. Đà Nẵng',
       rights: 'Bản quyền thuộc về nhiep.net. Tất cả các quyền được bảo lưu.'
     }
@@ -164,7 +164,7 @@ export const DICTIONARY = {
       gallery: 'Portfolio',
       admin: 'Admin Portal',
       hotline: '24/7 Hotline',
-      callNow: '0932513678',
+      callNow: '0943391369',
       selectProvince: 'Select Region'
     },
     hero: {
@@ -300,9 +300,9 @@ export const DICTIONARY = {
       quickLinks: 'Quick Links',
       services: 'Featured Services',
       contactInfo: 'Direct Contact Channels',
-      hotline: 'Hotline: 0932513678 (Direct Call)',
-      zalo: 'Zalo: 0932513678 (24/7 Support)',
-      whatsapp: 'WhatsApp: +84 932 513 678',
+      hotline: 'Hotline: 0943391369 (Direct Call)',
+      zalo: 'Zalo: 0943391369 (24/7 Support)',
+      whatsapp: 'WhatsApp: +84 943 391 369',
       address: 'Office: 522 Ton Duc Thang, Hoa Khanh Ward, Da Nang City',
       rights: 'Copyright nhiep.net. All rights reserved.'
     }
@@ -317,7 +317,7 @@ export const DICTIONARY = {
       gallery: '作品画廊',
       admin: '管理后台',
       hotline: '24/7服务热线',
-      callNow: '0932513678',
+      callNow: '0943391369',
       selectProvince: '选择地区'
     },
     hero: {
@@ -453,9 +453,9 @@ export const DICTIONARY = {
       quickLinks: '快速链接',
       services: '核心服务',
       contactInfo: '官方联系渠道',
-      hotline: '客服热线：0932513678（一键直拨）',
-      zalo: 'Zalo 客服：0932513678（24/7在线）',
-      whatsapp: 'WhatsApp：+84 932 513 678',
+      hotline: '客服热线：0943391369（一键直拨）',
+      zalo: 'Zalo 客服：0943391369（24/7在线）',
+      whatsapp: 'WhatsApp：+84 943 391 369',
       address: '办公地址：岘港市和庆坊尊德胜路522号',
       rights: '版权所有 © nhiep.net 保留所有权利。'
     }

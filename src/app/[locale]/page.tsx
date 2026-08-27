@@ -143,10 +143,10 @@ export default function HomePage({
                 <span>{dict.booking.title}</span>
               </Link>
               <a
-                href="tel:0932513678"
+                href="tel:0943391369"
                 className="w-full sm:w-auto px-8 py-4 rounded-xl bg-surface-elevated hover:bg-surface border border-surface-border text-white font-bold text-sm sm:text-base transition-colors flex items-center justify-center gap-2"
               >
-                <span>Hotline: 0932513678</span>
+                <span>Hotline: 0943391369</span>
               </a>
             </div>
           </div>

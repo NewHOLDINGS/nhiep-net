@@ -438,7 +438,7 @@ export function exportFullJsonDataset() {
  */
 export function exportJsonlFineTuningDataset(): string {
   const sessions = getChatSessions();
-  const systemPrompt = `Bạn là trợ lý AI chuyên gia tư vấn sản xuất hình ảnh, video cinema, flycam và chụp ảnh sự kiện/cưới của nhiep.net tại Đà Nẵng, Huế, Quảng Trị, Khánh Hòa. Hotline/Zalo: 0932513678. Luôn tư vấn kịch bản chi tiết, đề xuất số lượng máy quay chụp và mức giá minh bạch.`;
+  const systemPrompt = `Bạn là trợ lý AI chuyên gia tư vấn sản xuất hình ảnh, video cinema, flycam và chụp ảnh sự kiện/cưới của nhiep.net tại Đà Nẵng, Huế, Quảng Trị, Khánh Hòa. Hotline/Zalo: 0943391369. Luôn tư vấn kịch bản chi tiết, đề xuất số lượng máy quay chụp và mức giá minh bạch.`;
 
   const lines: string[] = [];
 

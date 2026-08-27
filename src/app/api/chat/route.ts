@@ -100,7 +100,7 @@ export async function POST(req: NextRequest) {
       const knowledgeContext = `
 nhiep.net Knowledge Base & Operations:
 - Operating regions: Đà Nẵng, Thừa Thiên Huế, Quảng Trị, Khánh Hòa (Nha Trang / Cam Ranh / Hội An).
-- Hotline 24/7 & Zalo Đặt Lịch: 0932513678 (Chuyên viên tư vấn & tiếp nhận chốt đơn)
+- Hotline 24/7 & Zalo Đặt Lịch: 0943391369 (Chuyên viên tư vấn & tiếp nhận chốt đơn)
 - Tài khoản ngân hàng VietQR: MB BANK 89052667799, Chủ tài khoản: NGUYEN XUAN TOI.
 - Hệ thống thiết bị cao cấp: Sony FX3 Cinema, Sony FX6, Sony A7R V (61MP 8K), Sony A7 IV, Flycam DJI Mavic 3 Pro / Inspire 5.1K, Gimbal DJI Ronin RS3 Pro, Hệ thống micro không dây Sennheiser / Rode Wireless Pro, Đèn Studio Aputure 600d / Nanlite Forza.
 - Các mức tiêu chuẩn hậu kỳ: Full HD 1080p chuẩn mạng xã hội, 4K Cinema 10-bit chỉnh màu DaVinci Resolve, 6K Master RAW cho TVC thương mại.
@@ -438,7 +438,7 @@ Please analyze this specific customer request deeply, formulate the production s
           parsedScriptPlan.cameraCrewProposal.drones
         }\n- **后期标准**：支持 4K Cinema 10-bit 调色与 24 小时极速出片。\n\n📸 **可供选择的定制执行套餐：**\n${finalCustomPackages
           .map((p) => `• **${p.name}**（${p.cameraCount}）：**${p.estimatedPriceVndFormatted}**\n  _${p.highlights}_`)
-          .join('\n\n')}\n\n👉 您可直接在下方根据预算与需求**自由调整机位数量**，或点击**预定定金 (VietQR MB BANK)** / **联系顾问 0932513678** 立即确认档期！`;
+          .join('\n\n')}\n\n👉 您可直接在下方根据预算与需求**自由调整机位数量**，或点击**预定定金 (VietQR MB BANK)** / **联系顾问 0943391369** 立即确认档期！`;
       } else if (locale === 'en') {
         aiResponseText = `Hello! **nhiep.net** AI Production Director has analyzed your request${
           attachments.length > 0 ? ` and ${attachments.length} attached document(s)` : ''
@@ -448,7 +448,7 @@ Please analyze this specific customer request deeply, formulate the production s
           parsedScriptPlan.cameraCrewProposal.drones
         }\n- **Editing Quality**: Full HD 1080p, 4K Cinema 10-bit, and 24h rapid delivery options.\n\n📸 **Flexible Production Packages:**\n${finalCustomPackages
           .map((p) => `• **${p.name}** (${p.cameraCount}): **${p.estimatedPriceVndFormatted}**\n  _${p.highlights}_`)
-          .join('\n\n')}\n\n👉 You can adjust camera/crew options manually below according to your budget, generate a VietQR MB BANK deposit code, or forward this plan to **Zalo 0932513678**!`;
+          .join('\n\n')}\n\n👉 You can adjust camera/crew options manually below according to your budget, generate a VietQR MB BANK deposit code, or forward this plan to **Zalo 0943391369**!`;
       } else {
         aiResponseText = `Chào bạn! Đạo diễn AI của **nhiep.net** đã phân tích kỹ lưỡng yêu cầu của bạn${
           attachments.length > 0 ? ` cùng ${attachments.length} tài liệu/bảng tính/slide đính kèm` : ''
@@ -458,7 +458,7 @@ Please analyze this specific customer request deeply, formulate the production s
           parsedScriptPlan.cameraCrewProposal.drones
         }.\n- **Chất lượng bàn giao**: Quay 4K 10-bit chuẩn điện ảnh, chỉnh màu DaVinci Resolve, trả 100% file gốc.\n\n📦 **Các tùy chọn gói linh hoạt theo ngân sách để bạn lựa chọn:**\n${finalCustomPackages
           .map((p) => `• **${p.name}** (${p.cameraCount}): **${p.estimatedPriceVndFormatted}**\n  _${p.highlights}_`)
-          .join('\n\n')}\n\n👉 Bạn có thể **tự tùy chỉnh thủ công số lượng thợ & flycam** theo ý muốn ở bảng bên dưới, bấm **Thêm vào giỏ hàng**, **Đặt cọc VietQR MB BANK 89052667799** hoặc bấm **Gửi Zalo 0932513678** để giữ lịch ekip ngay!`;
+          .join('\n\n')}\n\n👉 Bạn có thể **tự tùy chỉnh thủ công số lượng thợ & flycam** theo ý muốn ở bảng bên dưới, bấm **Thêm vào giỏ hàng**, **Đặt cọc VietQR MB BANK 89052667799** hoặc bấm **Gửi Zalo 0943391369** để giữ lịch ekip ngay!`;
       }
     }
 

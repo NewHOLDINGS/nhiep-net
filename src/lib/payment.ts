@@ -6,8 +6,8 @@ export const PAYMENT_CONFIG = {
   accountHolder: 'NGUYEN XUAN TOI',
   qrImageStatic: '/qrmb.jpg',
   defaultDepositPercentage: 30, // 30% deposit
-  hotline: '0932513678',
-  zalo: '0932513678'
+  hotline: '0943391369',
+  zalo: '0943391369'
 };
 
 export interface VietQrOptions {
