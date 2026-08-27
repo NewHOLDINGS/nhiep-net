@@ -190,7 +190,7 @@ export default function AiChatbotModal({
   };
 
   const handleOpenQrForCustomPackage = (pkg: CustomPackageOption) => {
-    const randomCode = `NHP-${Math.floor(10000 + Math.random() * 90000)}`;
+    const randomCode = `NHIEP-${Math.floor(10000 + Math.random() * 90000)}`;
     setQrModalData({
       bookingCode: randomCode,
       customerName: user?.name || customerNameInput || 'Khách Hàng',
@@ -201,7 +201,7 @@ export default function AiChatbotModal({
   };
 
   const handleOpenQrFromCustomizer = (config: CustomBuilderConfig) => {
-    const randomCode = `NHP-${Math.floor(10000 + Math.random() * 90000)}`;
+    const randomCode = `NHIEP-${Math.floor(10000 + Math.random() * 90000)}`;
     setQrModalData({
       bookingCode: randomCode,
       customerName: user?.name || customerNameInput || 'Khách Hàng',
@@ -216,7 +216,7 @@ export default function AiChatbotModal({
       type: 'ai_package',
       name: `${planTitle || 'Kịch bản AI'}: ${pkg.name}`,
       priceVnd: pkg.estimatedPriceVnd,
-      depositVnd: Math.round(pkg.estimatedPriceVnd * 0.3),
+      depositVnd: Math.round(pkg.estimatedPriceVnd * 0.4),
       quantity: 1,
       details: `${pkg.cameraCount} • ${pkg.gear}`,
       crewSummary: pkg.crewDetails,
@@ -238,7 +238,7 @@ export default function AiChatbotModal({
   };
 
   const handleSendCustomizerToZalo = (config: CustomBuilderConfig) => {
-    const randomCode = `NHP-${Math.floor(10000 + Math.random() * 90000)}`;
+    const randomCode = `NHIEP-${Math.floor(10000 + Math.random() * 90000)}`;
     const zaloMsg = encodeURIComponent(
       `Chào nhiep.net! Tôi muốn đặt cấu hình quay chụp tùy biến:\n` +
       `- Mã tạm: ${randomCode}\n` +
@@ -286,7 +286,7 @@ export default function AiChatbotModal({
       });
 
       const data = await res.json();
-      const bookingCode = data?.data?.bookingCode || `NHP-${Math.floor(10000 + Math.random() * 90000)}`;
+      const bookingCode = data?.data?.bookingCode || `NHIEP-${Math.floor(10000 + Math.random() * 90000)}`;
 
       const zaloMessage = encodeURIComponent(
         `Chào nhiep.net! Tôi muốn chốt lịch dịch vụ qua AI:\n` +
@@ -526,7 +526,7 @@ export default function AiChatbotModal({
                                     className="w-full py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] font-bold flex items-center justify-center gap-1 transition-colors shadow-sm"
                                   >
                                     <QrCode className="w-3 h-3" />
-                                    <span>Cọc MB BANK 30%</span>
+                                    <span>Cọc MB BANK 40%</span>
                                   </button>
 
                                   {/* Choose Package & Forward */}
@@ -749,7 +749,7 @@ export default function AiChatbotModal({
                     className="w-full py-2.5 rounded-xl bg-brand text-black font-extrabold text-xs flex items-center justify-center gap-2 shadow-glow"
                   >
                     <QrCode className="w-4 h-4" />
-                    <span>Quét VietQR MB BANK Đặt Cọc 30%</span>
+                    <span>Quét VietQR MB BANK Đặt Cọc 40%</span>
                   </button>
                 </div>
               </div>

@@ -729,7 +729,7 @@ export default function CustomerAuthModal({ locale }: { locale: Locale }) {
                             ? 'bg-emerald-500/20 text-emerald-300'
                             : 'bg-amber-500/20 text-amber-300'
                         }`}>
-                          {b.depositStatus === 'paid_deposit' ? 'Đã Cọc 30%' : b.depositStatus === 'paid_full' ? 'Đã Thanh Toán Đủ' : 'Chờ Đặt Cọc VietQR'}
+                          {b.depositStatus === 'paid_deposit' ? 'Đã Cọc 40%' : b.depositStatus === 'paid_full' ? 'Đã Thanh Toán Đủ' : 'Chờ Đặt Cọc VietQR'}
                         </span>
                       </div>
 
@@ -739,7 +739,7 @@ export default function CustomerAuthModal({ locale }: { locale: Locale }) {
                         <div>📅 Ngày: <strong className="text-white">{b.shootDate} ({b.shootTime})</strong></div>
                         <div>📍 Địa điểm: <strong className="text-white">{b.shootAddress || b.provinceId}</strong></div>
                         <div>💰 Tổng tiền: <strong className="text-brand font-mono font-bold">{b.estimatedTotalVnd.toLocaleString('vi-VN')} ₫</strong></div>
-                        <div>💳 Cọc 30%: <strong className="text-white font-mono">{Math.round(b.estimatedTotalVnd * 0.3).toLocaleString('vi-VN')} ₫</strong></div>
+                        <div>💳 Cọc 40%: <strong className="text-white font-mono">{Math.round(b.estimatedTotalVnd * 0.4).toLocaleString('vi-VN')} ₫</strong></div>
                       </div>
 
                       <div className="flex items-center justify-end gap-2 pt-2 border-t border-surface-border/60">
@@ -800,7 +800,7 @@ export default function CustomerAuthModal({ locale }: { locale: Locale }) {
                                   type: 'ai_package',
                                   name: `${q.conceptTitle} - ${pkg.name}`,
                                   priceVnd: pkg.estimatedPriceVnd,
-                                  depositVnd: Math.round(pkg.estimatedPriceVnd * 0.3),
+                                  depositVnd: Math.round(pkg.estimatedPriceVnd * 0.4),
                                   quantity: 1,
                                   details: `${pkg.cameraCount} • ${pkg.gear}`,
                                   crewSummary: pkg.crewDetails

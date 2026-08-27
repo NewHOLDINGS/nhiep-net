@@ -18,7 +18,7 @@
     ],
     "estimatedTotalVnd": 9200000,
     "id": "bk-1787111409894",
-    "bookingCode": "NHP-76286",
+    "bookingCode": "NHIEP-76286",
     "status": "confirmed",
     "createdAt": "2026-08-19T03:50:09.894Z"
   },
@@ -41,13 +41,13 @@
     ],
     "estimatedTotalVnd": 15200000,
     "id": "bk-1787110004903",
-    "bookingCode": "NHP-82129",
+    "bookingCode": "NHIEP-82129",
     "status": "completed",
     "createdAt": "2026-08-19T03:26:44.903Z"
   },
   {
     "id": "bk-1001",
-    "bookingCode": "NHP-78219",
+    "bookingCode": "NHIEP-78219",
     "customerName": "Nguyễn Hoàng Minh",
     "phone": "0988123456",
     "email": "minh.nguyen@vietnamholding.vn",
@@ -70,7 +70,7 @@
   },
   {
     "id": "bk-1002",
-    "bookingCode": "NHP-39104",
+    "bookingCode": "NHIEP-39104",
     "customerName": "Sarah Jenkins",
     "phone": "+84912987654",
     "email": "sarah.j@singaporetech.io",
@@ -92,7 +92,7 @@
   },
   {
     "id": "bk-1003",
-    "bookingCode": "NHP-52871",
+    "bookingCode": "NHIEP-52871",
     "customerName": "Trần Thị Thảo Vy",
     "phone": "0905334455",
     "email": "thaovy.hue@gmail.com",
@@ -115,7 +115,7 @@
   },
   {
     "id": "bk-1004",
-    "bookingCode": "NHP-91240",
+    "bookingCode": "NHIEP-91240",
     "customerName": "Lê Văn Hùng",
     "phone": "0913556677",
     "email": "hung.le@quangtribuild.vn",

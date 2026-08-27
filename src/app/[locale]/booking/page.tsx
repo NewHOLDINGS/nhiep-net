@@ -37,6 +37,7 @@ function BookingForm({ locale }: { locale: Locale }) {
   const [step, setStep] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
   const [bookingResult, setBookingResult] = useState<any>(null);
+  const [depositPercent, setDepositPercent] = useState<number>(40);
 
   // Form states
   const [selectedCategory, setSelectedCategory] = useState<CategoryId>('photography');
@@ -752,15 +753,44 @@ function BookingForm({ locale }: { locale: Locale }) {
                     </div>
                   </div>
                   <span className="px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/40 text-[10px] font-bold">
-                    Cọc 30% để giữ lịch
+                    Cọc {depositPercent}% để giữ lịch
                   </span>
+                </div>
+
+                {/* Deposit percentage Selector */}
+                <div className="flex items-center gap-2 text-xs">
+                  <span className="text-zinc-400 shrink-0 font-medium">Mức thanh toán:</span>
+                  <div className="flex-1 grid grid-cols-2 gap-1.5">
+                    <button
+                      type="button"
+                      onClick={() => setDepositPercent(40)}
+                      className={`py-1.5 rounded-xl font-bold transition-all border ${
+                        depositPercent === 40
+                          ? 'bg-brand text-black border-brand shadow-glow'
+                          : 'bg-surface-elevated text-zinc-300 border-surface-border hover:bg-surface'
+                      }`}
+                    >
+                      Đặt Cọc 40% ({Math.round(bookingResult.estimatedTotalVnd * 0.4).toLocaleString('vi-VN')} ₫)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setDepositPercent(60)}
+                      className={`py-1.5 rounded-xl font-bold transition-all border ${
+                        depositPercent === 60
+                          ? 'bg-brand text-black border-brand shadow-glow'
+                          : 'bg-surface-elevated text-zinc-300 border-surface-border hover:bg-surface'
+                      }`}
+                    >
+                      Đặt Cọc 60% ({Math.round(bookingResult.estimatedTotalVnd * 0.6).toLocaleString('vi-VN')} ₫)
+                    </button>
+                  </div>
                 </div>
 
                 <div className="flex flex-col sm:flex-row items-center gap-4">
                   {/* QR Image Box */}
                   <div className="relative w-44 h-44 bg-white p-2 rounded-2xl shrink-0 shadow-xl overflow-hidden border-2 border-brand flex items-center justify-center">
                     <Image
-                      src={`https://img.vietqr.io/image/970436-89052667799-compact2.jpg?amount=${Math.round(bookingResult.estimatedTotalVnd * 0.3)}&addInfo=${encodeURIComponent(`COC ${bookingResult.bookingCode}`)}&accountName=NGUYEN%20XUAN%20TOI`}
+                      src={`https://img.vietqr.io/image/970422-89052667799-compact2.jpg?amount=${Math.round(bookingResult.estimatedTotalVnd * (depositPercent / 100))}&addInfo=${encodeURIComponent(`NHIEP ${bookingResult.bookingCode}`)}&accountName=NGUYEN%20XUAN%20TOI`}
                       alt="VietQR MB BANK"
                       fill
                       className="object-contain p-1"
@@ -799,9 +829,9 @@ function BookingForm({ locale }: { locale: Locale }) {
 
                     <div className="p-2 rounded-xl bg-brand/10 border border-brand/30 flex items-center justify-between">
                       <div>
-                        <span className="text-[10px] text-zinc-400 block">Số tiền cọc 30%:</span>
+                        <span className="text-[10px] text-zinc-400 block">Số tiền cọc ({depositPercent}%):</span>
                         <span className="font-heading font-black text-brand text-sm sm:text-base">
-                          {Math.round(bookingResult.estimatedTotalVnd * 0.3).toLocaleString('vi-VN')} ₫
+                          {Math.round(bookingResult.estimatedTotalVnd * (depositPercent / 100)).toLocaleString('vi-VN')} ₫
                         </span>
                       </div>
                       <span className="text-[10px] text-zinc-400">(Tổng: {bookingResult.estimatedTotalVnd.toLocaleString('vi-VN')} ₫)</span>
@@ -810,13 +840,13 @@ function BookingForm({ locale }: { locale: Locale }) {
                     <div className="p-2 rounded-xl bg-surface-elevated border border-surface-border/60 flex items-center justify-between">
                       <div>
                         <span className="text-[10px] text-zinc-400 block">Nội dung chuyển khoản:</span>
-                        <span className="font-mono font-bold text-amber-400 text-xs">COC {bookingResult.bookingCode}</span>
+                        <span className="font-mono font-bold text-amber-400 text-xs">NHIEP {bookingResult.bookingCode}</span>
                       </div>
                       <button
                         type="button"
                         onClick={() => {
-                          navigator.clipboard.writeText(`COC ${bookingResult.bookingCode}`);
-                          alert(`Đã sao chép nội dung: COC ${bookingResult.bookingCode}`);
+                          navigator.clipboard.writeText(`NHIEP ${bookingResult.bookingCode}`);
+                          alert(`Đã sao chép nội dung: NHIEP ${bookingResult.bookingCode}`);
                         }}
                         className="px-2.5 py-1 rounded-lg bg-surface hover:bg-brand hover:text-black text-zinc-300 text-[10px] font-bold transition-colors"
                       >

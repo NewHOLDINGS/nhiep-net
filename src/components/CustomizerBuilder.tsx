@@ -54,7 +54,7 @@ export default function CustomizerBuilder({
     (makeupMUA ? PRICE_MUA : 0) +
     (luxuryPhotobook ? PRICE_PHOTOBOOK : 0);
 
-  const deposit30 = Math.round((totalPrice * 0.3) / 10000) * 10000;
+  const deposit40 = Math.round((totalPrice * 0.4) / 10000) * 10000;
 
   const currentConfigObj: CustomBuilderConfig = {
     gimbalOperators,
@@ -65,7 +65,7 @@ export default function CustomizerBuilder({
     makeupMUA,
     luxuryPhotobook,
     totalVnd: totalPrice,
-    depositVnd: deposit30
+    depositVnd: deposit40
   };
 
   const handleAddToCart = () => {
@@ -73,7 +73,7 @@ export default function CustomizerBuilder({
       type: 'custom_builder',
       name: `Cấu hình tự chọn: ${gimbalOperators} Gimbal + ${photographers} Chụp + ${drones} Flycam (${editingQuality.toUpperCase()})`,
       priceVnd: totalPrice,
-      depositVnd: deposit30,
+      depositVnd: deposit40,
       quantity: 1,
       details: `Chất lượng: ${editingQuality.toUpperCase()}${express24h ? ' • Hỏa tốc 24h' : ''}${makeupMUA ? ' • Makeup MUA' : ''}${luxuryPhotobook ? ' • Photobook 30x30' : ''}`,
       crewSummary: `${gimbalOperators + photographers + (drones > 0 ? 1 : 0)} Nhân sự kỹ thuật`,
@@ -262,7 +262,7 @@ export default function CustomizerBuilder({
               {totalPrice.toLocaleString('vi-VN')} ₫
             </span>
             <span className="text-[11px] text-zinc-300">
-              (Cọc giữ lịch 30%: <strong className="text-white">{deposit30.toLocaleString('vi-VN')} ₫</strong>)
+              (Cọc giữ lịch 40%: <strong className="text-white">{deposit40.toLocaleString('vi-VN')} ₫</strong>)
             </span>
           </div>
         </div>

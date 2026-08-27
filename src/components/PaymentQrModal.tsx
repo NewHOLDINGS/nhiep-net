@@ -25,7 +25,7 @@ export default function PaymentQrModal({
   customerName = 'Khách Hàng',
   packageName = 'Dịch Vụ Quay Chụp nhiep.net',
   totalAmountVnd,
-  depositPercentage = 30
+  depositPercentage = 40
 }: PaymentQrModalProps) {
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const [isConfirmedPaid, setIsConfirmedPaid] = useState<boolean>(false);
@@ -35,17 +35,14 @@ export default function PaymentQrModal({
   if (!isOpen) return null;
 
   const depositPercent = customDepositPercent;
-  const currentAmount =
-    depositPercent === 100
-      ? totalAmountVnd
-      : calculateDepositAmount(totalAmountVnd, depositPercent);
+  const currentAmount = calculateDepositAmount(totalAmountVnd, depositPercent);
 
-  const transferMemo = `COC ${bookingCode || 'NHIEPNET'}`;
+  const transferMemo = `NHIEP ${bookingCode || 'DIRECT'}`;
 
   // VietQR Dynamic URL (MB BANK BIN: 970422)
   const dynamicQrUrl = generateVietQrUrl({
     amount: currentAmount,
-    bookingCode: bookingCode || 'NHIEPNET',
+    bookingCode: bookingCode || 'DIRECT',
     customerName,
     memo: transferMemo
   });
@@ -107,7 +104,7 @@ export default function PaymentQrModal({
               <div className="flex items-center justify-between">
                 <span className="text-zinc-400">Mã đơn giữ lịch:</span>
                 <span className="font-mono font-bold text-brand bg-brand/10 px-2 py-0.5 rounded border border-brand/30">
-                  {bookingCode || 'NHP-DIRECT'}
+                  {bookingCode || 'NHIEP-DIRECT'}
                 </span>
               </div>
               <div className="flex items-center justify-between">
@@ -130,25 +127,25 @@ export default function PaymentQrModal({
               <div className="flex-1 grid grid-cols-2 gap-1.5">
                 <button
                   type="button"
-                  onClick={() => setCustomDepositPercent(30)}
+                  onClick={() => setCustomDepositPercent(40)}
                   className={`py-1.5 rounded-xl font-bold transition-all border ${
-                    depositPercent === 30
+                    depositPercent === 40
                       ? 'bg-brand text-black border-brand shadow-glow'
                       : 'bg-surface-elevated text-zinc-300 border-surface-border hover:bg-surface'
                   }`}
                 >
-                  Đặt Cọc 30% ({calculateDepositAmount(totalAmountVnd, 30).toLocaleString('vi-VN')} ₫)
+                  Đặt Cọc 40% ({calculateDepositAmount(totalAmountVnd, 40).toLocaleString('vi-VN')} ₫)
                 </button>
                 <button
                   type="button"
-                  onClick={() => setCustomDepositPercent(100)}
+                  onClick={() => setCustomDepositPercent(60)}
                   className={`py-1.5 rounded-xl font-bold transition-all border ${
-                    depositPercent === 100
+                    depositPercent === 60
                       ? 'bg-brand text-black border-brand shadow-glow'
                       : 'bg-surface-elevated text-zinc-300 border-surface-border hover:bg-surface'
                   }`}
                 >
-                  Toàn Bộ 100% ({totalAmountVnd.toLocaleString('vi-VN')} ₫)
+                  Đặt Cọc 60% ({calculateDepositAmount(totalAmountVnd, 60).toLocaleString('vi-VN')} ₫)
                 </button>
               </div>
             </div>

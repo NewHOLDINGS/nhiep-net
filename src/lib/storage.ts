@@ -12,7 +12,7 @@ const ADMIN_ALLOWED_EMAIL = 'newholding.net@gmail.com';
 const INITIAL_BOOKINGS: Booking[] = [
   {
     id: 'bk-1001',
-    bookingCode: 'NHP-78219',
+    bookingCode: 'NHIEP-78219',
     customerName: 'Nguyễn Hoàng Minh',
     phone: '0988123456',
     email: 'minh.nguyen@vietnamholding.vn',
@@ -32,7 +32,7 @@ const INITIAL_BOOKINGS: Booking[] = [
   },
   {
     id: 'bk-1002',
-    bookingCode: 'NHP-39104',
+    bookingCode: 'NHIEP-39104',
     customerName: 'Sarah Jenkins',
     phone: '+84912987654',
     email: 'sarah.j@singaporetech.io',
@@ -52,7 +52,7 @@ const INITIAL_BOOKINGS: Booking[] = [
   },
   {
     id: 'bk-1003',
-    bookingCode: 'NHP-52871',
+    bookingCode: 'NHIEP-52871',
     customerName: 'Trần Thị Thảo Vy',
     phone: '0905334455',
     email: 'thaovy.hue@gmail.com',
@@ -72,7 +72,7 @@ const INITIAL_BOOKINGS: Booking[] = [
   },
   {
     id: 'bk-1004',
-    bookingCode: 'NHP-91240',
+    bookingCode: 'NHIEP-91240',
     customerName: 'Lê Văn Hùng',
     phone: '0913556677',
     email: 'hung.le@quangtribuild.vn',
@@ -146,7 +146,7 @@ export function getBookings(): Booking[] {
 
 export function saveBooking(booking: Omit<Booking, 'id' | 'bookingCode' | 'createdAt' | 'status'>): Booking {
   const all = getBookings();
-  const randomCode = `NHP-${Math.floor(10000 + Math.random() * 90000)}`;
+  const randomCode = `NHIEP-${Math.floor(10000 + Math.random() * 90000)}`;
   const newBooking: Booking = {
     ...booking,
     id: `bk-${Date.now()}`,

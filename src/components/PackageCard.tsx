@@ -34,7 +34,7 @@ export default function PackageCard({
       type: 'standard_package',
       name,
       priceVnd: pkg.priceVnd,
-      depositVnd: Math.round(pkg.priceVnd * 0.3),
+      depositVnd: Math.round(pkg.priceVnd * 0.4),
       quantity: 1,
       image: pkg.imageUrl,
       details: `${pkg.duration} • ${pkg.crewSize}`,
@@ -175,7 +175,7 @@ export default function PackageCard({
       <PaymentQrModal
         isOpen={isQrOpen}
         onClose={() => setIsQrOpen(false)}
-        bookingCode={`NHP-${Math.floor(10000 + Math.random() * 90000)}`}
+        bookingCode={`NHIEP-${Math.floor(10000 + Math.random() * 90000)}`}
         packageName={name}
         totalAmountVnd={pkg.priceVnd}
       />

@@ -5,7 +5,7 @@ export const PAYMENT_CONFIG = {
   accountNumber: '89052667799',
   accountHolder: 'NGUYEN XUAN TOI',
   qrImageStatic: '/qrmb.jpg',
-  defaultDepositPercentage: 30, // 30% deposit
+  defaultDepositPercentage: 40, // 40% deposit
   hotline: '0943391369',
   zalo: '0943391369'
 };
@@ -22,7 +22,7 @@ export interface VietQrOptions {
  */
 export function generateVietQrUrl(options: VietQrOptions): string {
   const { amount = 0, bookingCode = '', memo = '' } = options;
-  const content = memo || (bookingCode ? `COC NHIEPNET ${bookingCode}` : 'DAT COC DICH VU NHIEP NET');
+  const content = memo || (bookingCode ? `NHIEP ${bookingCode}` : 'NHIEP DAT COC');
   const encodedContent = encodeURIComponent(content.slice(0, 50));
   const encodedAccountName = encodeURIComponent(PAYMENT_CONFIG.accountHolder);
 
@@ -35,9 +35,9 @@ export function generateVietQrUrl(options: VietQrOptions): string {
 }
 
 /**
- * Tính số tiền đặt cọc theo tỷ lệ phần trăm (mặc định 30%)
+ * Tính số tiền đặt cọc theo tỷ lệ phần trăm (mặc định 40%)
  */
-export function calculateDepositAmount(totalVnd: number, percentage = 30): number {
+export function calculateDepositAmount(totalVnd: number, percentage = 40): number {
   if (!totalVnd || totalVnd <= 0) return 1000000; // minimum 1 million VND deposit
   const deposit = Math.round((totalVnd * (percentage / 100)) / 10000) * 10000;
   return Math.max(deposit, 500000);

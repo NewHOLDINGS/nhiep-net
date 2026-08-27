@@ -33,13 +33,13 @@ export default function CartDrawer({ locale }: { locale: Locale }) {
   if (!isCartOpen) return null;
 
   const handleOpenDepositQr = () => {
-    const code = `NHP-CART-${Math.floor(10000 + Math.random() * 90000)}`;
+    const code = `NHIEP-CART-${Math.floor(10000 + Math.random() * 90000)}`;
     setCurrentBookingCode(code);
     setIsQrModalOpen(true);
   };
 
   const handleSendCartToZalo = () => {
-    const code = currentBookingCode || `NHP-CART-${Math.floor(10000 + Math.random() * 90000)}`;
+    const code = currentBookingCode || `NHIEP-CART-${Math.floor(10000 + Math.random() * 90000)}`;
     const itemsSummary = items
       .map((item, idx) => `${idx + 1}. ${item.name} (x${item.quantity}): ${item.priceVnd.toLocaleString('vi-VN')} ₫`)
       .join('\n');
@@ -51,7 +51,7 @@ export default function CartDrawer({ locale }: { locale: Locale }) {
       `- SĐT: ${user?.phone || 'Chưa cung cấp'}\n` +
       `Danh sách dịch vụ:\n${itemsSummary}\n\n` +
       `- Tổng chi phí: ${totalAmount.toLocaleString('vi-VN')} ₫\n` +
-      `- Tiền cọc 30%: ${depositAmount.toLocaleString('vi-VN')} ₫\n` +
+      `- Tiền cọc 40%: ${depositAmount.toLocaleString('vi-VN')} ₫\n` +
       `Nhờ chuyên viên hỗ trợ giữ lịch cho tôi!`
     );
 
@@ -215,8 +215,8 @@ export default function CartDrawer({ locale }: { locale: Locale }) {
 
                   <div className="flex items-center justify-between p-2.5 rounded-xl bg-brand/10 border border-brand/30">
                     <div>
-                      <span className="text-[11px] font-bold text-white block">
-                        Số tiền đặt cọc giữ lịch (30%):
+                      <span className="text-[10px] text-zinc-300 font-bold">
+                        Tiền cọc giữ lịch (40%):
                       </span>
                       <span className="text-[9px] text-zinc-400">
                         Quét VietQR MB BANK 89052667799
@@ -269,7 +269,7 @@ export default function CartDrawer({ locale }: { locale: Locale }) {
       <PaymentQrModal
         isOpen={isQrModalOpen}
         onClose={() => setIsQrModalOpen(false)}
-        bookingCode={currentBookingCode || `NHP-CART-${Math.floor(10000 + Math.random() * 90000)}`}
+        bookingCode={currentBookingCode || `NHIEP-CART-${Math.floor(10000 + Math.random() * 90000)}`}
         packageName={`Giỏ hàng ${items.length} dịch vụ (${items.map((i) => i.name).slice(0, 2).join(', ')})`}
         totalAmountVnd={totalAmount}
       />
