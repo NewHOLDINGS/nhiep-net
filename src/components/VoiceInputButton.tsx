@@ -70,7 +70,13 @@ export default function VoiceInputButton({
       recognition.onerror = (event: any) => {
         console.warn('Speech recognition event warning:', event.error);
         if (event.error === 'not-allowed') {
-          alert('Vui lòng cấp quyền Micro trong trình duyệt để sử dụng tính năng nhập bằng giọng nói.');
+          alert(
+            locale === 'zh'
+              ? '请在浏览器中允许麦克风权限以使用语音输入功能。'
+              : locale === 'en'
+              ? 'Please allow Microphone access in your browser to use voice input.'
+              : 'Vui lòng cấp quyền Micro trong trình duyệt để sử dụng tính năng nhập bằng giọng nói.'
+          );
         }
         setIsListening(false);
         setStatusText('');
@@ -81,6 +87,7 @@ export default function VoiceInputButton({
         setStatusText('');
       };
 
+      recognition.ref = recognition;
       recognitionRef.current = recognition;
     } catch (err) {
       console.warn('Speech recognition initialization error:', err);
@@ -98,7 +105,13 @@ export default function VoiceInputButton({
 
   const toggleListening = () => {
     if (!isSupported) {
-      alert('Trình duyệt của bạn chưa hỗ trợ Web Speech API. Vui lòng sử dụng Chrome, Safari hoặc Edge.');
+      alert(
+        locale === 'zh'
+          ? '您的浏览器暂不支持 Web Speech API，请使用 Chrome、Safari 或 Edge。'
+          : locale === 'en'
+          ? 'Your browser does not support Web Speech API. Please use Chrome, Safari, or Edge.'
+          : 'Trình duyệt của bạn chưa hỗ trợ Web Speech API. Vui lòng sử dụng Chrome, Safari hoặc Edge.'
+      );
       return;
     }
 
@@ -131,7 +144,15 @@ export default function VoiceInputButton({
         disabled={disabled}
         title={
           isListening
-            ? 'Dừng nhận diện giọng nói'
+            ? locale === 'zh'
+              ? '停止语音识别'
+              : locale === 'en'
+              ? 'Stop Voice Recognition'
+              : 'Dừng nhận diện giọng nói'
+            : locale === 'zh'
+            ? '语音输入 (Gemini Voice)'
+            : locale === 'en'
+            ? 'Voice Input (Gemini Voice)'
             : 'Nhập bằng giọng nói (Gemini Voice Input)'
         }
         className={`relative p-2.5 rounded-xl transition-all duration-300 flex items-center justify-center ${
@@ -164,7 +185,13 @@ export default function VoiceInputButton({
         <div className="absolute bottom-12 left-1/2 -translate-x-1/2 px-3 py-1.5 rounded-full bg-surface-elevated/95 border border-red-500/50 shadow-2xl backdrop-blur-md flex items-center gap-2 whitespace-nowrap text-[11px] text-zinc-200 z-30 animate-in fade-in slide-in-from-bottom-2">
           <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
           <span className="font-medium text-white">{statusText}</span>
-          <span className="text-zinc-400 text-[10px]">(Bấm micro để kết thúc)</span>
+          <span className="text-zinc-400 text-[10px]">
+            {locale === 'zh'
+              ? '(点击麦克风结束)'
+              : locale === 'en'
+              ? '(Click mic to finish)'
+              : '(Bấm micro để kết thúc)'}
+          </span>
         </div>
       )}
     </div>

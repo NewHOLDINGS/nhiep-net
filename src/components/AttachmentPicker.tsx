@@ -5,7 +5,7 @@ import {
   Paperclip, Image as ImageIcon, FileText, Mic, Cloud, X, Plus,
   Check, Link2, ExternalLink, Table, Presentation, FileCode, Loader2
 } from 'lucide-react';
-import { ChatAttachment } from '@/types';
+import { Locale, ChatAttachment } from '@/types';
 import { parseUploadedFile, formatFileSize, getFileExtension } from '@/lib/fileParser';
 
 interface AttachmentPickerProps {
@@ -13,14 +13,80 @@ interface AttachmentPickerProps {
   onAddAttachment: (att: ChatAttachment) => void;
   onRemoveAttachment: (id: string) => void;
   disabled?: boolean;
+  locale?: Locale;
 }
+
+const I18N_ATTACH = {
+  vi: {
+    btnTitle: 'Đính kèm tệp: Excel (.xlsx, .ods), HTML, CSV, PowerPoint (.pptx), Word, PDF, Ảnh, Voice hoặc Google Drive',
+    menuHeader: 'Đính Kèm Tư Liệu Phân Tích AI',
+    menuSub: 'Tự Động Đọc Dữ Liệu',
+    docsTitle: 'Bảng tính, Slide & Tài liệu',
+    docsDesc: '.xlsx, .ods, .html, .csv, .pptx, .docx, .pdf',
+    imagesTitle: 'Ảnh mẫu, Moodboard & Concept',
+    imagesDesc: 'JPG, PNG, WEBP, HEIC',
+    voiceTitle: 'Ghi âm giọng nói / Brief Voice',
+    voiceDesc: 'MP3, WAV, M4A, AAC',
+    driveTitle: 'Link Thư Mục Google Drive',
+    driveDesc: 'Folder chứa ảnh mẫu / kịch bản',
+    driveModalTitle: 'Thêm Liên Kết Google Drive',
+    urlLabel: 'Đường dẫn liên kết (URL):',
+    noteLabel: 'Ghi chú tóm tắt (tùy chọn):',
+    notePlaceholder: 'Ví dụ: Kế hoạch quay hội nghị resort & danh sách cảnh...',
+    cancelBtn: 'Hủy',
+    confirmBtn: 'Xác Nhận Đính Kèm',
+    parsedBadge: 'Đã Đọc'
+  },
+  en: {
+    btnTitle: 'Attach files: Excel (.xlsx, .ods), HTML, CSV, PowerPoint (.pptx), Word, PDF, Images, Audio, or Google Drive',
+    menuHeader: 'Attach Project Files for AI Analysis',
+    menuSub: 'Auto Data Extraction',
+    docsTitle: 'Spreadsheets, Slides & Docs',
+    docsDesc: '.xlsx, .ods, .html, .csv, .pptx, .docx, .pdf',
+    imagesTitle: 'Concept Images & Moodboards',
+    imagesDesc: 'JPG, PNG, WEBP, HEIC',
+    voiceTitle: 'Voice Recordings / Audio Briefs',
+    voiceDesc: 'MP3, WAV, M4A, AAC',
+    driveTitle: 'Google Drive Folder Link',
+    driveDesc: 'Folder containing concept media or scripts',
+    driveModalTitle: 'Add Google Drive Link',
+    urlLabel: 'Folder / File URL:',
+    noteLabel: 'Brief Note (Optional):',
+    notePlaceholder: 'e.g. Resort conference schedule & scene checklist...',
+    cancelBtn: 'Cancel',
+    confirmBtn: 'Attach Link',
+    parsedBadge: 'Parsed'
+  },
+  zh: {
+    btnTitle: '添加附件：Excel (.xlsx, .ods)、HTML、CSV、PowerPoint (.pptx)、Word、PDF、图片、录音或云盘链接',
+    menuHeader: '上传策划文件由 AI 深度解析',
+    menuSub: '自动提取数据',
+    docsTitle: '数据表格、幻灯片与文档',
+    docsDesc: '.xlsx, .ods, .html, .csv, .pptx, .docx, .pdf',
+    imagesTitle: '参考图片、情绪板与灵感图',
+    imagesDesc: 'JPG, PNG, WEBP, HEIC',
+    voiceTitle: '语音录音 / 需求音频',
+    voiceDesc: 'MP3, WAV, M4A, AAC',
+    driveTitle: 'Google Drive / 云盘链接',
+    driveDesc: '存放参考图片或剧本的文件夹',
+    driveModalTitle: '添加 Google Drive / 云盘链接',
+    urlLabel: '链接地址 (URL)：',
+    noteLabel: '简要备注（可选）：',
+    notePlaceholder: '例如：度假村会议日程与拍摄清单...',
+    cancelBtn: '取消',
+    confirmBtn: '确认添加',
+    parsedBadge: '已提取'
+  }
+};
 
 export default function AttachmentPicker({
   attachments,
   onAddAttachment,
   onRemoveAttachment,
-  disabled = false
+  disabled = false,
+  locale = 'vi'
 }: AttachmentPickerProps) {
+  const t = I18N_ATTACH[locale] || I18N_ATTACH.vi;
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [isDriveModalOpen, setIsDriveModalOpen] = useState(false);
   const [driveUrlInput, setDriveUrlInput] = useState('');
@@ -116,7 +182,7 @@ export default function AttachmentPicker({
         type="button"
         onClick={() => setIsOpenMenu(!isOpenMenu)}
         disabled={disabled || isParsing}
-        title="Đính kèm tệp: Excel (.xlsx, .ods), HTML, CSV, PowerPoint (.pptx), Word, PDF, Ảnh, Voice hoặc Google Drive"
+        title={t.btnTitle}
         className={`p-2.5 rounded-xl transition-colors flex items-center justify-center ${
           isOpenMenu || attachments.length > 0
             ? 'bg-brand/20 text-brand border border-brand/50 shadow-glow'
@@ -134,8 +200,8 @@ export default function AttachmentPicker({
       {isOpenMenu && (
         <div className="absolute bottom-12 left-0 w-80 glass-panel bg-surface-card rounded-2xl border border-surface-border p-2.5 shadow-2xl z-30 animate-in fade-in slide-in-from-bottom-2 space-y-1">
           <div className="px-3 py-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-wider border-b border-surface-border/50 flex items-center justify-between">
-            <span>Đính Kèm Tư Liệu Phân Tích AI</span>
-            <span className="text-brand text-[9px] font-mono">Tự Động Đọc Dữ Liệu</span>
+            <span>{t.menuHeader}</span>
+            <span className="text-brand text-[9px] font-mono">{t.menuSub}</span>
           </div>
 
           {/* 1. Spreadsheets & Presentations & Documents (.xlsx, .ods, .html, .csv, .pptx) */}
@@ -149,10 +215,10 @@ export default function AttachmentPicker({
             </div>
             <div>
               <p className="font-bold text-white group-hover:text-brand transition-colors">
-                Bảng tính, Slide & Tài liệu
+                {t.docsTitle}
               </p>
               <p className="text-[10px] text-zinc-400">
-                .xlsx, .ods, .html, .csv, .pptx, .docx, .pdf
+                {t.docsDesc}
               </p>
             </div>
           </button>
@@ -168,9 +234,9 @@ export default function AttachmentPicker({
             </div>
             <div>
               <p className="font-bold text-white group-hover:text-brand transition-colors">
-                Ảnh mẫu, Moodboard & Concept
+                {t.imagesTitle}
               </p>
-              <p className="text-[10px] text-zinc-400">JPG, PNG, WEBP, HEIC</p>
+              <p className="text-[10px] text-zinc-400">{t.imagesDesc}</p>
             </div>
           </button>
 
@@ -185,9 +251,9 @@ export default function AttachmentPicker({
             </div>
             <div>
               <p className="font-bold text-white group-hover:text-brand transition-colors">
-                Ghi âm giọng nói / Brief Voice
+                {t.voiceTitle}
               </p>
-              <p className="text-[10px] text-zinc-400">MP3, WAV, M4A, AAC</p>
+              <p className="text-[10px] text-zinc-400">{t.voiceDesc}</p>
             </div>
           </button>
 
@@ -205,9 +271,9 @@ export default function AttachmentPicker({
             </div>
             <div>
               <p className="font-bold text-white group-hover:text-brand transition-colors">
-                Link Thư Mục Google Drive
+                {t.driveTitle}
               </p>
-              <p className="text-[10px] text-zinc-400">Folder chứa ảnh mẫu / kịch bản</p>
+              <p className="text-[10px] text-zinc-400">{t.driveDesc}</p>
             </div>
           </button>
         </div>
@@ -220,7 +286,7 @@ export default function AttachmentPicker({
             <div className="flex items-center justify-between border-b border-surface-border pb-3">
               <div className="flex items-center gap-2">
                 <Cloud className="w-5 h-5 text-brand" />
-                <h4 className="font-bold text-sm text-white">Thêm Liên Kết Google Drive</h4>
+                <h4 className="font-bold text-sm text-white">{t.driveModalTitle}</h4>
               </div>
               <button
                 onClick={() => setIsDriveModalOpen(false)}
@@ -233,7 +299,7 @@ export default function AttachmentPicker({
             <form onSubmit={handleSaveDriveLink} className="space-y-3">
               <div>
                 <label className="block text-xs font-semibold text-zinc-300 mb-1">
-                  Đường dẫn liên kết (URL):
+                  {t.urlLabel}
                 </label>
                 <input
                   type="url"
@@ -247,11 +313,11 @@ export default function AttachmentPicker({
 
               <div>
                 <label className="block text-xs font-semibold text-zinc-300 mb-1">
-                  Ghi chú tóm tắt (tùy chọn):
+                  {t.noteLabel}
                 </label>
                 <input
                   type="text"
-                  placeholder="Ví dụ: Kế hoạch quay hội nghị resort & danh sách cảnh..."
+                  placeholder={t.notePlaceholder}
                   value={driveNoteInput}
                   onChange={(e) => setDriveNoteInput(e.target.value)}
                   className="w-full bg-surface-muted border border-surface-border rounded-xl px-3 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-brand"
@@ -264,13 +330,13 @@ export default function AttachmentPicker({
                   onClick={() => setIsDriveModalOpen(false)}
                   className="px-3 py-1.5 rounded-xl bg-surface-elevated text-zinc-300 text-xs font-medium hover:text-white"
                 >
-                  Hủy
+                  {t.cancelBtn}
                 </button>
                 <button
                   type="submit"
                   className="px-4 py-1.5 rounded-xl bg-brand text-black text-xs font-bold hover:bg-brand-400 shadow-glow"
                 >
-                  Xác Nhận Đính Kèm
+                  {t.confirmBtn}
                 </button>
               </div>
             </form>
@@ -286,12 +352,15 @@ export default function AttachmentPicker({
  */
 export function AttachmentListPreview({
   attachments,
-  onRemove
+  onRemove,
+  locale = 'vi'
 }: {
   attachments: ChatAttachment[];
   onRemove: (id: string) => void;
+  locale?: Locale;
 }) {
   if (!attachments || attachments.length === 0) return null;
+  const badgeText = locale === 'zh' ? '已提取' : locale === 'en' ? 'Parsed' : 'Đã Đọc';
 
   return (
     <div className="flex items-center gap-2 overflow-x-auto pb-2 mb-2 no-scrollbar">
@@ -321,7 +390,7 @@ export function AttachmentListPreview({
             {att.size && <span className="text-[9px] text-zinc-400">({att.size})</span>}
             {att.textContent && (
               <span className="text-[8px] px-1 py-0.2 rounded bg-emerald-500/20 text-emerald-300 font-bold">
-                Đã Đọc
+                {badgeText}
               </span>
             )}
 
