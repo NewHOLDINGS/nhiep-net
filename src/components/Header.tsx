@@ -81,10 +81,12 @@ export default function Header({ locale }: { locale: Locale }) {
                 type="button"
                 onClick={openCart}
                 className="relative p-2 sm:px-3 sm:py-2 rounded-xl bg-surface-elevated hover:bg-surface border border-surface-border hover:border-brand/50 text-zinc-200 hover:text-brand transition-all flex items-center gap-1.5"
-                title="Xem giỏ hàng dịch vụ"
+                title={locale === 'zh' ? '查看购物车' : locale === 'en' ? 'View Cart' : 'Xem giỏ hàng dịch vụ'}
               >
                 <ShoppingBag className="w-4 h-4 text-brand" />
-                <span className="hidden sm:inline text-xs font-bold">Giỏ Hàng</span>
+                <span className="hidden sm:inline text-xs font-bold">
+                  {locale === 'zh' ? '购物车' : locale === 'en' ? 'Cart' : 'Giỏ Hàng'}
+                </span>
                 {totalCount > 0 && (
                   <span className="w-5 h-5 rounded-full bg-brand text-black font-black text-[10px] flex items-center justify-center animate-pulse">
                     {totalCount}
@@ -97,7 +99,7 @@ export default function Header({ locale }: { locale: Locale }) {
                 type="button"
                 onClick={openAuthModal}
                 className="p-1.5 sm:px-3 sm:py-2 rounded-xl bg-surface-elevated hover:bg-surface border border-surface-border hover:border-brand/50 text-zinc-200 hover:text-brand transition-all flex items-center gap-2"
-                title="Tài khoản khách hàng"
+                title={locale === 'zh' ? '客户账户' : locale === 'en' ? 'Customer Account' : 'Tài khoản khách hàng'}
               >
                 {user?.avatar ? (
                   <div className="w-5 h-5 rounded-full overflow-hidden border border-brand/40 shrink-0">
@@ -107,7 +109,7 @@ export default function Header({ locale }: { locale: Locale }) {
                   <User className="w-4 h-4 text-brand" />
                 )}
                 <span className="hidden sm:inline text-xs font-bold max-w-[100px] truncate">
-                  {user ? user.name : 'Đăng Nhập'}
+                  {user ? user.name : (locale === 'zh' ? '登录' : locale === 'en' ? 'Sign In' : 'Đăng Nhập')}
                 </span>
               </button>
 
@@ -170,7 +172,13 @@ export default function Header({ locale }: { locale: Locale }) {
                   className="flex items-center justify-center gap-2 py-3 rounded-xl bg-surface-elevated border border-brand/40 text-white font-bold text-sm"
                 >
                   <ShoppingBag className="w-4 h-4 text-brand" />
-                  <span>Giỏ Hàng Dịch Vụ ({totalCount})</span>
+                  <span>
+                    {locale === 'zh'
+                      ? `服务购物车 (${totalCount})`
+                      : locale === 'en'
+                      ? `Service Cart (${totalCount})`
+                      : `Giỏ Hàng Dịch Vụ (${totalCount})`}
+                  </span>
                 </button>
 
                 <button
@@ -188,7 +196,15 @@ export default function Header({ locale }: { locale: Locale }) {
                   ) : (
                     <User className="w-4 h-4 text-brand" />
                   )}
-                  <span>{user ? `Tài Khoản: ${user.name}` : 'Đăng Nhập Khách Hàng (1-Chạm)'}</span>
+                  <span>
+                    {user
+                      ? `${locale === 'zh' ? '客户：' : locale === 'en' ? 'Account: ' : 'Tài Khoản: '}${user.name}`
+                      : locale === 'zh'
+                      ? '一键快速登录'
+                      : locale === 'en'
+                      ? '1-Tap Sign In'
+                      : 'Đăng Nhập Khách Hàng (1-Chạm)'}
+                  </span>
                 </button>
 
                 <a

@@ -6,6 +6,7 @@ import {
   QrCode, Copy, Check, ExternalLink, ShieldCheck, X,
   Phone, Sparkles, CheckCircle2, Image as ImageIcon, Download
 } from 'lucide-react';
+import { Locale } from '@/types';
 import { PAYMENT_CONFIG, generateVietQrUrl, calculateDepositAmount } from '@/lib/payment';
 
 interface PaymentQrModalProps {
@@ -16,7 +17,89 @@ interface PaymentQrModalProps {
   packageName?: string;
   totalAmountVnd: number;
   depositPercentage?: number;
+  locale?: Locale;
 }
+
+const I18N_MODAL = {
+  vi: {
+    headerTitle: 'Thanh Toán VietQR MB BANK',
+    headerSub: 'MB BANK 89052667799 • NGUYEN XUAN TOI',
+    bookingCodeLabel: 'Mã đơn giữ lịch:',
+    packageLabel: 'Gói dịch vụ:',
+    totalValueLabel: 'Tổng giá trị hợp đồng:',
+    depositOptionLabel: 'Mức thanh toán:',
+    deposit40: 'Đặt Cọc 40%',
+    deposit60: 'Đặt Cọc 60%',
+    dynamicQrTab: 'Mã QR Tự Động Điền Tiền',
+    officialQrTab: 'Mã QR Gốc MB BANK',
+    bankLabel: 'Ngân hàng thụ hưởng:',
+    accountLabel: 'Số tài khoản:',
+    holderLabel: 'Chủ tài khoản:',
+    depositAmountLabel: 'Số tiền cọc',
+    memoLabel: 'Nội dung chuyển khoản:',
+    copyBtn: 'Sao chép',
+    copiedBtn: 'Đã chép',
+    sendReceiptZalo: `Gửi Biên Lai Qua Zalo (${PAYMENT_CONFIG.zalo})`,
+    confirmPaid: 'Tôi Đã Chuyển Khoản Xong',
+    successTitle: 'Xác Nhận Đặt Cọc Thành Công!',
+    orderCodePrefix: 'Mã đơn hàng:',
+    successDesc: `Hệ thống nhiep.net đã ghi nhận thông tin đặt cọc qua MB BANK (89052667799). Ekip sẽ gọi điện và gửi hợp đồng xác nhận qua Zalo trong vòng 15 phút.`,
+    chatZaloNow: `Nhắn Zalo Với Ekip Ngay (${PAYMENT_CONFIG.zalo})`,
+    closeBtn: 'Đóng'
+  },
+  en: {
+    headerTitle: 'VietQR MB BANK Payment',
+    headerSub: 'MB BANK 89052667799 • NGUYEN XUAN TOI',
+    bookingCodeLabel: 'Reservation Code:',
+    packageLabel: 'Service Package:',
+    totalValueLabel: 'Total Contract Value:',
+    depositOptionLabel: 'Deposit Amount:',
+    deposit40: '40% Deposit',
+    deposit60: '60% Deposit',
+    dynamicQrTab: 'Auto-Filled QR Code',
+    officialQrTab: 'MB BANK Official QR',
+    bankLabel: 'Beneficiary Bank:',
+    accountLabel: 'Account Number:',
+    holderLabel: 'Account Holder:',
+    depositAmountLabel: 'Deposit Amount',
+    memoLabel: 'Transfer Memo / Remark:',
+    copyBtn: 'Copy',
+    copiedBtn: 'Copied',
+    sendReceiptZalo: `Send Receipt via WhatsApp/Zalo (${PAYMENT_CONFIG.zalo})`,
+    confirmPaid: 'I Have Completed Transfer',
+    successTitle: 'Deposit Notice Received Successfully!',
+    orderCodePrefix: 'Order Code:',
+    successDesc: `nhiep.net has received your deposit notice via MB BANK (89052667799). Our team will call and send confirmation via WhatsApp/Zalo within 15 minutes.`,
+    chatZaloNow: `Chat via WhatsApp/Zalo (${PAYMENT_CONFIG.zalo})`,
+    closeBtn: 'Close'
+  },
+  zh: {
+    headerTitle: 'VietQR 越南军队银行扫码支付',
+    headerSub: 'MB BANK 89052667799 • NGUYEN XUAN TOI',
+    bookingCodeLabel: '预约订单编号：',
+    packageLabel: '服务套餐：',
+    totalValueLabel: '合同总金额：',
+    depositOptionLabel: '订金比例：',
+    deposit40: '支付 40% 订金',
+    deposit60: '支付 60% 订金',
+    dynamicQrTab: '自动填额动态二维码',
+    officialQrTab: 'MB BANK 官方固定码',
+    bankLabel: '收款银行：',
+    accountLabel: '银行账号：',
+    holderLabel: '收款户名：',
+    depositAmountLabel: '订金金额',
+    memoLabel: '转账附言/备注：',
+    copyBtn: '复制',
+    copiedBtn: '已复制',
+    sendReceiptZalo: `发送付款凭证至客服 (${PAYMENT_CONFIG.zalo})`,
+    confirmPaid: '我已完成转账支付',
+    successTitle: '订金支付确认成功！',
+    orderCodePrefix: '订单编号：',
+    successDesc: `nhiep.net 系统已记录您的 MB BANK (89052667799) 订金付款凭证。团队将在15分钟内致电并发送档期确认函。`,
+    chatZaloNow: `立即联系专属客服 (${PAYMENT_CONFIG.zalo})`,
+    closeBtn: '关闭'
+  }
+};
 
 export default function PaymentQrModal({
   isOpen,
@@ -25,8 +108,10 @@ export default function PaymentQrModal({
   customerName = 'Khách Hàng',
   packageName = 'Dịch Vụ Quay Chụp nhiep.net',
   totalAmountVnd,
-  depositPercentage = 40
+  depositPercentage = 40,
+  locale = 'vi'
 }: PaymentQrModalProps) {
+  const t = I18N_MODAL[locale] || I18N_MODAL.vi;
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const [isConfirmedPaid, setIsConfirmedPaid] = useState<boolean>(false);
   const [qrType, setQrType] = useState<'dynamic' | 'official'>('dynamic');
@@ -59,15 +144,14 @@ export default function PaymentQrModal({
     setIsConfirmedPaid(true);
   };
 
-  const zaloNoticeUrl = `https://zalo.me/${PAYMENT_CONFIG.zalo}?text=${encodeURIComponent(
-    `Chào nhiep.net! Tôi vừa quét mã VietQR MB BANK đặt cọc cho đơn hàng:\n` +
-    `- Mã đơn: ${bookingCode}\n` +
-    `- Khách hàng: ${customerName}\n` +
-    `- Gói: ${packageName}\n` +
-    `- Số tiền cọc: ${currentAmount.toLocaleString('vi-VN')} ₫\n` +
-    `- Ngân hàng thụ hưởng: MB BANK 89052667799 (NGUYEN XUAN TOI)\n` +
-    `Nhờ chuyên viên kiểm tra và gửi xác nhận hợp đồng giữ lịch giúp tôi!`
-  )}`;
+  let zaloMessage = `Chào nhiep.net! Tôi vừa quét mã VietQR MB BANK đặt cọc cho đơn hàng:\n- Mã đơn: ${bookingCode}\n- Khách hàng: ${customerName}\n- Gói: ${packageName}\n- Số tiền cọc: ${currentAmount.toLocaleString('vi-VN')} ₫\n- Ngân hàng thụ hưởng: MB BANK 89052667799 (NGUYEN XUAN TOI)\nNhờ chuyên viên kiểm tra và gửi xác nhận hợp đồng giữ lịch giúp tôi!`;
+  if (locale === 'en') {
+    zaloMessage = `Hello nhiep.net! I have completed the deposit payment via VietQR MB BANK:\n- Booking Code: ${bookingCode}\n- Customer: ${customerName}\n- Package: ${packageName}\n- Deposit: ${currentAmount.toLocaleString('vi-VN')} VND\n- Beneficiary: MB BANK 89052667799 (NGUYEN XUAN TOI)\nPlease verify and confirm my reservation!`;
+  } else if (locale === 'zh') {
+    zaloMessage = `您好 nhiep.net！我已通过 VietQR MB BANK 完成订金转账：\n- 订单号：${bookingCode}\n- 客户姓名：${customerName}\n- 套餐：${packageName}\n- 订金金额：${currentAmount.toLocaleString('vi-VN')} ₫\n- 收款账户：MB BANK 89052667799 (NGUYEN XUAN TOI)\n请专员核验并确认档期！`;
+  }
+
+  const zaloNoticeUrl = `https://zalo.me/${PAYMENT_CONFIG.zalo}?text=${encodeURIComponent(zaloMessage)}`;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
@@ -80,11 +164,11 @@ export default function PaymentQrModal({
             </div>
             <div>
               <h3 className="font-heading font-black text-base sm:text-lg text-white flex items-center gap-2">
-                Thanh Toán VietQR MB BANK
+                {t.headerTitle}
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               </h3>
               <p className="text-[11px] text-zinc-400">
-                MB BANK 89052667799 • NGUYEN XUAN TOI
+                {t.headerSub}
               </p>
             </div>
           </div>
@@ -102,19 +186,19 @@ export default function PaymentQrModal({
             {/* Booking & Package Summary Card */}
             <div className="p-3.5 rounded-2xl bg-surface-elevated border border-surface-border space-y-2 text-xs">
               <div className="flex items-center justify-between">
-                <span className="text-zinc-400">Mã đơn giữ lịch:</span>
+                <span className="text-zinc-400">{t.bookingCodeLabel}</span>
                 <span className="font-mono font-bold text-brand bg-brand/10 px-2 py-0.5 rounded border border-brand/30">
                   {bookingCode || 'NHIEP-DIRECT'}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-zinc-400">Gói dịch vụ:</span>
+                <span className="text-zinc-400">{t.packageLabel}</span>
                 <span className="font-bold text-white max-w-[240px] truncate text-right">
                   {packageName}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-zinc-400">Tổng giá trị hợp đồng:</span>
+                <span className="text-zinc-400">{t.totalValueLabel}</span>
                 <span className="font-mono font-bold text-zinc-300">
                   {totalAmountVnd.toLocaleString('vi-VN')} ₫
                 </span>
@@ -123,7 +207,7 @@ export default function PaymentQrModal({
 
             {/* Deposit percentage Selector */}
             <div className="flex items-center gap-2 text-xs">
-              <span className="text-zinc-400 shrink-0 font-medium">Mức thanh toán:</span>
+              <span className="text-zinc-400 shrink-0 font-medium">{t.depositOptionLabel}</span>
               <div className="flex-1 grid grid-cols-2 gap-1.5">
                 <button
                   type="button"
@@ -134,7 +218,7 @@ export default function PaymentQrModal({
                       : 'bg-surface-elevated text-zinc-300 border-surface-border hover:bg-surface'
                   }`}
                 >
-                  Đặt Cọc 40% ({calculateDepositAmount(totalAmountVnd, 40).toLocaleString('vi-VN')} ₫)
+                  {t.deposit40} ({calculateDepositAmount(totalAmountVnd, 40).toLocaleString('vi-VN')} ₫)
                 </button>
                 <button
                   type="button"
@@ -145,7 +229,7 @@ export default function PaymentQrModal({
                       : 'bg-surface-elevated text-zinc-300 border-surface-border hover:bg-surface'
                   }`}
                 >
-                  Đặt Cọc 60% ({calculateDepositAmount(totalAmountVnd, 60).toLocaleString('vi-VN')} ₫)
+                  {t.deposit60} ({calculateDepositAmount(totalAmountVnd, 60).toLocaleString('vi-VN')} ₫)
                 </button>
               </div>
             </div>
@@ -160,7 +244,7 @@ export default function PaymentQrModal({
                 }`}
               >
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>Mã QR Tự Động Điền Tiền</span>
+                <span>{t.dynamicQrTab}</span>
               </button>
               <button
                 type="button"
@@ -170,7 +254,7 @@ export default function PaymentQrModal({
                 }`}
               >
                 <ImageIcon className="w-3.5 h-3.5" />
-                <span>Mã QR Gốc MB BANK</span>
+                <span>{t.officialQrTab}</span>
               </button>
             </div>
 
@@ -190,13 +274,13 @@ export default function PaymentQrModal({
               {/* Bank Details */}
               <div className="flex-1 text-xs space-y-2 w-full">
                 <div className="p-2 rounded-xl bg-surface border border-surface-border/60">
-                  <span className="text-[10px] text-zinc-400 block">Ngân hàng thụ hưởng:</span>
+                  <span className="text-[10px] text-zinc-400 block">{t.bankLabel}</span>
                   <span className="font-bold text-white text-xs">{PAYMENT_CONFIG.bankName}</span>
                 </div>
 
                 <div className="p-2 rounded-xl bg-surface border border-surface-border/60 flex items-center justify-between">
                   <div>
-                    <span className="text-[10px] text-zinc-400 block">Số tài khoản:</span>
+                    <span className="text-[10px] text-zinc-400 block">{t.accountLabel}</span>
                     <span className="font-mono font-bold text-brand text-sm tracking-wider">
                       {PAYMENT_CONFIG.accountNumber}
                     </span>
@@ -207,20 +291,20 @@ export default function PaymentQrModal({
                     className="px-2.5 py-1 rounded-lg bg-surface-elevated hover:bg-brand hover:text-black text-zinc-300 text-[10px] font-bold transition-colors flex items-center gap-1"
                   >
                     {copiedField === 'acc' ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
-                    <span>{copiedField === 'acc' ? 'Đã chép' : 'Sao chép'}</span>
+                    <span>{copiedField === 'acc' ? t.copiedBtn : t.copyBtn}</span>
                   </button>
                 </div>
 
                 <div className="p-2 rounded-xl bg-surface border border-surface-border/60 flex items-center justify-between">
                   <div>
-                    <span className="text-[10px] text-zinc-400 block">Chủ tài khoản:</span>
+                    <span className="text-[10px] text-zinc-400 block">{t.holderLabel}</span>
                     <span className="font-bold text-white uppercase text-xs">{PAYMENT_CONFIG.accountHolder}</span>
                   </div>
                 </div>
 
                 <div className="p-2 rounded-xl bg-brand/10 border border-brand/30 flex items-center justify-between">
                   <div>
-                    <span className="text-[10px] text-zinc-400 block">Số tiền cọc ({depositPercent}%):</span>
+                    <span className="text-[10px] text-zinc-400 block">{t.depositAmountLabel} ({depositPercent}%):</span>
                     <span className="font-heading font-black text-brand text-base">
                       {currentAmount.toLocaleString('vi-VN')} ₫
                     </span>
@@ -231,13 +315,13 @@ export default function PaymentQrModal({
                     className="px-2 py-1 rounded-lg bg-brand text-black text-[10px] font-extrabold hover:bg-brand-400 transition-colors flex items-center gap-1 shadow-sm"
                   >
                     {copiedField === 'amount' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
-                    <span>{copiedField === 'amount' ? 'Đã chép' : 'Sao chép'}</span>
+                    <span>{copiedField === 'amount' ? t.copiedBtn : t.copyBtn}</span>
                   </button>
                 </div>
 
                 <div className="p-2 rounded-xl bg-surface border border-surface-border/60 flex items-center justify-between">
                   <div>
-                    <span className="text-[10px] text-zinc-400 block">Nội dung chuyển khoản:</span>
+                    <span className="text-[10px] text-zinc-400 block">{t.memoLabel}</span>
                     <span className="font-mono font-bold text-amber-400 text-xs">{transferMemo}</span>
                   </div>
                   <button
@@ -246,7 +330,7 @@ export default function PaymentQrModal({
                     className="px-2 py-1 rounded-lg bg-surface-elevated hover:bg-brand hover:text-black text-zinc-300 text-[10px] font-bold transition-colors flex items-center gap-1"
                   >
                     {copiedField === 'memo' ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
-                    <span>{copiedField === 'memo' ? 'Đã chép' : 'Sao chép'}</span>
+                    <span>{copiedField === 'memo' ? t.copiedBtn : t.copyBtn}</span>
                   </button>
                 </div>
               </div>
@@ -261,7 +345,7 @@ export default function PaymentQrModal({
                 className="flex-1 py-3 px-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg transition-colors"
               >
                 <ExternalLink className="w-4 h-4" />
-                <span>Gửi Biên Lai Qua Zalo ({PAYMENT_CONFIG.zalo})</span>
+                <span>{t.sendReceiptZalo}</span>
               </a>
 
               <button
@@ -270,7 +354,7 @@ export default function PaymentQrModal({
                 className="flex-1 py-3 px-4 rounded-xl bg-brand text-black font-extrabold text-xs hover:bg-brand-400 transition-colors flex items-center justify-center gap-2 shadow-glow"
               >
                 <CheckCircle2 className="w-4 h-4" />
-                <span>Tôi Đã Chuyển Khoản Xong</span>
+                <span>{t.confirmPaid}</span>
               </button>
             </div>
           </div>
@@ -282,12 +366,12 @@ export default function PaymentQrModal({
             </div>
 
             <div>
-              <h4 className="font-heading font-black text-xl text-white">Xác Nhận Đặt Cọc Thành Công!</h4>
+              <h4 className="font-heading font-black text-xl text-white">{t.successTitle}</h4>
               <p className="text-xs text-zinc-300 mt-1">
-                Mã đơn hàng: <strong className="text-brand font-mono font-bold text-sm">{bookingCode}</strong>
+                {t.orderCodePrefix} <strong className="text-brand font-mono font-bold text-sm">{bookingCode}</strong>
               </p>
               <p className="text-[11px] text-zinc-400 mt-1 max-w-sm mx-auto">
-                Hệ thống nhiep.net đã ghi nhận thanh toán cọc {currentAmount.toLocaleString('vi-VN')} ₫ qua MB BANK (89052667799). Ekip sẽ gọi điện và gửi hợp đồng xác nhận qua Zalo trong vòng 15 phút.
+                {t.successDesc}
               </p>
             </div>
 
@@ -298,7 +382,7 @@ export default function PaymentQrModal({
                 rel="noopener noreferrer"
                 className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold flex items-center justify-center gap-2 shadow-lg"
               >
-                <span>Nhắn Zalo Với Ekip Ngay ({PAYMENT_CONFIG.zalo})</span>
+                <span>{t.chatZaloNow}</span>
                 <ExternalLink className="w-3.5 h-3.5" />
               </a>
               <button
@@ -306,7 +390,7 @@ export default function PaymentQrModal({
                 onClick={onClose}
                 className="w-full py-2.5 rounded-xl bg-surface-elevated text-zinc-300 text-xs font-medium hover:text-white"
               >
-                Đóng
+                {t.closeBtn}
               </button>
             </div>
           </div>

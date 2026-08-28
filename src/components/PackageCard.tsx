@@ -125,7 +125,7 @@ export default function PackageCard({
             <div className="flex items-center justify-between">
               <div>
                 <span className="text-[10px] text-zinc-400 uppercase tracking-wider block">
-                  Giá trọn gói
+                  {locale === 'zh' ? '全包价格' : locale === 'en' ? 'Package Price' : 'Giá trọn gói'}
                 </span>
                 <span className="font-heading font-black text-xl text-brand">
                   {pkg.priceVndFormatted}
@@ -137,7 +137,7 @@ export default function PackageCard({
                 <button
                   type="button"
                   onClick={handleAddToCart}
-                  title="Thêm gói vào giỏ hàng"
+                  title={locale === 'zh' ? '加入购物车' : locale === 'en' ? 'Add package to cart' : 'Thêm gói vào giỏ hàng'}
                   className="p-2.5 rounded-xl bg-surface-elevated hover:bg-surface border border-surface-border hover:border-brand/40 text-zinc-300 hover:text-brand font-bold text-xs flex items-center gap-1 transition-colors"
                 >
                   {addedNotice ? (
@@ -151,7 +151,7 @@ export default function PackageCard({
                 <button
                   type="button"
                   onClick={() => setIsQrOpen(true)}
-                  title="Đặt cọc giữ lịch nhanh qua VietQR MB BANK"
+                  title={locale === 'zh' ? '通过VietQR MB扫码支付订金' : locale === 'en' ? 'Instant VietQR MB Deposit' : 'Đặt cọc giữ lịch nhanh qua VietQR MB BANK'}
                   className="p-2.5 rounded-xl bg-surface-elevated hover:bg-surface border border-brand/50 text-white font-bold text-xs flex items-center gap-1 transition-colors"
                 >
                   <QrCode className="w-4 h-4 text-brand" />
