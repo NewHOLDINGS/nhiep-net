@@ -1,6 +1,6 @@
 export type Locale = 'vi' | 'en' | 'zh';
 
-export type ProvinceId = 'danang' | 'hue' | 'quangtri' | 'khanhhoa';
+export type ProvinceId = 'danang' | 'hue' | 'quangtri' | 'khanhhoa' | 'hanoi' | 'hochiminh';
 
 export type CategoryId = 
   | 'photography'

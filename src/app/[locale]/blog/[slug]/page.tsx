@@ -71,8 +71,8 @@ export async function generateMetadata({
       images: [article.featuredImage]
     },
     other: {
-      'geo.region': article.provinceId === 'danang' ? 'VN-DN' : article.provinceId === 'hue' ? 'VN-26' : article.provinceId === 'quangtri' ? 'VN-25' : 'VN-34',
-      'geo.placename': article.provinceId === 'danang' ? 'Đà Nẵng, Việt Nam' : article.provinceId === 'hue' ? 'Thừa Thiên Huế, Việt Nam' : article.provinceId === 'quangtri' ? 'Quảng Trị, Việt Nam' : 'Khánh Hòa, Nha Trang, Việt Nam',
+      'geo.region': article.provinceId === 'danang' ? 'VN-DN' : article.provinceId === 'hue' ? 'VN-26' : article.provinceId === 'quangtri' ? 'VN-25' : article.provinceId === 'hanoi' ? 'VN-HN' : article.provinceId === 'hochiminh' ? 'VN-SG' : 'VN-34',
+      'geo.placename': article.provinceId === 'danang' ? 'Đà Nẵng, Việt Nam' : article.provinceId === 'hue' ? 'Thừa Thiên Huế, Việt Nam' : article.provinceId === 'quangtri' ? 'Quảng Trị, Việt Nam' : article.provinceId === 'hanoi' ? 'Hà Nội, Việt Nam' : article.provinceId === 'hochiminh' ? 'TP. Hồ Chí Minh, Việt Nam' : 'Khánh Hòa, Nha Trang, Việt Nam',
       'geo.position': '16.0594;108.1492',
       ICBM: '16.0594, 108.1492',
       'DC.Language': locale

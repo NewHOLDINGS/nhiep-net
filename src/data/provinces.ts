@@ -52,5 +52,31 @@ export const PROVINCES: Province[] = [
     descriptionEn: 'Tropical paradise featuring Nha Trang Bay, Cam Ranh Long Beach, Ponagar Cham Towers, luxury yacht charters, and crystal blue waters.',
     descriptionZh: '热带海滨度假胜地，拥有璀璨的芽庄湾、金兰长滩、婆那加占婆塔、豪华游艇以及如水晶般清澈的蔚蓝海水。',
     landmarks: ['Vịnh Nha Trang', 'Bãi Dài Cam Ranh', 'Tháp Bà Ponagar', 'Hòn Mun & Hòn Tằm', 'VinWonders Nha Trang', 'Bán đảo Đầm Môn', 'Dốc Lết']
+  },
+  {
+    id: 'hanoi',
+    name: 'Hà Nội',
+    nameVi: 'Hà Nội',
+    nameEn: 'Hanoi',
+    nameZh: '河内',
+    slug: 'ha-noi',
+    heroImage: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1600&q=80',
+    descriptionVi: 'Thủ đô ngàn năm văn hiến với Hồ Hoàn Kiếm, 36 phố phường cổ kính, Hoàng thành Thăng Long, các sự kiện ngoại giao & nghệ thuật đỉnh cao.',
+    descriptionEn: 'The historic millennial capital featuring Hoan Kiem Lake, the vibrant Old Quarter, Imperial Citadel, and prestigious event & wedding venues.',
+    descriptionZh: '拥有千年历史的古都，汇聚还剑湖、三十六行古街、升龙皇城及高端商务与艺术活动场地。',
+    landmarks: ['Hồ Hoàn Kiếm', 'Phố Cổ Hà Nội', 'Hoàng Thành Thăng Long', 'Cầu Long Biên', 'Hồ Tây', 'Nhà Hát Lớn Hà Nội']
+  },
+  {
+    id: 'hochiminh',
+    name: 'TP. Hồ Chí Minh',
+    nameVi: 'TP. Hồ Chí Minh',
+    nameEn: 'Ho Chi Minh City',
+    nameZh: '胡志明市',
+    slug: 'ho-chi-minh',
+    heroImage: 'https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=1600&q=80',
+    descriptionVi: 'Trung tâm kinh tế & giải trí sôi động bậc nhất với Landmark 81, sông Sài Gòn, các đại tiệc cưới sang trọng, sự kiện quốc tế & TVC quy mô lớn.',
+    descriptionEn: 'Vietnam’s leading economic & entertainment hub with Landmark 81, Saigon River, luxury banquets, international events, and high-end commercial TVCs.',
+    descriptionZh: '越南最具活力的经济与时尚之都，拥有地标81、西贡河、顶级奢华婚礼宴会、国际盛典及高端商业广告拍摄场地。',
+    landmarks: ['Landmark 81', 'Bến Bạch Đằng & Sông Sài Gòn', 'Nhà Thờ Đức Bà', 'Chợ Bến Thành', 'Phố Đi Bộ Nguyễn Huệ', 'Dinh Độc Lập']
   }
 ];

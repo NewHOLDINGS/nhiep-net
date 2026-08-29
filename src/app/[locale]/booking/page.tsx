@@ -12,7 +12,7 @@ import { getDictionary } from '@/data/translations';
 import {
   CalendarPlus, Check, ChevronRight, ChevronLeft, MapPin, Sparkles,
   Phone, Mail, User, Clock, Calendar, CheckCircle2, ShieldCheck, ArrowRight, Loader2,
-  QrCode, ExternalLink, Copy, MessageSquare
+  QrCode, ExternalLink, Copy, MessageSquare, Sliders, Plus, Minus, Video, Camera, ShoppingBag
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { useAuth } from '@/context/AuthContext';
@@ -31,13 +31,35 @@ const I18N_BOOKING = {
   vi: {
     systemTag: 'HỆ THỐNG ĐẶT LỊCH TRỰC TUYẾN',
     title: 'Đặt Lịch Trực Tuyến Nhanh Chóng',
-    subtitle: 'Chỉ mất 2 phút để lựa chọn gói dịch vụ ưng ý và giữ lịch với ekip xuất sắc nhất',
+    subtitle: 'Chỉ mất 2 phút để lựa chọn cấu hình hoặc gói dịch vụ ưng ý và giữ lịch với ekip xuất sắc nhất',
     step1: '1. Dịch vụ & Địa điểm',
     step2: '2. Gói & Tùy chọn',
     step3: '3. Thời gian & Địa chỉ',
     step4: '4. Thông tin liên hệ',
     step5: '5. Đặt cọc VietQR',
     step6: '6. Hoàn tất đặt lịch',
+    // Booking Methods
+    bookingMethodTitle: 'Chọn Phương Thức Đặt Lịch',
+    methodCustomTitle: 'Tự Tùy Chỉnh Thiết Bị & Nhân Sự Theo Ngân Sách',
+    methodCustomSubtitle: 'Chủ động chọn số lượng thợ quay gimbal, máy chụp & flycam cho dự án của bạn',
+    methodCategoryTitle: 'Chọn Gói Dịch Vụ Theo Danh Mục',
+    methodCategorySubtitle: 'Lựa chọn các gói quay phim, chụp ảnh, sự kiện được thiết kế tối ưu sẵn',
+    // Customizer elements
+    gimbalLabel: '🎥 Thợ quay Gimbal 4K Cinema',
+    gimbalPrice: '3.500.000 ₫ / thợ',
+    photoLabel: '📷 Thợ chụp ảnh Sony A7R V',
+    photoPrice: '2.200.000 ₫ / thợ',
+    droneLabel: '🚁 Flycam DJI 4K / 5.1K',
+    dronePrice: '1.500.000 ₫ / máy',
+    qualityLabel: '🎬 Tiêu chuẩn dựng màu sắc:',
+    expressLabel: 'Hậu kỳ hỏa tốc 24h (+1.2tr)',
+    makeupLabel: 'Makeup MUA (+1.0tr)',
+    photobookLabel: 'Photobook 30x30 (+1.5tr)',
+    customTotalLabel: 'TỔNG CHI PHÍ DỰ TOÁN THEO CẤU HÌNH:',
+    deposit40Prefix: 'Cọc giữ lịch 40%:',
+    customPackageName: 'Gói Cấu Hình Tùy Chỉnh Ekip & Thiết Bị',
+    customSummaryStep2: 'Cấu hình thiết bị & nhân sự bạn đã thiết lập ở bước 1:',
+    // General Step 1
     selectCategory: 'Chọn Danh Mục Dịch Vụ',
     selectProvince: 'Chọn Tỉnh / Thành Phố',
     selectPackage: 'Chọn Gói Dịch Vụ',
@@ -119,13 +141,35 @@ const I18N_BOOKING = {
   en: {
     systemTag: 'ONLINE RESERVATION SYSTEM',
     title: 'Fast Online Reservation',
-    subtitle: 'It takes only 2 minutes to customize your package and secure your preferred dates with top-tier creators',
+    subtitle: 'It takes only 2 minutes to customize your gear & crew or select a package and secure your preferred dates',
     step1: '1. Service & Location',
     step2: '2. Package & Add-ons',
     step3: '3. Schedule & Address',
     step4: '4. Contact Details',
     step5: '5. VietQR Deposit',
     step6: '6. Confirmation',
+    // Booking Methods
+    bookingMethodTitle: 'Select Booking Method',
+    methodCustomTitle: 'Custom Crew & Gear by Budget',
+    methodCustomSubtitle: 'Customize number of gimbal operators, photographers & aerial drones for your project',
+    methodCategoryTitle: 'Choose Standard Package by Category',
+    methodCategorySubtitle: 'Browse predefined packages for photography, videography, and events',
+    // Customizer elements
+    gimbalLabel: '🎥 4K Cinema Gimbal Operator',
+    gimbalPrice: '3,500,000 VND / crew',
+    photoLabel: '📷 Sony A7R V Lead Photographer',
+    photoPrice: '2,200,000 VND / crew',
+    droneLabel: '🚁 DJI 4K / 5.1K Aerial Drone',
+    dronePrice: '1,500,000 VND / drone',
+    qualityLabel: '🎬 Color Grading Standard:',
+    expressLabel: '24-Hour Express (+1.2M)',
+    makeupLabel: 'Makeup & Hair (+1.0M)',
+    photobookLabel: 'Photobook 30x30 (+1.5M)',
+    customTotalLabel: 'ESTIMATED TOTAL BUDGET:',
+    deposit40Prefix: '40% Schedule Deposit:',
+    customPackageName: 'Custom Crew & Gear Package',
+    customSummaryStep2: 'Custom equipment & crew setup configured in Step 1:',
+    // General Step 1
     selectCategory: 'Select Service Category',
     selectProvince: 'Select Province / City',
     selectPackage: 'Select Service Package',
@@ -207,13 +251,35 @@ const I18N_BOOKING = {
   zh: {
     systemTag: '在线智能预约系统',
     title: '快速在线预约档期',
-    subtitle: '仅需2分钟即可定制您的专属拍摄方案，锁定优秀摄影团队档期',
+    subtitle: '仅需2分钟即可自主定制设备与人员方案或选定标准套餐，锁定优秀团队档期',
     step1: '1. 服务与城市',
     step2: '2. 套餐与增值',
     step3: '3. 时间与地址',
     step4: '4. 联系人信息',
     step5: '5. VietQR订金支付',
     step6: '6. 预约确认成功',
+    // Booking Methods
+    bookingMethodTitle: '选择预约方式',
+    methodCustomTitle: '自主定制设备与人员方案（按预算自由搭配）',
+    methodCustomSubtitle: '根据您的项目预算，自由选择电影机云台手、主摄影师与航拍无人机',
+    methodCategoryTitle: '按分类选择官方标准套餐',
+    methodCategorySubtitle: '浏览专为摄影、影视TVC及商务活动预先设计的标准套餐',
+    // Customizer elements
+    gimbalLabel: '🎥 4K电影级稳定器摄影师',
+    gimbalPrice: '3,500,000 ₫ / 位',
+    photoLabel: '📷 索尼A7R V资深主摄影师',
+    photoPrice: '2,200,000 ₫ / 位',
+    droneLabel: '🚁 大疆4K/5.1K高清航拍机',
+    dronePrice: '1,500,000 ₫ / 台',
+    qualityLabel: '🎬 调色与成片标准：',
+    expressLabel: '24小时极速出片 (+120万)',
+    makeupLabel: '专属跟妆造型 (+100万)',
+    photobookLabel: '30x30水晶相册 (+150万)',
+    customTotalLabel: '定制方案预估总费用：',
+    deposit40Prefix: '40%档期锁定订金：',
+    customPackageName: '自主定制设备与人员专属套餐',
+    customSummaryStep2: '您在第一步中配置的设备与人员方案：',
+    // General Step 1
     selectCategory: '选择服务类别',
     selectProvince: '选择服务省份/城市',
     selectPackage: '选择精选套餐',
@@ -302,17 +368,23 @@ function BookingForm({ locale }: { locale: Locale }) {
   const preselectedPackageId = searchParams.get('package');
 
   // Multi-step state (1 to 6)
-  // Step 1: Category & Province
-  // Step 2: Package & Add-ons
-  // Step 3: Schedule & Address
-  // Step 4: Contact info & Form
-  // Step 5: VietQR MB Bank Deposit
-  // Step 6: Congratulatory Confirmation Screen
   const [step, setStep] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
   const [bookingResult, setBookingResult] = useState<any>(null);
   const [depositPercent, setDepositPercent] = useState<number>(40);
   const [copiedField, setCopiedField] = useState<string | null>(null);
+
+  // Booking Mode: 'custom' (Tự tùy chỉnh thiết bị & nhân sự) or 'category' (Chọn gói theo danh mục)
+  const [bookingMode, setBookingMode] = useState<'custom' | 'category'>('custom');
+
+  // Customizer States
+  const [gimbalOperators, setGimbalOperators] = useState<number>(1);
+  const [photographers, setPhotographers] = useState<number>(1);
+  const [drones, setDrones] = useState<number>(0);
+  const [editingQuality, setEditingQuality] = useState<'fullhd' | '4k' | '6k'>('4k');
+  const [express24h, setExpress24h] = useState<boolean>(false);
+  const [makeupMUA, setMakeupMUA] = useState<boolean>(false);
+  const [luxuryPhotobook, setLuxuryPhotobook] = useState<boolean>(false);
 
   // Form states
   const [selectedCategory, setSelectedCategory] = useState<CategoryId>('photography');
@@ -350,6 +422,7 @@ function BookingForm({ locale }: { locale: Locale }) {
     if (preselectedPackageId) {
       const found = PACKAGES.find((p) => p.id === preselectedPackageId);
       if (found) {
+        setBookingMode('category');
         setSelectedPackageId(found.id);
         setSelectedCategory(found.categoryId);
         if (found.provinces.length > 0) {
@@ -358,7 +431,6 @@ function BookingForm({ locale }: { locale: Locale }) {
         setStep(2);
       }
     } else {
-      // Default to first package of category
       const firstInCat = PACKAGES.find((p) => p.categoryId === selectedCategory);
       if (firstInCat && !selectedPackageId) {
         setSelectedPackageId(firstInCat.id);
@@ -375,7 +447,33 @@ function BookingForm({ locale }: { locale: Locale }) {
     return PACKAGES.find((p) => p.id === selectedPackageId) || availablePackages[0] || PACKAGES[0];
   }, [selectedPackageId, availablePackages]);
 
-  // Price calculations
+  // Pricing calculations for customizer
+  const PRICE_GIMBAL = 3500000;
+  const PRICE_PHOTO = 2200000;
+  const PRICE_DRONE = 1500000;
+  const PRICE_QUALITY_4K = 1000000;
+  const PRICE_QUALITY_6K = 2500000;
+  const PRICE_EXPRESS = 1200000;
+  const PRICE_MUA = 1000000;
+  const PRICE_PHOTOBOOK = 1500000;
+
+  const customTotal = useMemo(() => {
+    return (
+      gimbalOperators * PRICE_GIMBAL +
+      photographers * PRICE_PHOTO +
+      drones * PRICE_DRONE +
+      (editingQuality === '4k' ? PRICE_QUALITY_4K : editingQuality === '6k' ? PRICE_QUALITY_6K : 0) +
+      (express24h ? PRICE_EXPRESS : 0) +
+      (makeupMUA ? PRICE_MUA : 0) +
+      (luxuryPhotobook ? PRICE_PHOTOBOOK : 0)
+    );
+  }, [gimbalOperators, photographers, drones, editingQuality, express24h, makeupMUA, luxuryPhotobook]);
+
+  const customDeposit40 = useMemo(() => {
+    return Math.round((customTotal * 0.4) / 10000) * 10000;
+  }, [customTotal]);
+
+  // Standard packages addons total
   const addonsTotal = useMemo(() => {
     return selectedAddons.reduce((sum, addonId) => {
       const item = ADDONS.find((a) => a.id === addonId);
@@ -383,10 +481,14 @@ function BookingForm({ locale }: { locale: Locale }) {
     }, 0);
   }, [selectedAddons]);
 
+  // Final Estimated Total depending on booking mode
   const estimatedTotal = useMemo(() => {
+    if (bookingMode === 'custom') {
+      return customTotal + addonsTotal;
+    }
     const base = activePackage ? activePackage.priceVnd : 0;
     return base + addonsTotal;
-  }, [activePackage, addonsTotal]);
+  }, [bookingMode, customTotal, activePackage, addonsTotal]);
 
   const toggleAddon = (addonId: string) => {
     setSelectedAddons((prev) =>
@@ -410,7 +512,28 @@ function BookingForm({ locale }: { locale: Locale }) {
 
     setLoading(true);
 
-    const localizedPkgName = locale === 'zh' ? activePackage.nameZh : locale === 'en' ? activePackage.nameEn : activePackage.nameVi;
+    let localizedPkgName = '';
+    let pkgId = '';
+    let catId: CategoryId = selectedCategory;
+
+    if (bookingMode === 'custom') {
+      pkgId = 'custom-builder-package';
+      catId = gimbalOperators > 0 ? 'videography' : 'photography';
+      if (locale === 'zh') {
+        localizedPkgName = `定制方案：${gimbalOperators}机位云台 + ${photographers}机位摄影 + ${drones}台航拍 (${editingQuality.toUpperCase()})`;
+      } else if (locale === 'en') {
+        localizedPkgName = `Custom Setup: ${gimbalOperators} Gimbal + ${photographers} Photo + ${drones} Drone (${editingQuality.toUpperCase()})`;
+      } else {
+        localizedPkgName = `Cấu hình tự chọn: ${gimbalOperators} Gimbal + ${photographers} Máy chụp + ${drones} Flycam (${editingQuality.toUpperCase()})`;
+      }
+    } else {
+      pkgId = activePackage.id;
+      localizedPkgName = locale === 'zh' ? activePackage.nameZh : locale === 'en' ? activePackage.nameEn : activePackage.nameVi;
+    }
+
+    const customNotesDetails = bookingMode === 'custom'
+      ? `[CẤU HÌNH TỰ CHỌN]: ${gimbalOperators} Gimbal Cinema, ${photographers} Chụp ảnh Sony A7R V, ${drones} Flycam, Dựng ${editingQuality.toUpperCase()}${express24h ? ', Hậu kỳ 24h' : ''}${makeupMUA ? ', Makeup MUA' : ''}${luxuryPhotobook ? ', Photobook 30x30' : ''}. ${notes}`
+      : notes;
 
     try {
       const res = await fetch('/api/bookings', {
@@ -421,14 +544,14 @@ function BookingForm({ locale }: { locale: Locale }) {
           phone,
           email,
           zaloOrWhatsapp: zaloOrWhatsapp || phone,
-          categoryId: selectedCategory,
-          packageId: activePackage.id,
+          categoryId: catId,
+          packageId: pkgId,
           packageName: localizedPkgName,
           provinceId: selectedProvince,
           shootDate,
           shootTime,
           shootAddress: shootAddress || (locale === 'zh' ? '团队顾问推荐地点' : locale === 'en' ? 'As advised by team' : 'Theo tư vấn của ekip'),
-          notes,
+          notes: customNotesDetails,
           addOns: selectedAddons,
           estimatedTotalVnd: estimatedTotal
         })
@@ -453,12 +576,13 @@ function BookingForm({ locale }: { locale: Locale }) {
   const handleProceedToSuccess = (confirmedPayment: boolean = false) => {
     setStep(6);
     window.scrollTo({ top: 180, behavior: 'smooth' });
-    // Trigger celebratory confetti
-    confetti({
-      particleCount: 120,
-      spread: 80,
-      origin: { y: 0.6 }
-    });
+    try {
+      confetti({
+        particleCount: 120,
+        spread: 80,
+        origin: { y: 0.6 }
+      });
+    } catch {}
   };
 
   const depositAmount = useMemo(() => {
@@ -481,26 +605,6 @@ function BookingForm({ locale }: { locale: Locale }) {
     });
   }, [depositAmount, bookingResult, transferMemo]);
 
-  const zaloNoticeUrl = useMemo(() => {
-    if (!bookingResult) return `https://zalo.me/${PAYMENT_CONFIG.zalo}`;
-    const code = bookingResult.bookingCode;
-    const name = bookingResult.customerName;
-    const phoneNum = bookingResult.phone;
-    const pkg = bookingResult.packageName;
-    const amountStr = depositAmount.toLocaleString('vi-VN');
-
-    let msg = '';
-    if (locale === 'zh') {
-      msg = `您好 nhiep.net！我已完成 VietQR MB BANK 订金转账：\n- 订单号：${code}\n- 客户姓名：${name}\n- 电话：${phoneNum}\n- 套餐：${pkg}\n- 订金金额：${amountStr} ₫\n请专员核验并确认档期。`;
-    } else if (locale === 'en') {
-      msg = `Hello nhiep.net! I have completed the deposit payment via VietQR MB BANK:\n- Booking Code: ${code}\n- Customer: ${name}\n- Phone: ${phoneNum}\n- Package: ${pkg}\n- Deposit Amount: ${amountStr} VND\nPlease verify and confirm my schedule.`;
-    } else {
-      msg = `Chào nhiep.net! Tôi vừa hoàn tất chuyển khoản đặt cọc qua VietQR MB BANK cho mã đơn: ${code} (${name} - ${phoneNum}). Gói: ${pkg}. Số tiền cọc: ${amountStr} ₫. Nhờ chuyên viên xác nhận giúp tôi.`;
-    }
-
-    return `https://zalo.me/${PAYMENT_CONFIG.zalo}?text=${encodeURIComponent(msg)}`;
-  }, [bookingResult, depositAmount, locale]);
-
   return (
     <div className="py-12">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -519,7 +623,7 @@ function BookingForm({ locale }: { locale: Locale }) {
 
         {/* Step Indicator Bar (Steps 1 to 5) */}
         {step < 6 && (
-          <div className="mb-10 p-4 glass-panel rounded-2xl border border-surface-border">
+          <div className="mb-8 p-4 glass-panel rounded-2xl border border-surface-border">
             <div className="grid grid-cols-5 gap-2 text-center text-xs">
               {[
                 { s: 1, label: t.step1 },
@@ -561,54 +665,310 @@ function BookingForm({ locale }: { locale: Locale }) {
 
         {/* Wizard Container */}
         <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-surface-border relative">
-          {/* STEP 1: CATEGORY & PROVINCE */}
+          
+          {/* ========================================================================= */}
+          {/* STEP 1: SELECT BOOKING METHOD (CUSTOM BUILDER OR CATEGORY) & PROVINCE */}
+          {/* ========================================================================= */}
           {step === 1 && (
             <div className="space-y-8 animate-in fade-in duration-200">
-              {/* Category selector */}
+              
+              {/* Method Switcher Header: 2 Options */}
               <div>
-                <h3 className="font-heading font-bold text-lg text-white mb-3">
-                  {t.selectCategory}
+                <h3 className="font-heading font-bold text-lg text-white mb-3 flex items-center gap-2">
+                  <span>{t.bookingMethodTitle}</span>
+                  <span className="text-xs text-brand font-normal">(1 trong 2 phương thức)</span>
                 </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                  {CATEGORIES.map((cat) => (
-                    <button
-                      key={cat.id}
-                      type="button"
-                      onClick={() => {
-                        setSelectedCategory(cat.id);
-                        const first = PACKAGES.find((p) => p.categoryId === cat.id);
-                        if (first) setSelectedPackageId(first.id);
-                      }}
-                      className={`p-4 rounded-xl border text-left transition-all flex items-start gap-3 ${
-                        selectedCategory === cat.id
-                          ? 'bg-brand/10 border-brand shadow-glow text-white'
-                          : 'bg-surface-muted hover:bg-surface-elevated border-surface-border text-zinc-300'
-                      }`}
-                    >
-                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
-                        selectedCategory === cat.id ? 'bg-brand text-black font-bold' : 'bg-surface text-brand'
-                      }`}>
-                        <Sparkles className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <h4 className="font-bold text-sm">
-                          {locale === 'zh' ? cat.nameZh : locale === 'en' ? cat.nameEn : cat.nameVi}
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {/* Option 1: Tự Tùy Chỉnh Thiết Bị & Nhân Sự */}
+                  <button
+                    type="button"
+                    onClick={() => setBookingMode('custom')}
+                    className={`p-4 rounded-2xl border text-left transition-all relative overflow-hidden flex items-start gap-3.5 ${
+                      bookingMode === 'custom'
+                        ? 'bg-brand/10 border-brand shadow-glow text-white ring-1 ring-brand'
+                        : 'bg-surface-muted hover:bg-surface-elevated border-surface-border text-zinc-300'
+                    }`}
+                  >
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
+                      bookingMode === 'custom' ? 'bg-brand text-black shadow-glow' : 'bg-surface-elevated text-brand'
+                    }`}>
+                      <Sliders className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <h4 className="font-bold text-sm text-white">
+                          {t.methodCustomTitle}
                         </h4>
-                        <p className="text-[11px] text-zinc-400 mt-1 line-clamp-2 leading-relaxed">
-                          {locale === 'zh' ? cat.descriptionZh : locale === 'en' ? cat.descriptionEn : cat.descriptionVi}
-                        </p>
+                        {bookingMode === 'custom' && (
+                          <span className="px-2 py-0.5 rounded-full bg-brand text-black text-[9px] font-black uppercase">
+                            Đang chọn
+                          </span>
+                        )}
                       </div>
-                    </button>
-                  ))}
+                      <p className="text-[11px] text-zinc-400 mt-1 leading-relaxed">
+                        {t.methodCustomSubtitle}
+                      </p>
+                    </div>
+                  </button>
+
+                  {/* Option 2: Chọn Gói Dịch Vụ Theo Danh Mục */}
+                  <button
+                    type="button"
+                    onClick={() => setBookingMode('category')}
+                    className={`p-4 rounded-2xl border text-left transition-all relative overflow-hidden flex items-start gap-3.5 ${
+                      bookingMode === 'category'
+                        ? 'bg-brand/10 border-brand shadow-glow text-white ring-1 ring-brand'
+                        : 'bg-surface-muted hover:bg-surface-elevated border-surface-border text-zinc-300'
+                    }`}
+                  >
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
+                      bookingMode === 'category' ? 'bg-brand text-black shadow-glow' : 'bg-surface-elevated text-brand'
+                    }`}>
+                      <Sparkles className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <h4 className="font-bold text-sm text-white">
+                          {t.methodCategoryTitle}
+                        </h4>
+                        {bookingMode === 'category' && (
+                          <span className="px-2 py-0.5 rounded-full bg-brand text-black text-[9px] font-black uppercase">
+                            Đang chọn
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-[11px] text-zinc-400 mt-1 leading-relaxed">
+                        {t.methodCategorySubtitle}
+                      </p>
+                    </div>
+                  </button>
                 </div>
               </div>
 
-              {/* Province selector */}
+              {/* METHOD 1 CONTENT: CUSTOM CREW & GEAR BUILDER */}
+              {bookingMode === 'custom' && (
+                <div className="p-4 sm:p-5 rounded-2xl bg-surface-card border border-brand/40 shadow-xl space-y-4 animate-in fade-in slide-in-from-top-2">
+                  <div className="flex items-center justify-between border-b border-surface-border pb-3">
+                    <div className="flex items-center gap-2">
+                      <Sliders className="w-4 h-4 text-brand" />
+                      <h4 className="font-heading font-black text-sm text-white">
+                        {t.methodCustomTitle}
+                      </h4>
+                    </div>
+                    <span className="text-[11px] text-zinc-400 hidden sm:inline">
+                      {t.methodCustomSubtitle}
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                    {/* 1. Thợ quay Gimbal */}
+                    <div className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex items-center justify-between">
+                      <div>
+                        <span className="font-bold text-white block">{t.gimbalLabel}</span>
+                        <span className="text-[10px] text-zinc-400">{t.gimbalPrice}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setGimbalOperators(Math.max(0, gimbalOperators - 1))}
+                          className="w-7 h-7 rounded-lg bg-surface-muted hover:bg-surface text-white flex items-center justify-center font-bold"
+                        >
+                          <Minus className="w-3 h-3" />
+                        </button>
+                        <span className="font-mono font-bold text-sm text-brand w-4 text-center">
+                          {gimbalOperators}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setGimbalOperators(Math.min(5, gimbalOperators + 1))}
+                          className="w-7 h-7 rounded-lg bg-brand text-black flex items-center justify-center font-bold"
+                        >
+                          <Plus className="w-3 h-3" />
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* 2. Thợ chụp ảnh */}
+                    <div className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex items-center justify-between">
+                      <div>
+                        <span className="font-bold text-white block">{t.photoLabel}</span>
+                        <span className="text-[10px] text-zinc-400">{t.photoPrice}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setPhotographers(Math.max(0, photographers - 1))}
+                          className="w-7 h-7 rounded-lg bg-surface-muted hover:bg-surface text-white flex items-center justify-center font-bold"
+                        >
+                          <Minus className="w-3 h-3" />
+                        </button>
+                        <span className="font-mono font-bold text-sm text-brand w-4 text-center">
+                          {photographers}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setPhotographers(Math.min(5, photographers + 1))}
+                          className="w-7 h-7 rounded-lg bg-brand text-black flex items-center justify-center font-bold"
+                        >
+                          <Plus className="w-3 h-3" />
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* 3. Flycam trên không */}
+                    <div className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex items-center justify-between">
+                      <div>
+                        <span className="font-bold text-white block">{t.droneLabel}</span>
+                        <span className="text-[10px] text-zinc-400">{t.dronePrice}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setDrones(Math.max(0, drones - 1))}
+                          className="w-7 h-7 rounded-lg bg-surface-muted hover:bg-surface text-white flex items-center justify-center font-bold"
+                        >
+                          <Minus className="w-3 h-3" />
+                        </button>
+                        <span className="font-mono font-bold text-sm text-brand w-4 text-center">
+                          {drones}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setDrones(Math.min(3, drones + 1))}
+                          className="w-7 h-7 rounded-lg bg-brand text-black flex items-center justify-center font-bold"
+                        >
+                          <Plus className="w-3 h-3" />
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* 4. Tiêu chuẩn dựng */}
+                    <div className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex flex-col justify-between space-y-1">
+                      <span className="font-bold text-white">{t.qualityLabel}</span>
+                      <div className="grid grid-cols-3 gap-1">
+                        {[
+                          { id: 'fullhd', label: 'Full HD' },
+                          { id: '4k', label: '4K Cinema (+1tr)' },
+                          { id: '6k', label: '6K RAW (+2.5tr)' }
+                        ].map((q) => (
+                          <button
+                            key={q.id}
+                            type="button"
+                            onClick={() => setEditingQuality(q.id as any)}
+                            className={`py-1 rounded-lg text-[10px] font-bold border transition-colors ${
+                              editingQuality === q.id
+                                ? 'bg-brand text-black border-brand'
+                                : 'bg-surface-muted text-zinc-300 border-surface-border'
+                            }`}
+                          >
+                            {q.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Addons for customizer */}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
+                    <label className="flex items-center gap-2 p-2.5 rounded-xl bg-surface-elevated border border-surface-border cursor-pointer text-xs">
+                      <input
+                        type="checkbox"
+                        checked={express24h}
+                        onChange={(e) => setExpress24h(e.target.checked)}
+                        className="rounded text-brand focus:ring-brand"
+                      />
+                      <span className="text-zinc-200">{t.expressLabel}</span>
+                    </label>
+
+                    <label className="flex items-center gap-2 p-2.5 rounded-xl bg-surface-elevated border border-surface-border cursor-pointer text-xs">
+                      <input
+                        type="checkbox"
+                        checked={makeupMUA}
+                        onChange={(e) => setMakeupMUA(e.target.checked)}
+                        className="rounded text-brand focus:ring-brand"
+                      />
+                      <span className="text-zinc-200">{t.makeupLabel}</span>
+                    </label>
+
+                    <label className="flex items-center gap-2 p-2.5 rounded-xl bg-surface-elevated border border-surface-border cursor-pointer text-xs">
+                      <input
+                        type="checkbox"
+                        checked={luxuryPhotobook}
+                        onChange={(e) => setLuxuryPhotobook(e.target.checked)}
+                        className="rounded text-brand focus:ring-brand"
+                      />
+                      <span className="text-zinc-200">{t.photobookLabel}</span>
+                    </label>
+                  </div>
+
+                  {/* Realtime Live Price Summary Box */}
+                  <div className="p-3.5 rounded-2xl bg-brand/10 border border-brand/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div>
+                      <span className="text-[10px] text-zinc-400 uppercase tracking-wider block font-bold">
+                        {t.customTotalLabel}
+                      </span>
+                      <div className="flex items-baseline gap-2">
+                        <span className="font-heading font-black text-2xl text-brand">
+                          {customTotal.toLocaleString('vi-VN')} ₫
+                        </span>
+                        <span className="text-xs text-zinc-300">
+                          ({t.deposit40Prefix} <strong className="text-white">{customDeposit40.toLocaleString('vi-VN')} ₫</strong>)
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* METHOD 2 CONTENT: CATEGORY SELECTOR */}
+              {bookingMode === 'category' && (
+                <div className="space-y-3 animate-in fade-in slide-in-from-top-2">
+                  <h3 className="font-heading font-bold text-base text-white">
+                    {t.selectCategory}
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                    {CATEGORIES.map((cat) => (
+                      <button
+                        key={cat.id}
+                        type="button"
+                        onClick={() => {
+                          setSelectedCategory(cat.id);
+                          const first = PACKAGES.find((p) => p.categoryId === cat.id);
+                          if (first) setSelectedPackageId(first.id);
+                        }}
+                        className={`p-4 rounded-xl border text-left transition-all flex items-start gap-3 ${
+                          selectedCategory === cat.id
+                            ? 'bg-brand/10 border-brand shadow-glow text-white'
+                            : 'bg-surface-muted hover:bg-surface-elevated border-surface-border text-zinc-300'
+                        }`}
+                      >
+                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
+                          selectedCategory === cat.id ? 'bg-brand text-black font-bold' : 'bg-surface text-brand'
+                        }`}>
+                          <Sparkles className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <h4 className="font-bold text-sm">
+                            {locale === 'zh' ? cat.nameZh : locale === 'en' ? cat.nameEn : cat.nameVi}
+                          </h4>
+                          <p className="text-[11px] text-zinc-400 mt-1 line-clamp-2 leading-relaxed">
+                            {locale === 'zh' ? cat.descriptionZh : locale === 'en' ? cat.descriptionEn : cat.descriptionVi}
+                          </p>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* LOCATION SELECTOR: 6 PROVINCES / CITIES */}
               <div className="pt-4 border-t border-surface-border">
-                <h3 className="font-heading font-bold text-lg text-white mb-3">
-                  {t.selectProvince}
+                <h3 className="font-heading font-bold text-lg text-white mb-3 flex items-center gap-2">
+                  <MapPin className="w-4 h-4 text-brand" />
+                  <span>{t.selectProvince}</span>
                 </h3>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
                   {PROVINCES.map((prov) => (
                     <button
                       key={prov.id}
@@ -621,7 +981,7 @@ function BookingForm({ locale }: { locale: Locale }) {
                       }`}
                     >
                       <MapPin className="w-4 h-4 mx-auto mb-1" />
-                      <span className="text-xs sm:text-sm font-bold">
+                      <span className="text-xs sm:text-sm font-bold block truncate">
                         {locale === 'zh' ? prov.nameZh : locale === 'en' ? prov.nameEn : prov.nameVi}
                       </span>
                     </button>
@@ -629,6 +989,7 @@ function BookingForm({ locale }: { locale: Locale }) {
                 </div>
               </div>
 
+              {/* Continue Button */}
               <div className="pt-6 flex justify-end">
                 <button
                   type="button"
@@ -642,55 +1003,101 @@ function BookingForm({ locale }: { locale: Locale }) {
             </div>
           )}
 
+          {/* ========================================================================= */}
           {/* STEP 2: SELECT PACKAGE & ADD-ONS */}
+          {/* ========================================================================= */}
           {step === 2 && (
             <div className="space-y-8 animate-in fade-in duration-200">
-              <div>
-                <h3 className="font-heading font-bold text-lg text-white mb-3">
-                  {t.selectPackage}
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {availablePackages.map((pkg) => {
-                    const isSelected = selectedPackageId === pkg.id;
-                    const name = locale === 'zh' ? pkg.nameZh : locale === 'en' ? pkg.nameEn : pkg.nameVi;
-                    const deliverables = locale === 'zh' ? pkg.deliverablesZh : locale === 'en' ? pkg.deliverablesEn : pkg.deliverablesVi;
+              
+              {/* If custom mode was selected in Step 1, display Custom Setup Summary card */}
+              {bookingMode === 'custom' ? (
+                <div className="p-4 sm:p-5 rounded-2xl bg-surface-elevated border border-brand/50 space-y-3">
+                  <div className="flex items-center justify-between border-b border-surface-border pb-2">
+                    <div className="flex items-center gap-2">
+                      <Sliders className="w-4 h-4 text-brand" />
+                      <h4 className="font-bold text-white text-sm">
+                        {t.customPackageName}
+                      </h4>
+                    </div>
+                    <span className="font-mono font-black text-brand text-base">
+                      {customTotal.toLocaleString('vi-VN')} ₫
+                    </span>
+                  </div>
 
-                    return (
-                      <div
-                        key={pkg.id}
-                        onClick={() => setSelectedPackageId(pkg.id)}
-                        className={`cursor-pointer rounded-2xl p-4 border transition-all flex flex-col justify-between ${
-                          isSelected
-                            ? 'bg-brand/10 border-brand shadow-glow'
-                            : 'bg-surface-muted hover:bg-surface-elevated border-surface-border'
-                        }`}
-                      >
-                        <div className="flex gap-3">
-                          <div className="relative w-20 h-20 rounded-xl overflow-hidden shrink-0">
-                            <Image src={pkg.imageUrl} alt={name} fill className="object-cover" />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <h4 className="font-bold text-sm text-white line-clamp-1">{name}</h4>
-                            <p className="font-extrabold text-base text-brand mt-1">{pkg.priceVndFormatted}</p>
-                            <p className="text-[11px] text-zinc-400 mt-1">{pkg.duration}</p>
-                          </div>
-                        </div>
+                  <p className="text-xs text-zinc-400">{t.customSummaryStep2}</p>
 
-                        <div className="mt-3 pt-3 border-t border-surface-border/60 space-y-1">
-                          {deliverables.slice(0, 2).map((del, i) => (
-                            <div key={i} className="flex items-center gap-1.5 text-[11px] text-zinc-300">
-                              <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                              <span className="truncate">{del}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    );
-                  })}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs text-zinc-300 bg-surface-muted p-3 rounded-xl border border-surface-border">
+                    <div>
+                      <strong className="text-brand">🎥 Gimbal:</strong> {gimbalOperators} thợ
+                    </div>
+                    <div>
+                      <strong className="text-brand">📷 Máy chụp:</strong> {photographers} thợ
+                    </div>
+                    <div>
+                      <strong className="text-brand">🚁 Flycam:</strong> {drones} máy
+                    </div>
+                    <div>
+                      <strong className="text-brand">🎬 Dựng:</strong> {editingQuality.toUpperCase()}
+                    </div>
+                  </div>
+
+                  {(express24h || makeupMUA || luxuryPhotobook) && (
+                    <div className="flex flex-wrap gap-2 pt-1 text-[11px] text-zinc-300">
+                      {express24h && <span className="px-2 py-0.5 rounded-lg bg-brand/10 border border-brand/30 text-brand font-semibold">⚡ Hậu kỳ 24h</span>}
+                      {makeupMUA && <span className="px-2 py-0.5 rounded-lg bg-purple-500/10 border border-purple-500/30 text-purple-300 font-semibold">💄 Makeup MUA</span>}
+                      {luxuryPhotobook && <span className="px-2 py-0.5 rounded-lg bg-blue-500/10 border border-blue-500/30 text-blue-300 font-semibold">📖 Photobook 30x30</span>}
+                    </div>
+                  )}
                 </div>
-              </div>
+              ) : (
+                /* Category Standard Packages */
+                <div>
+                  <h3 className="font-heading font-bold text-lg text-white mb-3">
+                    {t.selectPackage}
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {availablePackages.map((pkg) => {
+                      const isSelected = selectedPackageId === pkg.id;
+                      const name = locale === 'zh' ? pkg.nameZh : locale === 'en' ? pkg.nameEn : pkg.nameVi;
+                      const deliverables = locale === 'zh' ? pkg.deliverablesZh : locale === 'en' ? pkg.deliverablesEn : pkg.deliverablesVi;
 
-              {/* Addons */}
+                      return (
+                        <div
+                          key={pkg.id}
+                          onClick={() => setSelectedPackageId(pkg.id)}
+                          className={`cursor-pointer rounded-2xl p-4 border transition-all flex flex-col justify-between ${
+                            isSelected
+                              ? 'bg-brand/10 border-brand shadow-glow'
+                              : 'bg-surface-muted hover:bg-surface-elevated border-surface-border'
+                          }`}
+                        >
+                          <div className="flex gap-3">
+                            <div className="relative w-20 h-20 rounded-xl overflow-hidden shrink-0">
+                              <Image src={pkg.imageUrl} alt={name} fill className="object-cover" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <h4 className="font-bold text-sm text-white line-clamp-1">{name}</h4>
+                              <p className="font-extrabold text-base text-brand mt-1">{pkg.priceVndFormatted}</p>
+                              <p className="text-[11px] text-zinc-400 mt-1">{pkg.duration}</p>
+                            </div>
+                          </div>
+
+                          <div className="mt-3 pt-3 border-t border-surface-border/60 space-y-1">
+                            {deliverables.slice(0, 2).map((del, i) => (
+                              <div key={i} className="flex items-center gap-1.5 text-[11px] text-zinc-300">
+                                <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                                <span className="truncate">{del}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Extra Optional Addons */}
               <div className="pt-4 border-t border-surface-border">
                 <h3 className="font-heading font-bold text-lg text-white mb-3">
                   {t.addOnsTitle}
@@ -757,7 +1164,9 @@ function BookingForm({ locale }: { locale: Locale }) {
             </div>
           )}
 
+          {/* ========================================================================= */}
           {/* STEP 3: SCHEDULE & VENUE ADDRESS */}
+          {/* ========================================================================= */}
           {step === 3 && (
             <div className="space-y-6 animate-in fade-in duration-200">
               <h3 className="font-heading font-bold text-lg text-white mb-2">
@@ -825,7 +1234,9 @@ function BookingForm({ locale }: { locale: Locale }) {
             </div>
           )}
 
+          {/* ========================================================================= */}
           {/* STEP 4: CONTACT INFO & PROCEED TO DEPOSIT */}
+          {/* ========================================================================= */}
           {step === 4 && (
             <form onSubmit={handleSubmitBooking} className="space-y-6 animate-in fade-in duration-200">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-surface-border pb-3">
@@ -965,7 +1376,7 @@ function BookingForm({ locale }: { locale: Locale }) {
                 <div>
                   <label className="block text-xs font-semibold text-zinc-300 mb-1.5 flex items-center justify-between">
                     <span>{t.zaloOrWhatsapp}</span>
-                    {user && (user.facebookUrl || user.zalo) && (
+                    {zaloOrWhatsapp && (
                       <span className="text-[10px] text-emerald-400 font-normal">✓ {t.autoFilled}</span>
                     )}
                   </label>
@@ -992,21 +1403,36 @@ function BookingForm({ locale }: { locale: Locale }) {
                 />
               </div>
 
-              {/* Booking Summary Box */}
-              <div className="p-4 rounded-2xl bg-surface-elevated border border-brand/30 space-y-2">
-                <div className="flex items-center justify-between text-xs text-zinc-300">
-                  <span>{t.selectedPackage} <strong>{locale === 'zh' ? activePackage?.nameZh : locale === 'en' ? activePackage?.nameEn : activePackage?.nameVi}</strong></span>
-                  <span className="font-bold text-brand">{activePackage?.priceVndFormatted}</span>
+              {/* Summary Card before proceed to deposit */}
+              <div className="p-4 rounded-2xl bg-surface-elevated border border-surface-border text-xs space-y-2">
+                <div className="flex justify-between items-center text-zinc-300">
+                  <span>{t.selectedPackage}</span>
+                  <strong className="text-white font-bold">
+                    {bookingMode === 'custom'
+                      ? t.customPackageName
+                      : (locale === 'zh' ? activePackage.nameZh : locale === 'en' ? activePackage.nameEn : activePackage.nameVi)}
+                  </strong>
                 </div>
+
+                <div className="flex justify-between items-center text-zinc-300">
+                  <span>{t.shootAddressLabel}</span>
+                  <strong className="text-white font-medium capitalize">
+                    {selectedProvince} {shootAddress ? `(${shootAddress})` : ''}
+                  </strong>
+                </div>
+
                 {selectedAddons.length > 0 && (
-                  <div className="flex items-center justify-between text-xs text-zinc-400">
+                  <div className="flex justify-between items-center text-zinc-300">
                     <span>{t.addonsCount} ({selectedAddons.length}):</span>
-                    <span>+{addonsTotal.toLocaleString('vi-VN')} ₫</span>
+                    <span className="text-brand font-medium">+{addonsTotal.toLocaleString('vi-VN')} ₫</span>
                   </div>
                 )}
-                <div className="pt-2 border-t border-surface-border flex items-center justify-between font-bold text-sm text-white">
-                  <span>{t.estimatedTotal}</span>
-                  <span className="font-heading font-black text-xl text-brand">{estimatedTotal.toLocaleString('vi-VN')} ₫</span>
+
+                <div className="border-t border-surface-border pt-2 flex justify-between items-center">
+                  <span className="font-bold text-zinc-200">{t.estimatedTotal}</span>
+                  <span className="font-heading font-black text-lg text-brand">
+                    {estimatedTotal.toLocaleString('vi-VN')} ₫
+                  </span>
                 </div>
               </div>
 
@@ -1018,313 +1444,370 @@ function BookingForm({ locale }: { locale: Locale }) {
                 >
                   {t.prevStep}
                 </button>
+
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-8 py-3.5 rounded-xl bg-brand hover:bg-brand-400 disabled:opacity-50 text-black font-extrabold text-sm flex items-center gap-2 shadow-glow"
+                  className="px-8 py-3.5 rounded-xl bg-brand hover:bg-brand-400 text-black font-extrabold text-sm flex items-center gap-2 shadow-glow disabled:opacity-50"
                 >
-                  {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <ArrowRight className="w-4 h-4" />}
-                  <span>{loading ? t.savingBooking : t.proceedToDeposit}</span>
+                  {loading ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>{t.savingBooking}</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>{t.proceedToDeposit}</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </>
+                  )}
                 </button>
               </div>
             </form>
           )}
 
-          {/* STEP 5: VIETQR MB BANK DEPOSIT SECTION */}
-          {step === 5 && bookingResult && (
+          {/* ========================================================================= */}
+          {/* STEP 5: VIETQR MB BANK DEPOSIT SECTION (40% / 60%) */}
+          {/* ========================================================================= */}
+          {step === 5 && (
             <div className="space-y-6 animate-in fade-in duration-200">
-              {/* Header */}
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-surface-border pb-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-brand/20 text-brand border border-brand/40 flex items-center justify-center font-bold shadow-glow">
-                    <QrCode className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h3 className="font-heading font-bold text-lg text-white">
-                      {t.depositHeader}
-                    </h3>
-                    <p className="text-xs text-zinc-400">
-                      {t.depositSub}
-                    </p>
-                  </div>
+              
+              <div className="text-center space-y-2 border-b border-surface-border pb-4">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/10 border border-brand/30 text-brand text-xs font-bold">
+                  <ShieldCheck className="w-4 h-4" />
+                  <span>{t.depositHeader}</span>
                 </div>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/40 text-xs font-bold self-start sm:self-auto">
-                  <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-                  <span>{t.bookingCodeLabel} <strong className="font-mono text-brand">{bookingResult.bookingCode}</strong></span>
-                </div>
+                <h3 className="font-heading font-black text-xl sm:text-2xl text-white">
+                  {t.depositHeader}
+                </h3>
+                <p className="text-xs text-zinc-400 max-w-xl mx-auto">
+                  {t.depositNotice}
+                </p>
               </div>
 
-              {/* Notice Banner */}
-              <p className="text-xs text-zinc-300 bg-surface-muted p-3.5 rounded-2xl border border-surface-border/80 leading-relaxed">
-                {t.depositNotice}
-              </p>
-
-              {/* Booking Summary Mini Card */}
-              <div className="p-4 rounded-2xl bg-surface-elevated border border-surface-border space-y-2 text-xs">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-zinc-300">
-                  <div>{t.customerLabel} <strong className="text-white">{bookingResult.customerName}</strong> ({bookingResult.phone})</div>
-                  <div>{t.packageLabel} <strong className="text-brand">{bookingResult.packageName}</strong></div>
-                  <div>{t.shootTimeLabel} <strong className="text-white">{bookingResult.shootDate} ({bookingResult.shootTime})</strong></div>
-                  <div>{t.shootAddressLabel} <strong className="text-white">{bookingResult.shootAddress}</strong></div>
+              {/* Deposit Percentage Toggle (40% or 60%) */}
+              <div className="p-4 rounded-2xl bg-surface-elevated border border-surface-border flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                  <span className="text-xs text-zinc-400 font-bold block">{t.depositOptionLabel}</span>
+                  <span className="text-xs text-zinc-300">
+                    {depositPercent === 40 ? 'Khóa lịch tiêu chuẩn 40%' : 'Thanh toán ưu tiên 60%'}
+                  </span>
                 </div>
-                <div className="pt-2 border-t border-surface-border/60 flex items-center justify-between font-bold">
-                  <span className="text-zinc-400">{t.totalCostLabel}</span>
-                  <span className="text-brand font-mono text-base">{bookingResult.estimatedTotalVnd.toLocaleString('vi-VN')} ₫</span>
-                </div>
-              </div>
 
-              {/* Deposit Percentage Switcher */}
-              <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-xs">
-                <span className="text-zinc-400 shrink-0 font-medium">{t.depositOptionLabel}</span>
-                <div className="flex-1 grid grid-cols-2 gap-2">
+                <div className="flex items-center gap-2">
                   <button
                     type="button"
                     onClick={() => setDepositPercent(40)}
-                    className={`py-2.5 px-3 rounded-xl font-bold transition-all border text-center ${
+                    className={`px-4 py-2 rounded-xl text-xs font-extrabold transition-all border ${
                       depositPercent === 40
                         ? 'bg-brand text-black border-brand shadow-glow'
-                        : 'bg-surface-elevated text-zinc-300 border-surface-border hover:bg-surface'
+                        : 'bg-surface-muted text-zinc-300 border-surface-border hover:bg-surface'
                     }`}
                   >
-                    {t.deposit40Label} ({Math.round(bookingResult.estimatedTotalVnd * 0.4).toLocaleString('vi-VN')} ₫)
+                    {t.deposit40Label}
                   </button>
+
                   <button
                     type="button"
                     onClick={() => setDepositPercent(60)}
-                    className={`py-2.5 px-3 rounded-xl font-bold transition-all border text-center ${
+                    className={`px-4 py-2 rounded-xl text-xs font-extrabold transition-all border ${
                       depositPercent === 60
                         ? 'bg-brand text-black border-brand shadow-glow'
-                        : 'bg-surface-elevated text-zinc-300 border-surface-border hover:bg-surface'
+                        : 'bg-surface-muted text-zinc-300 border-surface-border hover:bg-surface'
                     }`}
                   >
-                    {t.deposit60Label} ({Math.round(bookingResult.estimatedTotalVnd * 0.6).toLocaleString('vi-VN')} ₫)
+                    {t.deposit60Label}
                   </button>
                 </div>
               </div>
 
-              {/* VietQR Bank Payment Card */}
-              <div className="p-5 sm:p-6 rounded-3xl bg-surface-card border border-brand/50 flex flex-col md:flex-row items-center gap-6 shadow-2xl">
-                {/* QR Image Box */}
-                <div className="relative w-52 h-52 bg-white p-2 rounded-2xl shrink-0 shadow-xl overflow-hidden border-2 border-brand flex items-center justify-center">
-                  <Image
-                    src={vietQrSrc}
-                    alt="VietQR MB BANK"
-                    fill
-                    className="object-contain p-1"
-                    unoptimized
-                  />
+              {/* Main VietQR & Transfer Info Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                
+                {/* Left QR Column */}
+                <div className="md:col-span-5 flex flex-col items-center justify-center p-6 rounded-3xl bg-white text-black shadow-2xl border-4 border-brand/50">
+                  <div className="text-center mb-2">
+                    <span className="text-[10px] font-black uppercase tracking-wider text-blue-900 block">
+                      MB BANK • QUÂN ĐỘI VIỆT NAM
+                    </span>
+                    <span className="text-xs font-bold text-zinc-700">
+                      Quét mã để chuyển khoản tự động
+                    </span>
+                  </div>
+
+                  <div className="relative w-56 h-56 sm:w-60 sm:h-60 rounded-2xl overflow-hidden shadow-inner border border-zinc-200">
+                    {vietQrSrc ? (
+                      <img src={vietQrSrc} alt="VietQR MB BANK" className="w-full h-full object-contain" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-zinc-100">
+                        <QrCode className="w-16 h-16 text-zinc-400 animate-pulse" />
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="mt-3 text-center">
+                    <span className="text-xs font-mono font-black text-brand-600 block">
+                      STK: 89052667799
+                    </span>
+                    <span className="text-[11px] font-bold text-zinc-800 uppercase">
+                      NGUYEN XUAN TOI
+                    </span>
+                  </div>
                 </div>
 
-                {/* Bank Details Table */}
-                <div className="flex-1 text-xs space-y-2.5 w-full">
-                  <div className="p-2.5 rounded-xl bg-surface-elevated border border-surface-border/60">
-                    <span className="text-[10px] text-zinc-400 block">{t.bankNameLabel}</span>
-                    <span className="font-bold text-white text-xs">{t.bankNameValue}</span>
-                  </div>
+                {/* Right Breakdown Column */}
+                <div className="md:col-span-7 space-y-3 text-xs">
+                  
+                  {/* Order & Amount Highlight Card */}
+                  <div className="p-4 rounded-2xl bg-surface-elevated border border-brand/40 space-y-2.5">
+                    
+                    {/* Booking code */}
+                    <div className="flex items-center justify-between pb-2 border-b border-surface-border">
+                      <span className="text-zinc-400 font-medium">{t.bookingCodeLabel}</span>
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono font-black text-sm text-brand">
+                          {bookingResult?.bookingCode || 'NHIEP-XXXXX'}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => handleCopyText(bookingResult?.bookingCode || '', 'code')}
+                          className="px-2 py-0.5 rounded bg-surface-muted text-[10px] text-zinc-300 hover:text-white"
+                        >
+                          {copiedField === 'code' ? t.copiedBtn : t.copyBtn}
+                        </button>
+                      </div>
+                    </div>
 
-                  <div className="p-2.5 rounded-xl bg-surface-elevated border border-surface-border/60 flex items-center justify-between">
-                    <div>
-                      <span className="text-[10px] text-zinc-400 block">{t.accountNumberLabel}</span>
-                      <span className="font-mono font-bold text-brand text-sm tracking-wider">
-                        {PAYMENT_CONFIG.accountNumber}
+                    {/* Deposit Amount */}
+                    <div className="flex items-center justify-between pb-2 border-b border-surface-border">
+                      <span className="text-zinc-400 font-medium">{t.depositAmountLabel} ({depositPercent}%):</span>
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono font-black text-base text-emerald-400">
+                          {depositAmount.toLocaleString('vi-VN')} ₫
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => handleCopyText(String(depositAmount), 'amount')}
+                          className="px-2 py-0.5 rounded bg-surface-muted text-[10px] text-zinc-300 hover:text-white"
+                        >
+                          {copiedField === 'amount' ? t.copiedBtn : t.copyBtn}
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Transfer Memo */}
+                    <div className="flex items-center justify-between pb-2 border-b border-surface-border">
+                      <span className="text-zinc-400 font-medium">{t.transferMemoLabel}</span>
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono font-black text-xs text-brand bg-brand/10 px-2 py-1 rounded-md border border-brand/30">
+                          {transferMemo}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => handleCopyText(transferMemo, 'memo')}
+                          className="px-2 py-0.5 rounded bg-surface-muted text-[10px] text-zinc-300 hover:text-white"
+                        >
+                          {copiedField === 'memo' ? t.copiedBtn : t.copyBtn}
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Account Number */}
+                    <div className="flex items-center justify-between pb-2 border-b border-surface-border">
+                      <span className="text-zinc-400 font-medium">{t.accountNumberLabel}</span>
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono font-bold text-white text-xs">
+                          {PAYMENT_CONFIG.accountNumber}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => handleCopyText(PAYMENT_CONFIG.accountNumber, 'acc')}
+                          className="px-2 py-0.5 rounded bg-surface-muted text-[10px] text-zinc-300 hover:text-white"
+                        >
+                          {copiedField === 'acc' ? t.copiedBtn : t.copyBtn}
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Beneficiary */}
+                    <div className="flex items-center justify-between">
+                      <span className="text-zinc-400 font-medium">{t.accountHolderLabel}</span>
+                      <span className="font-bold text-white uppercase">
+                        {PAYMENT_CONFIG.accountHolder} ({PAYMENT_CONFIG.bankName})
                       </span>
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => handleCopyText(PAYMENT_CONFIG.accountNumber, 'acc')}
-                      className="px-3 py-1.5 rounded-lg bg-surface hover:bg-brand hover:text-black text-zinc-200 text-xs font-bold transition-colors flex items-center gap-1.5"
-                    >
-                      {copiedField === 'acc' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-                      <span>{copiedField === 'acc' ? t.copiedBtn : t.copyBtn}</span>
-                    </button>
                   </div>
 
-                  <div className="p-2.5 rounded-xl bg-surface-elevated border border-surface-border/60">
-                    <span className="text-[10px] text-zinc-400 block">{t.accountHolderLabel}</span>
-                    <span className="font-bold text-white text-xs uppercase">{PAYMENT_CONFIG.accountHolder}</span>
-                  </div>
-
-                  <div className="p-2.5 rounded-xl bg-brand/10 border border-brand/40 flex items-center justify-between">
-                    <div>
-                      <span className="text-[10px] text-zinc-400 block">{t.depositAmountLabel} ({depositPercent}%)</span>
-                      <span className="font-heading font-black text-brand text-base sm:text-lg">
-                        {depositAmount.toLocaleString('vi-VN')} ₫
-                      </span>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => handleCopyText(depositAmount.toString(), 'amount')}
-                      className="px-3 py-1.5 rounded-lg bg-brand text-black text-xs font-extrabold hover:bg-brand-400 transition-colors flex items-center gap-1.5 shadow-sm"
-                    >
-                      {copiedField === 'amount' ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                      <span>{copiedField === 'amount' ? t.copiedBtn : t.copyBtn}</span>
-                    </button>
-                  </div>
-
-                  <div className="p-2.5 rounded-xl bg-surface-elevated border border-surface-border/60 flex items-center justify-between">
-                    <div>
-                      <span className="text-[10px] text-zinc-400 block">{t.transferMemoLabel}</span>
-                      <span className="font-mono font-bold text-amber-400 text-xs sm:text-sm">{transferMemo}</span>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => handleCopyText(transferMemo, 'memo')}
-                      className="px-3 py-1.5 rounded-lg bg-surface hover:bg-brand hover:text-black text-zinc-200 text-xs font-bold transition-colors flex items-center gap-1.5"
-                    >
-                      {copiedField === 'memo' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-                      <span>{copiedField === 'memo' ? t.copiedBtn : t.copyBtn}</span>
-                    </button>
+                  {/* Summary details */}
+                  <div className="p-3 rounded-xl bg-surface-muted border border-surface-border text-zinc-300 space-y-1">
+                    <p>• {t.customerLabel} <strong className="text-white">{fullName}</strong> ({phone})</p>
+                    <p>• {t.packageLabel} <strong className="text-white">
+                      {bookingMode === 'custom'
+                        ? t.customPackageName
+                        : (locale === 'zh' ? activePackage.nameZh : locale === 'en' ? activePackage.nameEn : activePackage.nameVi)}
+                    </strong></p>
+                    <p>• {t.shootTimeLabel} <strong className="text-white">{shootTime} ngày {shootDate}</strong></p>
                   </div>
                 </div>
               </div>
 
-              {/* Action Buttons: 1. Send Zalo Receipt, 2. Confirm I Have Paid, 3. Next to Success */}
-              <div className="pt-2 flex flex-col sm:flex-row gap-3">
-                <a
-                  href={zaloNoticeUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 py-3.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg transition-colors"
-                >
-                  <MessageSquare className="w-4 h-4" />
-                  <span>{t.sendZaloBtn}</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
+              {/* Action Buttons in Step 5 */}
+              <div className="pt-4 border-t border-surface-border space-y-3">
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {/* Send bill receipt to Zalo */}
+                  <a
+                    href={zaloNoticeUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-3.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg transition-all"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                    <span>{t.sendZaloBtn}</span>
+                  </a>
 
-                <button
-                  type="button"
-                  onClick={() => handleProceedToSuccess(true)}
-                  className="flex-1 py-3.5 px-4 rounded-xl bg-brand text-black font-extrabold text-xs sm:text-sm hover:bg-brand-400 transition-colors flex items-center justify-center gap-2 shadow-glow"
-                >
-                  <CheckCircle2 className="w-4 h-4" />
-                  <span>{t.confirmPaidBtn}</span>
-                </button>
+                  {/* Confirm paid & proceed to Step 6 */}
+                  <button
+                    type="button"
+                    onClick={() => handleProceedToSuccess(true)}
+                    className="w-full py-3.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg transition-all"
+                  >
+                    <CheckCircle2 className="w-4 h-4" />
+                    <span>{t.confirmPaidBtn}</span>
+                  </button>
+                </div>
 
-                <button
-                  type="button"
-                  onClick={() => handleProceedToSuccess(false)}
-                  className="py-3.5 px-6 rounded-xl bg-surface-elevated hover:bg-surface border border-surface-border text-white font-bold text-xs sm:text-sm transition-colors flex items-center justify-center gap-1.5"
-                >
-                  <span>{t.nextBtn}</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
+                <div className="flex items-center justify-between pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setStep(4)}
+                    className="text-xs text-zinc-400 hover:text-white underline font-medium"
+                  >
+                    {t.backToEdit}
+                  </button>
 
-              <div className="pt-2 text-center">
-                <button
-                  type="button"
-                  onClick={() => setStep(4)}
-                  className="text-xs text-zinc-400 hover:text-white underline transition-colors"
-                >
-                  {t.backToEdit}
-                </button>
+                  <button
+                    type="button"
+                    onClick={() => handleProceedToSuccess(false)}
+                    className="px-6 py-2.5 rounded-xl bg-brand text-black font-extrabold text-xs hover:bg-brand-400 shadow-glow flex items-center gap-1.5"
+                  >
+                    <span>{t.nextBtn}</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
               </div>
             </div>
           )}
 
-          {/* STEP 6: CONGRATULATORY CONFIRMATION SCREEN */}
-          {step === 6 && bookingResult && (
-            <div className="text-center py-8 space-y-6 animate-in zoom-in-95 duration-300">
-              <div className="w-20 h-20 rounded-full bg-emerald-500/20 border-2 border-emerald-500 text-emerald-400 mx-auto flex items-center justify-center shadow-glow animate-bounce">
-                <CheckCircle2 className="w-12 h-12" />
+          {/* ========================================================================= */}
+          {/* STEP 6: CELEBRATION & FINAL CONFIRMATION */}
+          {/* ========================================================================= */}
+          {step === 6 && (
+            <div className="text-center py-6 space-y-6 animate-in zoom-in-95 duration-300">
+              
+              <div className="w-20 h-20 rounded-full bg-emerald-500/20 text-emerald-400 mx-auto flex items-center justify-center border-2 border-emerald-500/50 shadow-[0_0_30px_rgba(16,185,129,0.3)]">
+                <CheckCircle2 className="w-10 h-10" />
               </div>
 
               <div className="space-y-2">
-                <h2 className="font-heading font-black text-2xl sm:text-4xl text-white">
+                <h3 className="font-heading font-black text-2xl sm:text-3xl text-white">
                   {t.congratsTitle}
-                </h2>
-                <p className="text-xs sm:text-sm text-zinc-300">
+                </h3>
+                <p className="text-xs sm:text-sm text-zinc-300 max-w-xl mx-auto">
                   {t.congratsSubtitle}
                 </p>
-                <div className="inline-block px-8 py-3 rounded-2xl bg-brand/20 border-2 border-brand text-brand font-mono font-black text-3xl sm:text-4xl tracking-wider shadow-glow">
-                  {bookingResult.bookingCode}
+                <div className="inline-block px-4 py-2 rounded-2xl bg-brand/15 border border-brand/50 text-brand font-mono font-black text-xl sm:text-2xl shadow-glow">
+                  {bookingResult?.bookingCode || 'NHIEP-BOOKING-SUCCESS'}
                 </div>
               </div>
 
-              <p className="text-xs sm:text-sm text-zinc-300 max-w-xl mx-auto leading-relaxed bg-surface-elevated p-4 rounded-2xl border border-surface-border">
+              <p className="text-xs text-zinc-300 max-w-xl mx-auto leading-relaxed bg-surface-elevated/70 p-4 rounded-2xl border border-surface-border">
                 {t.congratsMessage}
               </p>
 
-              {/* Full Reservation Summary Details */}
-              <div className="max-w-xl mx-auto p-5 sm:p-6 rounded-3xl bg-surface-card border border-surface-border text-left space-y-3 text-xs sm:text-sm shadow-xl">
-                <h4 className="font-bold text-white border-b border-surface-border pb-2 flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
+              {/* Detailed Summary Card */}
+              <div className="max-w-lg mx-auto p-5 rounded-2xl bg-surface-elevated border border-surface-border text-left text-xs space-y-2.5 shadow-xl">
+                <h4 className="font-bold text-white text-sm border-b border-surface-border pb-2 flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-brand" />
                   <span>{t.orderSummaryTitle}</span>
                 </h4>
 
-                <div className="flex justify-between py-1 border-b border-surface-border/60">
+                <div className="flex justify-between">
                   <span className="text-zinc-400">{t.customerLabel}</span>
-                  <span className="font-bold text-white">{bookingResult.customerName}</span>
+                  <strong className="text-white">{fullName}</strong>
                 </div>
-                <div className="flex justify-between py-1 border-b border-surface-border/60">
+
+                <div className="flex justify-between">
                   <span className="text-zinc-400">{t.phoneLabel}</span>
-                  <span className="font-bold text-white font-mono">{bookingResult.phone}</span>
+                  <strong className="text-white font-mono">{phone}</strong>
                 </div>
-                <div className="flex justify-between py-1 border-b border-surface-border/60">
-                  <span className="text-zinc-400">{t.emailLabel}</span>
-                  <span className="font-bold text-zinc-200">{bookingResult.email || (locale === 'zh' ? '未提供' : locale === 'en' ? 'Not provided' : 'Chưa cung cấp')}</span>
-                </div>
-                <div className="flex justify-between py-1 border-b border-surface-border/60">
+
+                {email && (
+                  <div className="flex justify-between">
+                    <span className="text-zinc-400">{t.emailLabel}</span>
+                    <strong className="text-white">{email}</strong>
+                  </div>
+                )}
+
+                <div className="flex justify-between">
                   <span className="text-zinc-400">{t.packageLabel}</span>
-                  <span className="font-bold text-brand">{bookingResult.packageName}</span>
+                  <strong className="text-brand">
+                    {bookingMode === 'custom'
+                      ? t.customPackageName
+                      : (locale === 'zh' ? activePackage.nameZh : locale === 'en' ? activePackage.nameEn : activePackage.nameVi)}
+                  </strong>
                 </div>
-                <div className="flex justify-between py-1 border-b border-surface-border/60">
+
+                <div className="flex justify-between">
                   <span className="text-zinc-400">{t.shootTimeLabel}</span>
-                  <span className="font-bold text-white">{bookingResult.shootDate} ({bookingResult.shootTime})</span>
+                  <span className="text-white font-medium">{shootTime} • {shootDate}</span>
                 </div>
-                <div className="flex justify-between py-1 border-b border-surface-border/60">
+
+                <div className="flex justify-between">
                   <span className="text-zinc-400">{t.shootAddressLabel}</span>
-                  <span className="font-bold text-white max-w-[280px] truncate text-right">{bookingResult.shootAddress}</span>
+                  <span className="text-white font-medium capitalize">{selectedProvince} {shootAddress ? `- ${shootAddress}` : ''}</span>
                 </div>
-                <div className="flex justify-between py-1 border-b border-surface-border/60">
+
+                <div className="flex justify-between">
                   <span className="text-zinc-400">{t.depositPaidLabel}</span>
-                  <span className="font-bold text-emerald-400 font-mono">
-                    {depositPercent}% ({depositAmount.toLocaleString('vi-VN')} ₫)
+                  <span className="text-emerald-400 font-bold">{depositPercent}% ({depositAmount.toLocaleString('vi-VN')} ₫)</span>
+                </div>
+
+                <div className="flex justify-between border-t border-surface-border pt-2">
+                  <span className="text-zinc-400 font-bold">{t.statusLabel}</span>
+                  <span className="text-emerald-400 font-bold flex items-center gap-1">
+                    <Check className="w-3.5 h-3.5" />
+                    <span>{t.statusValue}</span>
                   </span>
-                </div>
-                <div className="flex justify-between pt-1 font-bold text-white">
-                  <span className="text-zinc-400">{t.totalCostLabel}</span>
-                  <span className="text-brand text-base sm:text-lg font-heading">{bookingResult.estimatedTotalVnd.toLocaleString('vi-VN')} ₫</span>
-                </div>
-                <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold flex items-center gap-2">
-                  <Check className="w-4 h-4 shrink-0" />
-                  <span>{t.statusValue}</span>
                 </div>
               </div>
 
-              {/* Navigation Action Buttons */}
-              <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
+              {/* Action Buttons */}
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
                 <Link
                   href={`/${locale}`}
-                  className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-surface-elevated border border-surface-border hover:bg-surface text-white text-xs font-bold transition-colors"
+                  className="w-full sm:w-auto px-6 py-3 rounded-xl bg-surface-elevated hover:bg-surface border border-surface-border text-zinc-200 text-xs font-bold transition-colors"
                 >
                   {t.backHomeBtn}
                 </Link>
 
                 <a
                   href={`tel:${PAYMENT_CONFIG.hotline}`}
-                  className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-colors flex items-center justify-center gap-2 shadow-lg"
+                  className="w-full sm:w-auto px-6 py-3 rounded-xl bg-surface-elevated hover:bg-surface border border-brand/40 text-brand font-bold text-xs flex items-center justify-center gap-2 transition-colors"
                 >
                   <Phone className="w-4 h-4" />
                   <span>{t.callHotlineBtn}</span>
                 </a>
 
                 <a
-                  href={zaloNoticeUrl}
+                  href={`https://zalo.me/${PAYMENT_CONFIG.zalo}?text=Toi muon hoi ve don dat lich ${bookingResult?.bookingCode || ''}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition-colors flex items-center justify-center gap-2 shadow-lg"
+                  className="w-full sm:w-auto px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg transition-colors"
                 >
-                  <MessageSquare className="w-4 h-4" />
+                  <ExternalLink className="w-4 h-4" />
                   <span>{t.chatZaloBtn}</span>
                 </a>
-
-                <Link
-                  href={`/${locale}/admin`}
-                  className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-brand text-black text-xs font-extrabold shadow-glow hover:bg-brand-400 transition-colors"
-                >
-                  {t.adminBtn}
-                </Link>
               </div>
             </div>
           )}
@@ -1340,8 +1823,13 @@ export default function BookingPage({
   params: { locale: string };
 }) {
   const locale = (params.locale || 'vi') as Locale;
+
   return (
-    <Suspense fallback={<div className="py-20 text-center text-zinc-400">Loading booking form...</div>}>
+    <Suspense fallback={
+      <div className="py-24 text-center">
+        <Loader2 className="w-8 h-8 animate-spin text-brand mx-auto" />
+      </div>
+    }>
       <BookingForm locale={locale} />
     </Suspense>
   );
