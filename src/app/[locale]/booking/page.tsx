@@ -605,6 +605,26 @@ function BookingForm({ locale }: { locale: Locale }) {
     });
   }, [depositAmount, bookingResult, transferMemo]);
 
+  const zaloNoticeUrl = useMemo(() => {
+    if (!bookingResult) return `https://zalo.me/${PAYMENT_CONFIG.zalo}`;
+    const code = bookingResult.bookingCode;
+    const name = bookingResult.customerName;
+    const phoneNum = bookingResult.phone;
+    const pkg = bookingResult.packageName;
+    const amountStr = depositAmount.toLocaleString('vi-VN');
+
+    let msg = '';
+    if (locale === 'zh') {
+      msg = `您好 nhiep.net！我已完成 VietQR MB BANK 订金转账：\n- 订单号：${code}\n- 客户姓名：${name}\n- 电话：${phoneNum}\n- 套餐：${pkg}\n- 订金金额：${amountStr} ₫\n请专员核验并确认档期。`;
+    } else if (locale === 'en') {
+      msg = `Hello nhiep.net! I have completed the deposit payment via VietQR MB BANK:\n- Booking Code: ${code}\n- Customer: ${name}\n- Phone: ${phoneNum}\n- Package: ${pkg}\n- Deposit Amount: ${amountStr} VND\nPlease verify and confirm my schedule.`;
+    } else {
+      msg = `Chào nhiep.net! Tôi vừa hoàn tất chuyển khoản đặt cọc qua VietQR MB BANK cho mã đơn: ${code} (${name} - ${phoneNum}). Gói: ${pkg}. Số tiền cọc: ${amountStr} ₫. Nhờ chuyên viên xác nhận giúp tôi.`;
+    }
+
+    return `https://zalo.me/${PAYMENT_CONFIG.zalo}?text=${encodeURIComponent(msg)}`;
+  }, [bookingResult, depositAmount, locale]);
+
   return (
     <div className="py-12">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
