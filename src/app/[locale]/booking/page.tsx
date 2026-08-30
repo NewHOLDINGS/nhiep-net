@@ -646,6 +646,13 @@ function BookingForm({ locale }: { locale: Locale }) {
     });
   }, [step5QrType, depositAmount, bookingResult, transferMemo]);
 
+  const currentStep5AccountNumber = isStep5Vat10
+    ? (PAYMENT_CONFIG.bizAccountNumber || '943913689')
+    : PAYMENT_CONFIG.accountNumber;
+  const currentStep5AccountHolder = isStep5Vat10
+    ? (PAYMENT_CONFIG.bizAccountHolder || 'CONG TY TNHH TAP ĐOAN NEW HOLDINGS')
+    : PAYMENT_CONFIG.accountHolder;
+
   const zaloNoticeUrl = useMemo(() => {
     if (!bookingResult) return `https://zalo.me/${PAYMENT_CONFIG.zalo}`;
     const code = bookingResult.bookingCode;
@@ -657,15 +664,15 @@ function BookingForm({ locale }: { locale: Locale }) {
 
     let msg = '';
     if (locale === 'zh') {
-      msg = `您好 nhiep.net！我已通过 ${isStep5Vat10 ? '企业 BIZ MBBANK 码（含10%增值税）' : 'VietQR MB BANK'} 完成订金转账：\n- 订单号：${code}\n- 客户姓名：${name}\n- 电话：${phoneNum}\n- 套餐与配置：${pkg}\n- 合同总额：${totalStr} ₫${isStep5Vat10 ? '（含10%增值税）' : ''}\n- 订金金额 (${depositPercent}%)：${amountStr} ₫\n- 收款账户：MB BANK 89052667799 (NGUYEN XUAN TOI)\n请专员核验并${isStep5Vat10 ? '开具增值税发票及' : ''}确认档期。`;
+      msg = `您好 nhiep.net！我已通过 ${isStep5Vat10 ? '企业 BIZ MBBANK 码（含10%增值税）' : 'VietQR MB BANK'} 完成订金转账：\n- 订单号：${code}\n- 客户姓名：${name}\n- 电话：${phoneNum}\n- 套餐与配置：${pkg}\n- 合同总额：${totalStr} ₫${isStep5Vat10 ? '（含10%增值税）' : ''}\n- 订金金额 (${depositPercent}%)：${amountStr} ₫\n- 收款账户：MB BANK ${currentStep5AccountNumber} (${currentStep5AccountHolder})\n请专员核验并${isStep5Vat10 ? '开具增值税发票及' : ''}确认档期。`;
     } else if (locale === 'en') {
-      msg = `Hello nhiep.net! I have completed the deposit payment via ${isStep5Vat10 ? 'BIZ MBBANK QR (INC. 10% VAT)' : 'VietQR MB BANK'}:\n- Booking Code: ${code}\n- Customer: ${name}\n- Phone: ${phoneNum}\n- Package & Setup: ${pkg}\n- Total Value: ${totalStr} VND${isStep5Vat10 ? ' (Inc. 10% VAT)' : ''}\n- Deposit Amount (${depositPercent}%): ${amountStr} VND\n- Beneficiary: MB BANK 89052667799 (NGUYEN XUAN TOI)\nPlease verify and ${isStep5Vat10 ? 'issue VAT invoice & ' : ''}confirm my schedule.`;
+      msg = `Hello nhiep.net! I have completed the deposit payment via ${isStep5Vat10 ? 'BIZ MBBANK QR (INC. 10% VAT)' : 'VietQR MB BANK'}:\n- Booking Code: ${code}\n- Customer: ${name}\n- Phone: ${phoneNum}\n- Package & Setup: ${pkg}\n- Total Value: ${totalStr} VND${isStep5Vat10 ? ' (Inc. 10% VAT)' : ''}\n- Deposit Amount (${depositPercent}%): ${amountStr} VND\n- Beneficiary: MB BANK ${currentStep5AccountNumber} (${currentStep5AccountHolder})\nPlease verify and ${isStep5Vat10 ? 'issue VAT invoice & ' : ''}confirm my schedule.`;
     } else {
-      msg = `Chào nhiep.net! Tôi vừa hoàn tất chuyển khoản đặt cọc qua ${isStep5Vat10 ? 'MÃ QR BIZ MBBANK (CÓ VAT 10%)' : 'VietQR MB BANK'} cho mã đơn: ${code} (${name} - ${phoneNum}).\n- Gói & Cấu hình: ${pkg}\n- Tổng giá trị hợp đồng: ${totalStr} ₫${isStep5Vat10 ? ' (Đã bao gồm 10% VAT)' : ''}\n- Số tiền cọc (${depositPercent}%): ${amountStr} ₫\n- Ngân hàng thụ hưởng: MB BANK 89052667799 (NGUYEN XUAN TOI)\nNhờ chuyên viên kiểm tra và ${isStep5Vat10 ? 'xuất hóa đơn VAT / ' : ''}xác nhận giúp tôi!`;
+      msg = `Chào nhiep.net! Tôi vừa hoàn tất chuyển khoản đặt cọc qua ${isStep5Vat10 ? 'MÃ QR BIZ MBBANK (CÓ VAT 10%)' : 'VietQR MB BANK'} cho mã đơn: ${code} (${name} - ${phoneNum}).\n- Gói & Cấu hình: ${pkg}\n- Tổng giá trị hợp đồng: ${totalStr} ₫${isStep5Vat10 ? ' (Đã bao gồm 10% VAT)' : ''}\n- Số tiền cọc (${depositPercent}%): ${amountStr} ₫\n- Ngân hàng thụ hưởng: MB BANK ${currentStep5AccountNumber} (${currentStep5AccountHolder})\nNhờ chuyên viên kiểm tra và ${isStep5Vat10 ? 'xuất hóa đơn VAT / ' : ''}xác nhận giúp tôi!`;
     }
 
     return `https://zalo.me/${PAYMENT_CONFIG.zalo}?text=${encodeURIComponent(msg)}`;
-  }, [bookingResult, depositAmount, effectiveContractAmount, isStep5Vat10, depositPercent, fullPackageSummary, locale]);
+  }, [bookingResult, depositAmount, effectiveContractAmount, isStep5Vat10, depositPercent, fullPackageSummary, locale, currentStep5AccountNumber, currentStep5AccountHolder]);
 
   return (
     <div className="py-12">
@@ -1638,10 +1645,10 @@ function BookingForm({ locale }: { locale: Locale }) {
 
                   <div className="mt-3 text-center">
                     <span className="text-xs font-mono font-black text-brand-600 block">
-                      STK: 89052667799
+                      STK: {currentStep5AccountNumber}
                     </span>
                     <span className="text-[11px] font-bold text-zinc-800 uppercase">
-                      NGUYEN XUAN TOI
+                      {currentStep5AccountHolder}
                     </span>
                   </div>
                 </div>
@@ -1725,11 +1732,11 @@ function BookingForm({ locale }: { locale: Locale }) {
                       <span className="text-zinc-400 font-medium">{t.accountNumberLabel}</span>
                       <div className="flex items-center gap-2">
                         <span className="font-mono font-bold text-white text-xs">
-                          {PAYMENT_CONFIG.accountNumber}
+                          {currentStep5AccountNumber}
                         </span>
                         <button
                           type="button"
-                          onClick={() => handleCopyText(PAYMENT_CONFIG.accountNumber, 'acc')}
+                          onClick={() => handleCopyText(currentStep5AccountNumber, 'acc')}
                           className="px-2 py-0.5 rounded bg-surface-muted text-[10px] text-zinc-300 hover:text-white"
                         >
                           {copiedField === 'acc' ? t.copiedBtn : t.copyBtn}
@@ -1740,8 +1747,8 @@ function BookingForm({ locale }: { locale: Locale }) {
                     {/* Beneficiary */}
                     <div className="flex items-center justify-between">
                       <span className="text-zinc-400 font-medium">{t.accountHolderLabel}</span>
-                      <span className="font-bold text-white uppercase">
-                        {PAYMENT_CONFIG.accountHolder} ({PAYMENT_CONFIG.bankName})
+                      <span className="font-bold text-white uppercase text-[11px] sm:text-xs text-right">
+                        {currentStep5AccountHolder} ({PAYMENT_CONFIG.bankName})
                       </span>
                     </div>
                   </div>

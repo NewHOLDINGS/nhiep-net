@@ -43,26 +43,12 @@ export default function HeroSection({
       <div className="absolute top-1/3 left-10 w-[300px] h-[300px] bg-amber-500/10 rounded-full blur-[100px] pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* 1. Header with Badge & Slogan */}
-        <div className="text-center max-w-4xl mx-auto space-y-5">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand/10 border border-brand/30 text-brand text-xs sm:text-sm font-black shadow-glow animate-pulse-slow tracking-wider uppercase">
+        {/* 1. Header with Slogan Badge */}
+        <div className="text-center max-w-4xl mx-auto mb-6">
+          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-brand/10 border border-brand/30 text-brand text-xs sm:text-base font-black shadow-glow tracking-wider uppercase">
             <Sparkles className="w-4 h-4 fill-brand" />
             <span>{dict.hero.badge}</span>
           </div>
-
-          {/* Heading */}
-          <h1 className="font-heading font-black text-3xl sm:text-5xl lg:text-6xl tracking-tight text-white leading-tight">
-            {dict.hero.titleHighlight}{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-400 to-orange-500">
-              {dict.hero.titleSuffix}
-            </span>
-          </h1>
-
-          {/* Subtitle */}
-          <p className="text-sm sm:text-base lg:text-lg text-zinc-300 max-w-2xl mx-auto leading-relaxed">
-            {dict.hero.subtitle}
-          </p>
         </div>
 
         {/* 2. 5 Core Service Categories (Placed directly under the slogan, above the action buttons) */}

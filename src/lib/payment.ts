@@ -4,6 +4,8 @@ export const PAYMENT_CONFIG = {
   bankCode: '970422', // MB Bank BIN code for VietQR
   accountNumber: '89052667799',
   accountHolder: 'NGUYEN XUAN TOI',
+  bizAccountNumber: '943913689',
+  bizAccountHolder: 'CONG TY TNHH TAP ĐOAN NEW HOLDINGS',
   qrImageStatic: '/qrmb.jpg',
   qrImageBizVat: '/qr_newholdings_bizmbbank.jpg',
   defaultDepositPercentage: 40, // 40% deposit

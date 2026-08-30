@@ -132,6 +132,13 @@ export default function PaymentQrModal({
   const isVat10 = qrType === 'biz';
   const effectiveTotalAmount = isVat10 ? Math.round(totalAmountVnd * 1.1) : totalAmountVnd;
 
+  const currentAccountNumber = isVat10
+    ? (PAYMENT_CONFIG.bizAccountNumber || '943913689')
+    : PAYMENT_CONFIG.accountNumber;
+  const currentAccountHolder = isVat10
+    ? (PAYMENT_CONFIG.bizAccountHolder || 'CONG TY TNHH TAP ĐOAN NEW HOLDINGS')
+    : PAYMENT_CONFIG.accountHolder;
+
   const depositPercent = customDepositPercent;
   const currentAmount = calculateDepositAmount(effectiveTotalAmount, depositPercent);
 
@@ -161,11 +168,11 @@ export default function PaymentQrModal({
     setIsConfirmedPaid(true);
   };
 
-  let zaloMessage = `Chào nhiep.net! Tôi vừa quét ${isVat10 ? 'MÃ QR BIZ MBBANK (CÓ VAT 10%)' : 'mã VietQR MB BANK'} đặt cọc cho đơn hàng:\n- Mã đơn: ${bookingCode}\n- Khách hàng: ${customerName}\n- Gói dịch vụ & cấu hình: ${packageName}\n- Tổng giá trị hợp đồng: ${effectiveTotalAmount.toLocaleString('vi-VN')} ₫${isVat10 ? ' (Đã bao gồm 10% VAT)' : ''}\n- Số tiền cọc (${depositPercent}%): ${currentAmount.toLocaleString('vi-VN')} ₫\n- Ngân hàng thụ hưởng: MB BANK 89052667799 (NGUYEN XUAN TOI)\nNhờ chuyên viên kiểm tra và ${isVat10 ? 'xuất hóa đơn VAT / ' : ''}gửi xác nhận hợp đồng giữ lịch giúp tôi!`;
+  let zaloMessage = `Chào nhiep.net! Tôi vừa quét ${isVat10 ? 'MÃ QR BIZ MBBANK (CÓ VAT 10%)' : 'mã VietQR MB BANK'} đặt cọc cho đơn hàng:\n- Mã đơn: ${bookingCode}\n- Khách hàng: ${customerName}\n- Gói dịch vụ & cấu hình: ${packageName}\n- Tổng giá trị hợp đồng: ${effectiveTotalAmount.toLocaleString('vi-VN')} ₫${isVat10 ? ' (Đã bao gồm 10% VAT)' : ''}\n- Số tiền cọc (${depositPercent}%): ${currentAmount.toLocaleString('vi-VN')} ₫\n- Ngân hàng thụ hưởng: MB BANK ${currentAccountNumber} (${currentAccountHolder})\nNhờ chuyên viên kiểm tra và ${isVat10 ? 'xuất hóa đơn VAT / ' : ''}gửi xác nhận hợp đồng giữ lịch giúp tôi!`;
   if (locale === 'en') {
-    zaloMessage = `Hello nhiep.net! I have completed the deposit payment via ${isVat10 ? 'BIZ MBBANK QR (INC. 10% VAT)' : 'VietQR MB BANK'}:\n- Booking Code: ${bookingCode}\n- Customer: ${customerName}\n- Package & Setup: ${packageName}\n- Total Value: ${effectiveTotalAmount.toLocaleString('vi-VN')} VND${isVat10 ? ' (Inc. 10% VAT)' : ''}\n- Deposit (${depositPercent}%): ${currentAmount.toLocaleString('vi-VN')} VND\n- Beneficiary: MB BANK 89052667799 (NGUYEN XUAN TOI)\nPlease verify and ${isVat10 ? 'issue VAT invoice & ' : ''}confirm my reservation!`;
+    zaloMessage = `Hello nhiep.net! I have completed the deposit payment via ${isVat10 ? 'BIZ MBBANK QR (INC. 10% VAT)' : 'VietQR MB BANK'}:\n- Booking Code: ${bookingCode}\n- Customer: ${customerName}\n- Package & Setup: ${packageName}\n- Total Value: ${effectiveTotalAmount.toLocaleString('vi-VN')} VND${isVat10 ? ' (Inc. 10% VAT)' : ''}\n- Deposit (${depositPercent}%): ${currentAmount.toLocaleString('vi-VN')} VND\n- Beneficiary: MB BANK ${currentAccountNumber} (${currentAccountHolder})\nPlease verify and ${isVat10 ? 'issue VAT invoice & ' : ''}confirm my reservation!`;
   } else if (locale === 'zh') {
-    zaloMessage = `您好 nhiep.net！我已通过 ${isVat10 ? '企业 BIZ MBBANK 码（含10%增值税）' : 'VietQR MB BANK'} 完成订金转账：\n- 订单号：${bookingCode}\n- 客户姓名：${customerName}\n- 套餐与配置：${packageName}\n- 合同总金额：${effectiveTotalAmount.toLocaleString('vi-VN')} ₫${isVat10 ? '（含10%增值税）' : ''}\n- 订金金额 (${depositPercent}%)：${currentAmount.toLocaleString('vi-VN')} ₫\n- 收款账户：MB BANK 89052667799 (NGUYEN XUAN TOI)\n请专员核验并${isVat10 ? '开具增值税发票及' : ''}确认档期！`;
+    zaloMessage = `您好 nhiep.net！我已通过 ${isVat10 ? '企业 BIZ MBBANK 码（含10%增值税）' : 'VietQR MB BANK'} 完成订金转账：\n- 订单号：${bookingCode}\n- 客户姓名：${customerName}\n- 套餐与配置：${packageName}\n- 合同总金额：${effectiveTotalAmount.toLocaleString('vi-VN')} ₫${isVat10 ? '（含10%增值税）' : ''}\n- 订金金额 (${depositPercent}%)：${currentAmount.toLocaleString('vi-VN')} ₫\n- 收款账户：MB BANK ${currentAccountNumber} (${currentAccountHolder})\n请专员核验并${isVat10 ? '开具增值税发票及' : ''}确认档期！`;
   }
 
   const zaloNoticeUrl = `https://zalo.me/${PAYMENT_CONFIG.zalo}?text=${encodeURIComponent(zaloMessage)}`;
@@ -185,7 +192,9 @@ export default function PaymentQrModal({
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               </h3>
               <p className="text-[11px] text-zinc-400">
-                {t.headerSub}
+                {isVat10
+                  ? `MB BANK ${currentAccountNumber} • ${currentAccountHolder}`
+                  : t.headerSub}
               </p>
             </div>
           </div>
@@ -315,12 +324,12 @@ export default function PaymentQrModal({
                   <div>
                     <span className="text-[10px] text-zinc-400 block">{t.accountLabel}</span>
                     <span className="font-mono font-bold text-brand text-sm tracking-wider">
-                      {PAYMENT_CONFIG.accountNumber}
+                      {currentAccountNumber}
                     </span>
                   </div>
                   <button
                     type="button"
-                    onClick={() => handleCopy(PAYMENT_CONFIG.accountNumber, 'acc')}
+                    onClick={() => handleCopy(currentAccountNumber, 'acc')}
                     className="px-2.5 py-1 rounded-lg bg-surface-elevated hover:bg-brand hover:text-black text-zinc-300 text-[10px] font-bold transition-colors flex items-center gap-1"
                   >
                     {copiedField === 'acc' ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
@@ -331,7 +340,7 @@ export default function PaymentQrModal({
                 <div className="p-2 rounded-xl bg-surface border border-surface-border/60 flex items-center justify-between">
                   <div>
                     <span className="text-[10px] text-zinc-400 block">{t.holderLabel}</span>
-                    <span className="font-bold text-white uppercase text-xs">{PAYMENT_CONFIG.accountHolder}</span>
+                    <span className="font-bold text-white uppercase text-xs">{currentAccountHolder}</span>
                   </div>
                 </div>
 
