@@ -37,22 +37,22 @@ export default function HeroSection({
   const dict = getDictionary(locale);
 
   return (
-    <section className="relative overflow-hidden pt-6 pb-16 lg:pt-12 lg:pb-20">
+    <section className="relative overflow-hidden pt-4 pb-4 sm:pt-6 sm:pb-6">
       {/* Background ambient lighting */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand/15 rounded-full blur-[140px] pointer-events-none -z-10" />
       <div className="absolute top-1/3 left-10 w-[300px] h-[300px] bg-amber-500/10 rounded-full blur-[100px] pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* 1. Header with Slogan Badge */}
-        <div className="text-center max-w-4xl mx-auto mb-6">
-          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-brand/10 border border-brand/30 text-brand text-xs sm:text-base font-black shadow-glow tracking-wider uppercase">
+        <div className="text-center max-w-4xl mx-auto mb-5">
+          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-brand/10 border border-brand/30 text-brand text-xs sm:text-base font-black shadow-glow tracking-wider uppercase">
             <Sparkles className="w-4 h-4 fill-brand" />
             <span>{dict.hero.badge}</span>
           </div>
         </div>
 
         {/* 2. 5 Core Service Categories (Placed directly under the slogan, above the action buttons) */}
-        <div className="mt-8 mb-8">
+        <div className="mt-5 mb-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {CATEGORIES.map((cat) => (
               <Link

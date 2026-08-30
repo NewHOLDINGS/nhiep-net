@@ -13,7 +13,7 @@ export default function ArticlesSection({ locale }: { locale: Locale }) {
   const featured = getFeaturedArticles(6);
 
   return (
-    <section className="py-16">
+    <section className="pt-2 pb-12 sm:pt-4 sm:pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10">
           <div>

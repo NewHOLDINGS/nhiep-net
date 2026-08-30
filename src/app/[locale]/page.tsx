@@ -6,7 +6,6 @@ import { getDictionary } from '@/data/translations';
 import { PACKAGES } from '@/data/packages';
 import HeroSection from '@/components/HeroSection';
 import PackageCard from '@/components/PackageCard';
-import ProvinceSection from '@/components/ProvinceSection';
 import ArticlesSection from '@/components/ArticlesSection';
 import { ArrowRight } from 'lucide-react';
 
@@ -84,14 +83,14 @@ export default function HomePage({
   const featuredPackages = PACKAGES.filter((p) => p.featured || p.popular).slice(0, 6);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* 1. Hero Section (with 5 Core Categories directly beneath slogan, above CTA buttons) */}
       <HeroSection locale={locale} />
 
       {/* 2. Featured Packages Grid */}
-      <section className="py-16">
+      <section className="pt-2 pb-8 sm:pt-4 sm:pb-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 sm:mb-10">
             <div>
               <span className="text-xs font-bold uppercase tracking-widest text-brand">
                 Featured Packages
@@ -118,7 +117,7 @@ export default function HomePage({
             ))}
           </div>
 
-          <div className="mt-12 text-center">
+          <div className="mt-10 sm:mt-12 text-center">
             <Link
               href={`/${locale}/packages`}
               className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-surface-muted hover:bg-surface-elevated border border-brand/40 text-white font-bold text-sm shadow-md hover:border-brand transition-all"
@@ -130,10 +129,7 @@ export default function HomePage({
         </div>
       </section>
 
-      {/* 3. Regional Hubs Showcase */}
-      <ProvinceSection locale={locale} />
-
-      {/* 4. Content Engine (200 SEO Articles Hub Highlights) */}
+      {/* 3. Content Engine (200 SEO Articles Hub Highlights) */}
       <ArticlesSection locale={locale} />
     </div>
   );
