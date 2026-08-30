@@ -53,7 +53,7 @@ async function testPptx() {
 
 async function testGeminiIntegration() {
   console.log('=== TEST 3: GEMINI AI PRODUCTION DIRECTOR ===');
-  const apiKey = '';
+  const apiKey = process.env.GEMINI_API_KEY || '';
   
   const prompt = `You are the Senior AI Production Director of nhiep.net.
 Language: VIETNAMESE.
