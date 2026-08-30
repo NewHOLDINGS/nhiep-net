@@ -328,11 +328,29 @@ export default function AiChatbotModal({
 
   const handleOpenQrFromCustomizer = (config: CustomBuilderConfig) => {
     const randomCode = `NHIEP-${Math.floor(10000 + Math.random() * 90000)}`;
-    let customPkgName = `Cấu hình ${config.gimbalOperators} Máy quay + ${config.photographers} Máy chụp + ${config.drones} Flycam`;
+    const addonsList: string[] = [];
+    if (config.express24h) {
+      addonsList.push(locale === 'zh' ? '24小时极速出片 (+1.200.000 ₫)' : locale === 'en' ? '24-Hour Express Delivery (+1,200,000 VND)' : 'Hậu kỳ hỏa tốc nhận file trong 24h (+1.200.000 ₫)');
+    }
+    if (config.makeupMUA) {
+      addonsList.push(locale === 'zh' ? '专属跟妆造型 (+1.000.000 ₫)' : locale === 'en' ? 'On-Location Makeup Artist & Hair (+1,000,000 VND)' : 'Chuyên viên Trang điểm & Làm tóc tận nơi (+1.000.000 ₫)');
+    }
+    if (config.luxuryPhotobook) {
+      addonsList.push(locale === 'zh' ? '30x30cm高档水晶相册 (+1.500.000 ₫)' : locale === 'en' ? 'Luxury Photobook 30x30cm (+1,500,000 VND)' : 'Album Photobook cao cấp 30x30cm (+1.500.000 ₫)');
+    }
+
+    let customPkgName = '';
     if (locale === 'en') {
-      customPkgName = `Custom Setup: ${config.gimbalOperators} Gimbal + ${config.photographers} Photo + ${config.drones} Drone`;
+      customPkgName = `Custom Configuration: ${config.gimbalOperators} Gimbal 4K Operators, ${config.photographers} Lead Photographers, ${config.drones} DJI Drones (Editing: ${config.editingQuality.toUpperCase()})`;
     } else if (locale === 'zh') {
-      customPkgName = `定制方案：${config.gimbalOperators}机位云台 + ${config.photographers}机位摄影 + ${config.drones}台航拍`;
+      customPkgName = `自主定制方案：${config.gimbalOperators}位4K电影云台摄像师、${config.photographers}位索尼A7R V摄影师、${config.drones}台大疆航拍机（${config.editingQuality.toUpperCase()}剪辑标准）`;
+    } else {
+      customPkgName = `Cấu hình tự chọn: ${config.gimbalOperators} Thợ quay Gimbal 4K Cinema + ${config.photographers} Thợ chụp ảnh Sony A7R V + ${config.drones} Flycam DJI 4K (Dựng ${config.editingQuality.toUpperCase()})`;
+    }
+
+    if (addonsList.length > 0) {
+      const addonPrefix = locale === 'zh' ? '【增值选项】' : locale === 'en' ? '【Add-ons】' : '【Bổ sung】';
+      customPkgName += ` • ${addonPrefix}: ${addonsList.join(', ')}`;
     }
 
     setQrModalData({

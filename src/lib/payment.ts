@@ -5,6 +5,7 @@ export const PAYMENT_CONFIG = {
   accountNumber: '89052667799',
   accountHolder: 'NGUYEN XUAN TOI',
   qrImageStatic: '/qrmb.jpg',
+  qrImageBizVat: '/qr_newholdings_bizmbbank.jpg',
   defaultDepositPercentage: 40, // 40% deposit
   hotline: '0943391369',
   zalo: '0943391369'

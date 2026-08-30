@@ -178,6 +178,7 @@ export default function PackageCard({
         bookingCode={`NHIEP-${Math.floor(10000 + Math.random() * 90000)}`}
         packageName={name}
         totalAmountVnd={pkg.priceVnd}
+        locale={locale}
       />
     </>
   );

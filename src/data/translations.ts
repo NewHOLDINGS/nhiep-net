@@ -15,17 +15,17 @@ export const DICTIONARY = {
       selectProvince: 'Chọn Khu Vực'
     },
     hero: {
-      badge: 'Nền tảng Đặt Lịch Quay Chụp Số 1 Miền Trung',
+      badge: 'ĐẶT LỊCH QUAY PHIM CHỤP HÌNH, HẬU KỲ',
       titleHighlight: 'Khoảnh Khắc Vàng',
       titleSuffix: 'Nghệ Thuật Thị Giác Đỉnh Cao',
-      subtitle: 'Kết nối mạng lưới nhiếp ảnh gia, đạo diễn hình ảnh & ekip sản xuất hàng đầu tại Đà Nẵng, Huế, Quảng Trị và Khánh Hòa. Minh bạch giá cả, chất lượng điện ảnh, phục vụ tận tâm.',
+      subtitle: 'Kết nối mạng lưới nhiếp ảnh gia, đạo diễn hình ảnh & ekip sản xuất hàng đầu. Minh bạch giá cả, chất lượng điện ảnh, phục vụ tận tâm.',
       explorePackages: 'Xem Các Gói Dịch Vụ',
       instantBooking: 'Đặt Lịch Nhanh 2 Phút',
       aiConsultant: 'Tư Vấn AI nhiep.net',
       stat1Number: '45+',
       stat1Label: 'Gói Dịch Vụ Chuẩn Cinema',
-      stat2Number: '4 Tỉnh',
-      stat2Label: 'Đà Nẵng • Huế • Quảng Trị • Khánh Hòa',
+      stat2Number: '100%',
+      stat2Label: 'Chuyên Nghiệp & Tận Tâm',
       stat3Number: '200+',
       stat3Label: 'Bài Viết & Cẩm Nang Local SEO',
       stat4Number: '99.8%',
@@ -33,7 +33,7 @@ export const DICTIONARY = {
     },
     provinces: {
       title: 'Khu Vực Phục Vụ Trọng Điểm',
-      subtitle: 'Đội ngũ túc trực 24/7 tại 4 trung tâm văn hóa và du lịch nổi tiếng nhất miền Trung',
+      subtitle: 'Đội ngũ túc trực 24/7 tại các trung tâm văn hóa và du lịch nổi tiếng',
       viewPackagesIn: 'Xem gói dịch vụ tại'
     },
     categories: {
@@ -45,7 +45,7 @@ export const DICTIONARY = {
       title: 'Bảng Giá & Gói Dịch Vụ Tiêu Chuẩn',
       subtitle: 'Minh bạch chi phí, không phụ phí phát sinh, cam kết bàn giao đúng tiến độ',
       filterAll: 'Tất cả danh mục',
-      filterAllProvinces: 'Tất cả 4 tỉnh',
+      filterAllProvinces: 'Tất cả khu vực',
       bookThis: 'Đặt Gói Này',
       duration: 'Thời lượng',
       crew: 'Ekip',
@@ -101,18 +101,18 @@ export const DICTIONARY = {
     chat: {
       widgetTitle: 'Tư Vấn AI nhiep.net',
       onlineStatus: 'Tư Vấn & Báo Giá Trực Tuyến 24/7',
-      welcomeMessage: 'Xin chào! Tôi là trợ lý AI thông minh của nhiep.net. Tôi có thể tư vấn gói quay chụp cưới, sự kiện, du lịch tại Đà Nẵng, Huế, Quảng Trị, Khánh Hòa kèm báo giá chuẩn xác nhất. Bạn đang tìm dịch vụ nào?',
-      inputPlaceholder: 'Hỏi về giá chụp ảnh cưới Đà Nẵng, quay sự kiện...',
+      welcomeMessage: 'Xin chào! Tôi là trợ lý AI thông minh của nhiep.net. Tôi có thể tư vấn gói quay chụp cưới, sự kiện, doanh nghiệp, du lịch kèm báo giá chuẩn xác nhất. Bạn đang tìm dịch vụ nào?',
+      inputPlaceholder: 'Hỏi về giá chụp ảnh cưới, quay sự kiện TVC...',
       send: 'Gửi',
-      chip1: 'Gói chụp ảnh cưới Đà Nẵng',
-      chip2: 'Báo giá quay sự kiện Nha Trang',
-      chip3: 'Chụp áo dài Cố đô Huế',
+      chip1: 'Gói chụp ảnh cưới Pre-wedding',
+      chip2: 'Báo giá quay sự kiện & TVC',
+      chip3: 'Chụp áo dài & Chân dung nghệ thuật',
       chip4: 'Flycam & Hậu kỳ 24h',
       directHotline: 'Cần hỗ trợ gấp? Gọi ngay Hotline:'
     },
     blog: {
       title: 'Cẩm Nang & Kinh Nghiệm Quay Chụp',
-      subtitle: '200+ bài viết hướng dẫn chuyên sâu, cẩm nang chọn địa điểm, mẹo tạo dáng và bảng giá thực tế tại miền Trung',
+      subtitle: '200+ bài viết hướng dẫn chuyên sâu, cẩm nang chọn địa điểm, mẹo tạo dáng và bảng giá thực tế',
       readMore: 'Đọc Bài Viết',
       minRead: 'phút đọc',
       filterCategory: 'Lọc theo danh mục',
@@ -149,8 +149,19 @@ export const DICTIONARY = {
       actionCancel: 'Hủy lịch',
       noBookings: 'Chưa có lịch đặt nào phù hợp với bộ lọc.'
     },
+    testimonials: {
+      tag: 'ĐÁNH GIÁ XÁC THỰC',
+      title: 'Đánh Giá Từ Khách Hàng Thực Tế',
+      subtitle: 'Hơn 2,500+ dự án quay chụp thành công và nhận được sự tin yêu trọn vẹn từ khách hàng trong nước và quốc tế'
+    },
+    cta: {
+      badge: 'Sẵn Sàng Ghi Lại Khoảnh Khắc Đỉnh Cao?',
+      title: 'Đặt Lịch Ngay Hôm Nay Để Nhận Ưu Đãi Flycam & Hậu Kỳ 24H',
+      subtitle: 'Ekip nhiep.net luôn sẵn sàng đồng hành cùng bạn trên mọi hành trình sáng tạo.',
+      allPackagesBtn: 'Xem toàn bộ {count} gói dịch vụ & bảng giá chi tiết'
+    },
     footer: {
-      about: 'nhiep.net — Nền tảng chuyên nghiệp hàng đầu cung cấp dịch vụ quay phim, chụp ảnh, hậu kỳ và tổ chức sự kiện đỉnh cao tại Đà Nẵng, Huế, Quảng Trị và Khánh Hòa.',
+      about: 'nhiep.net — Nền tảng chuyên nghiệp hàng đầu cung cấp dịch vụ quay phim, chụp ảnh, hậu kỳ và tổ chức sự kiện đỉnh cao.',
       quickLinks: 'Liên Kết Nhanh',
       services: 'Dịch Vụ Nổi Bật',
       contactInfo: 'Thông Tin Liên Hệ',
@@ -175,17 +186,17 @@ export const DICTIONARY = {
       selectProvince: 'Select Region'
     },
     hero: {
-      badge: '#1 Photography & Videography Platform in Central Vietnam',
+      badge: 'BOOKING FILMING, PHOTOGRAPHY & POST-PRODUCTION',
       titleHighlight: 'Golden Moments',
       titleSuffix: 'World-Class Visual Artistry',
-      subtitle: 'Connect with elite photographers, cinema directors, and production crews across Da Nang, Hue, Quang Tri, and Khanh Hoa (Nha Trang). Transparent pricing and cinematic quality.',
+      subtitle: 'Connect with elite photographers, cinema directors, and production crews. Transparent pricing and cinematic quality.',
       explorePackages: 'Explore Packages',
       instantBooking: 'Instant 2-Min Booking',
       aiConsultant: 'nhiep.net AI Consultant',
       stat1Number: '45+',
       stat1Label: 'Cinema-Grade Packages',
-      stat2Number: '4 Hubs',
-      stat2Label: 'Da Nang • Hue • Quang Tri • Khanh Hoa',
+      stat2Number: '100%',
+      stat2Label: 'Professional & Dedicated',
       stat3Number: '200+',
       stat3Label: 'Local SEO Articles & Guides',
       stat4Number: '99.8%',
@@ -193,7 +204,7 @@ export const DICTIONARY = {
     },
     provinces: {
       title: 'Our Prime Regional Hubs',
-      subtitle: 'Dedicated production crews stationed 24/7 across Central Vietnam’s most scenic regions',
+      subtitle: 'Dedicated production crews stationed 24/7 across prime scenic regions',
       viewPackagesIn: 'Explore packages in'
     },
     categories: {
@@ -205,7 +216,7 @@ export const DICTIONARY = {
       title: 'Standard Pricing & Service Packages',
       subtitle: 'Transparent rates, zero hidden fees, and guaranteed timely delivery',
       filterAll: 'All Categories',
-      filterAllProvinces: 'All 4 Provinces',
+      filterAllProvinces: 'All Locations',
       bookThis: 'Book This Package',
       duration: 'Duration',
       crew: 'Crew Size',
@@ -261,18 +272,18 @@ export const DICTIONARY = {
     chat: {
       widgetTitle: 'nhiep.net AI Consultant',
       onlineStatus: '24/7 Intelligent Consultation & Quotes',
-      welcomeMessage: 'Hello! I am the AI consultant for nhiep.net. I can assist you with pre-wedding shoots, corporate videos, travel phototours across Da Nang, Hue, Quang Tri, and Nha Trang with instant pricing. What service are you looking for?',
-      inputPlaceholder: 'Ask about wedding packages in Da Nang, event videography...',
+      welcomeMessage: 'Hello! I am the AI consultant for nhiep.net. I can assist you with pre-wedding shoots, corporate videos, commercials, and phototours with instant pricing. What service are you looking for?',
+      inputPlaceholder: 'Ask about wedding packages, event videography, commercials...',
       send: 'Send',
-      chip1: 'Pre-wedding in Da Nang',
-      chip2: 'Event videography Nha Trang',
-      chip3: 'Heritage Ao Dai in Hue',
+      chip1: 'Pre-wedding photoshoot',
+      chip2: 'Event videography & TVC',
+      chip3: 'Artistic Portrait & Ao Dai',
       chip4: 'Drone & 24h Express Editing',
       directHotline: 'Need urgent assistance? Call our hotline:'
     },
     blog: {
       title: 'Photography Guides & Local Insights',
-      subtitle: '200+ in-depth articles on top locations, pricing benchmarks, posing tips, and production planning across Central Vietnam',
+      subtitle: '200+ in-depth articles on top locations, pricing benchmarks, posing tips, and production planning',
       readMore: 'Read Full Guide',
       minRead: 'min read',
       filterCategory: 'Filter by Category',
@@ -309,8 +320,19 @@ export const DICTIONARY = {
       actionCancel: 'Cancel',
       noBookings: 'No bookings found matching current filters.'
     },
+    testimonials: {
+      tag: 'VERIFIED REVIEWS',
+      title: 'Real Client Reviews & Feedback',
+      subtitle: 'Over 2,500+ successful productions trusted by domestic and international clients'
+    },
+    cta: {
+      badge: 'Ready to Capture Peak Moments?',
+      title: 'Book Today to Receive Exclusive Drone & 24H Post-Production Deals',
+      subtitle: 'The nhiep.net crew is always ready to accompany you on every creative journey.',
+      allPackagesBtn: 'View all {count} packages & detailed pricing'
+    },
     footer: {
-      about: 'nhiep.net — The premier production platform for cinematic photography, videography, post-production, and live event coverage across Da Nang, Hue, Quang Tri, and Khanh Hoa.',
+      about: 'nhiep.net — The premier production platform for cinematic photography, videography, post-production, and live event coverage.',
       quickLinks: 'Quick Links',
       services: 'Featured Services',
       contactInfo: 'Direct Contact Channels',
@@ -335,17 +357,17 @@ export const DICTIONARY = {
       selectProvince: '选择地区'
     },
     hero: {
-      badge: '越南中部No.1专业摄影摄像与旅拍预约平台',
+      badge: '影视拍摄、摄影与后期制作预约',
       titleHighlight: '定格高光时刻',
       titleSuffix: '呈现院线级光影艺术',
-      subtitle: '汇聚岘港、顺化、广治与庆和（芽庄）顶级摄影师、影视导演及专业摄制团队。透明价格、电影质感、全程贴心服务。',
+      subtitle: '汇聚顶级摄影师、影视导演及专业摄制团队。透明价格、电影质感、全程贴心服务。',
       explorePackages: '查阅精选套餐',
       instantBooking: '2分钟极速预约',
       aiConsultant: 'nhiep.net AI智能顾问',
       stat1Number: '45+',
       stat1Label: '电影级标准套餐',
-      stat2Number: '4大区域',
-      stat2Label: '岘港 • 顺化 • 广治 • 庆和',
+      stat2Number: '100%',
+      stat2Label: '专业敬业・全程护航',
       stat3Number: '200+',
       stat3Label: '本地深度SEO攻略文章',
       stat4Number: '99.8%',
@@ -353,7 +375,7 @@ export const DICTIONARY = {
     },
     provinces: {
       title: '核心服务区域',
-      subtitle: '驻扎在越南中部四大知名文化与海滨度假胜地的全天候专业摄制团队',
+      subtitle: '驻扎在各大知名文化与海滨度假胜地的全天候专业摄制团队',
       viewPackagesIn: '查看该地区套餐：'
     },
     categories: {
@@ -365,7 +387,7 @@ export const DICTIONARY = {
       title: '标准服务套餐与明细报价',
       subtitle: '价格公开透明，无任何隐形附加费，保障高效准时交付',
       filterAll: '全部服务类别',
-      filterAllProvinces: '全部4个省市',
+      filterAllProvinces: '全部地区',
       bookThis: '立即预约此套餐',
       duration: '服务时长',
       crew: '主创人员',
@@ -421,12 +443,12 @@ export const DICTIONARY = {
     chat: {
       widgetTitle: 'nhiep.net AI 智能顾问',
       onlineStatus: '24/7 在线智能咨询与精准报价',
-      welcomeMessage: '您好！我是 nhiep.net 的AI智能顾问。我可以为您提供岘港、顺化、广治、芽庄的婚纱摄影、会议录像、度假旅拍等全方位咨询与实时报价。请问您正在寻找哪项服务？',
-      inputPlaceholder: '咨询岘港婚纱摄影价格、芽庄活动拍摄...',
+      welcomeMessage: '您好！我是 nhiep.net 的AI智能顾问。我可以为您提供婚纱摄影、会议录像、商业影视、度假旅拍等全方位咨询与实时报价。请问您正在寻找哪项服务？',
+      inputPlaceholder: '咨询婚纱摄影价格、商业影视拍摄...',
       send: '发送',
-      chip1: '岘港婚纱摄影套餐',
-      chip2: '芽庄会议录像报价',
-      chip3: '顺化皇城奥黛写真',
+      chip1: '唯美婚纱摄影套餐',
+      chip2: '企业会议与TVC广告',
+      chip3: '古风奥黛与艺术写真',
       chip4: '航拍与24小时加急',
       directHotline: '急需专人对接？欢迎随时直拨热线：'
     },
@@ -469,8 +491,19 @@ export const DICTIONARY = {
       actionCancel: '取消预约',
       noBookings: '暂无符合筛选条件的预约记录。'
     },
+    testimonials: {
+      tag: '真实客户口碑',
+      title: '真实客户好评与反馈',
+      subtitle: '超过2,500+次拍摄制作落地，收获海内外客户高度赞誉与信赖'
+    },
+    cta: {
+      badge: '准备好定格高光时刻了吗？',
+      title: '今日预约即享航拍与24小时极速后期专属特惠',
+      subtitle: 'nhiep.net 摄制团队随时为您提供全方位的专业创作支持。',
+      allPackagesBtn: '查阅全部 {count} 个精选套餐与详细价格表'
+    },
     footer: {
-      about: 'nhiep.net — 越南中部领先的专业影像制作与旅拍预订平台，专注于岘港、顺化、广治、庆和全境的高端摄影、影视摄录与商业活动全案。',
+      about: 'nhiep.net — 领先的专业影像制作与旅拍预订平台，专注于高端摄影、影视摄录与商业活动全案。',
       quickLinks: '快速链接',
       services: '核心服务',
       contactInfo: '官方联系渠道',

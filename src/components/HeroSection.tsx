@@ -6,7 +6,26 @@ import Image from 'next/image';
 import { Locale } from '@/types';
 import { getDictionary } from '@/data/translations';
 import { PROVINCES } from '@/data/provinces';
-import { ArrowRight, CalendarPlus, Sparkles, ShieldCheck, Video, Camera, Award, MapPin } from 'lucide-react';
+import { CATEGORIES } from '@/data/categories';
+import {
+  ArrowRight,
+  CalendarPlus,
+  Sparkles,
+  Camera,
+  Video,
+  SlidersHorizontal,
+  Calendar,
+  Compass,
+  MapPin
+} from 'lucide-react';
+
+const ICON_MAP: Record<string, React.ReactNode> = {
+  Camera: <Camera className="w-4 h-4" />,
+  Video: <Video className="w-4 h-4" />,
+  SlidersHorizontal: <SlidersHorizontal className="w-4 h-4" />,
+  Calendar: <Calendar className="w-4 h-4" />,
+  Compass: <Compass className="w-4 h-4" />
+};
 
 export default function HeroSection({
   locale,
@@ -18,15 +37,16 @@ export default function HeroSection({
   const dict = getDictionary(locale);
 
   return (
-    <section className="relative overflow-hidden pt-8 pb-20 lg:pt-16 lg:pb-28">
+    <section className="relative overflow-hidden pt-6 pb-16 lg:pt-12 lg:pb-20">
       {/* Background ambient lighting */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand/15 rounded-full blur-[140px] pointer-events-none -z-10" />
       <div className="absolute top-1/3 left-10 w-[300px] h-[300px] bg-amber-500/10 rounded-full blur-[100px] pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-4xl mx-auto space-y-6">
+        {/* 1. Header with Badge & Slogan */}
+        <div className="text-center max-w-4xl mx-auto space-y-5">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand/10 border border-brand/30 text-brand text-xs font-bold shadow-glow animate-pulse-slow">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand/10 border border-brand/30 text-brand text-xs sm:text-sm font-black shadow-glow animate-pulse-slow tracking-wider uppercase">
             <Sparkles className="w-4 h-4 fill-brand" />
             <span>{dict.hero.badge}</span>
           </div>
@@ -43,9 +63,60 @@ export default function HeroSection({
           <p className="text-sm sm:text-base lg:text-lg text-zinc-300 max-w-2xl mx-auto leading-relaxed">
             {dict.hero.subtitle}
           </p>
+        </div>
 
-          {/* Action CTAs */}
-          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+        {/* 2. 5 Core Service Categories (Placed directly under the slogan, above the action buttons) */}
+        <div className="mt-8 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {CATEGORIES.map((cat) => (
+              <Link
+                key={cat.id}
+                href={`/${locale}/packages?category=${cat.id}`}
+                className="group relative rounded-2xl overflow-hidden glass-panel glass-panel-hover flex flex-col h-[320px] border border-surface-border text-left hover:border-brand/60 transition-all duration-300 hover:shadow-glow-sm"
+              >
+                {/* Category Thumbnail */}
+                <div className="relative w-full h-36 overflow-hidden">
+                  <Image
+                    src={cat.heroImage}
+                    alt={locale === 'zh' ? cat.nameZh : locale === 'en' ? cat.nameEn : cat.nameVi}
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-surface-card via-surface-card/40 to-transparent" />
+                  <div className="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full bg-black/70 backdrop-blur-md border border-white/10 text-[10px] font-bold text-amber-400">
+                    {cat.badge}
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="p-3.5 flex-1 flex flex-col justify-between">
+                  <div>
+                    <div className="w-7 h-7 rounded-lg bg-brand/10 border border-brand/30 text-brand flex items-center justify-center mb-2 group-hover:bg-brand group-hover:text-black transition-colors">
+                      {ICON_MAP[cat.icon] || <Camera className="w-4 h-4" />}
+                    </div>
+                    <h3 className="font-heading font-bold text-sm text-white group-hover:text-brand transition-colors line-clamp-1">
+                      {locale === 'zh' ? cat.nameZh : locale === 'en' ? cat.nameEn : cat.nameVi}
+                    </h3>
+                    <p className="text-[11px] text-zinc-400 line-clamp-2 mt-1 leading-relaxed">
+                      {locale === 'zh' ? cat.descriptionZh : locale === 'en' ? cat.descriptionEn : cat.descriptionVi}
+                    </p>
+                  </div>
+
+                  <div className="pt-2 flex items-center text-[11px] font-bold text-brand group-hover:translate-x-1 transition-transform">
+                    <span>
+                      {locale === 'zh' ? '查看所有服务' : locale === 'en' ? 'Explore packages' : 'Khám phá gói'}
+                    </span>
+                    <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* 3. Action CTAs & Province Selector (Placed below the 5 categories) */}
+        <div className="text-center max-w-4xl mx-auto space-y-6">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
             <Link
               href={`/${locale}/booking`}
               className="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-black font-extrabold text-sm sm:text-base flex items-center justify-center gap-2.5 shadow-glow hover:shadow-glow-lg transition-all transform hover:-translate-y-0.5"
@@ -74,7 +145,7 @@ export default function HeroSection({
           </div>
 
           {/* Province selector pills */}
-          <div className="pt-6 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
             <span className="text-xs text-zinc-500 font-semibold uppercase tracking-wider mr-1">
               {dict.nav.selectProvince}:
             </span>

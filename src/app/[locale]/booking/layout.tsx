@@ -11,10 +11,11 @@ export async function generateMetadata({
   const locale = (params.locale || 'vi') as Locale;
   const dict = getDictionary(locale);
 
-  const title = `${dict.booking.title} | nhiep.net`;
-  const desc = `${dict.booking.subtitle} - Đặt lịch chụp ảnh, quay phim online tại Đà Nẵng, Huế, Quảng Trị, Nha Trang.`;
+  const title = `${dict.booking.title} — ${dict.hero.badge} | nhiep.net`;
+  const desc = dict.hero.badge;
 
   return {
+    metadataBase: new URL('https://nhiep.net'),
     title,
     description: desc,
     alternates: {
@@ -32,23 +33,35 @@ export async function generateMetadata({
       url: `https://nhiep.net/${locale}/booking`,
       siteName: 'nhiep.net',
       locale: locale === 'zh' ? 'zh_CN' : locale === 'en' ? 'en_US' : 'vi_VN',
-      type: 'website'
+      type: 'website',
+      images: [
+        {
+          url: 'https://nhiep.net/nhiep.jpg',
+          width: 1200,
+          height: 1200,
+          alt: `${title} - ${desc}`,
+          type: 'image/jpeg'
+        },
+        {
+          url: 'https://nhiep.net/logo.jpg',
+          width: 1200,
+          height: 1200,
+          alt: `${title} - ${desc}`,
+          type: 'image/jpeg'
+        }
+      ]
     },
     twitter: {
       card: 'summary_large_image',
       title,
-      description: desc
+      description: desc,
+      images: ['https://nhiep.net/nhiep.jpg']
     },
     other: {
-      'geo.region': 'VN-DN;VN-26;VN-25;VN-34',
-      'geo.placename':
-        locale === 'zh'
-          ? '岘港, 顺化, 广治, 芽庄, 越南'
-          : locale === 'en'
-          ? 'Da Nang, Hue, Quang Tri, Nha Trang, Vietnam'
-          : 'Đà Nẵng, Thừa Thiên Huế, Quảng Trị, Khánh Hòa, Việt Nam',
-      'geo.position': '16.0594;108.1492',
-      ICBM: '16.0594, 108.1492',
+      'og:image:secure_url': 'https://nhiep.net/nhiep.jpg',
+      'og:image:type': 'image/jpeg',
+      'og:image:width': '1200',
+      'og:image:height': '1200',
       'DC.Language': locale
     }
   };

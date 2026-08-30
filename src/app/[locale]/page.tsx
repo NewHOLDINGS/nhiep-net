@@ -5,12 +5,11 @@ import { Locale } from '@/types';
 import { getDictionary } from '@/data/translations';
 import { PACKAGES } from '@/data/packages';
 import HeroSection from '@/components/HeroSection';
-import CategorySection from '@/components/CategorySection';
 import PackageCard from '@/components/PackageCard';
 import ProvinceSection from '@/components/ProvinceSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
 import ArticlesSection from '@/components/ArticlesSection';
-import { ArrowRight, CalendarPlus, ShieldCheck, Zap, Sparkles } from 'lucide-react';
+import { ArrowRight, CalendarPlus, Sparkles } from 'lucide-react';
 
 export async function generateMetadata({
   params
@@ -20,10 +19,11 @@ export async function generateMetadata({
   const locale = (params.locale || 'vi') as Locale;
   const dict = getDictionary(locale);
 
-  const title = `${dict.hero.badge} | nhiep.net`;
-  const desc = dict.hero.subtitle;
+  const title = `nhiep.net — ${dict.hero.badge}`;
+  const desc = dict.hero.badge;
 
   return {
+    metadataBase: new URL('https://nhiep.net'),
     title,
     description: desc,
     alternates: {
@@ -41,7 +41,36 @@ export async function generateMetadata({
       url: `https://nhiep.net/${locale}`,
       siteName: 'nhiep.net',
       locale: locale === 'zh' ? 'zh_CN' : locale === 'en' ? 'en_US' : 'vi_VN',
-      type: 'website'
+      type: 'website',
+      images: [
+        {
+          url: 'https://nhiep.net/nhiep.jpg',
+          width: 1200,
+          height: 1200,
+          alt: `${title} - ${desc}`,
+          type: 'image/jpeg'
+        },
+        {
+          url: 'https://nhiep.net/logo.jpg',
+          width: 1200,
+          height: 1200,
+          alt: `${title} - ${desc}`,
+          type: 'image/jpeg'
+        }
+      ]
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description: desc,
+      images: ['https://nhiep.net/nhiep.jpg']
+    },
+    other: {
+      'og:image:secure_url': 'https://nhiep.net/nhiep.jpg',
+      'og:image:type': 'image/jpeg',
+      'og:image:width': '1200',
+      'og:image:height': '1200',
+      'DC.Language': locale
     }
   };
 }
@@ -57,13 +86,10 @@ export default function HomePage({
 
   return (
     <div className="space-y-6">
-      {/* 1. Hero Section */}
+      {/* 1. Hero Section (with 5 Core Categories directly beneath slogan, above CTA buttons) */}
       <HeroSection locale={locale} />
 
-      {/* 2. Core Service Categories */}
-      <CategorySection locale={locale} />
-
-      {/* 3. Featured Packages Grid */}
+      {/* 2. Featured Packages Grid */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-10">
@@ -98,23 +124,23 @@ export default function HomePage({
               href={`/${locale}/packages`}
               className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-surface-muted hover:bg-surface-elevated border border-brand/40 text-white font-bold text-sm shadow-md hover:border-brand transition-all"
             >
-              <span>Xem toàn bộ {PACKAGES.length} gói dịch vụ & bảng giá chi tiết</span>
+              <span>{dict.cta.allPackagesBtn.replace('{count}', String(PACKAGES.length))}</span>
               <ArrowRight className="w-4 h-4 text-brand" />
             </Link>
           </div>
         </div>
       </section>
 
-      {/* 4. Regional Hubs Showcase (Da Nang, Hue, Quang Tri, Khanh Hoa) */}
+      {/* 3. Regional Hubs Showcase */}
       <ProvinceSection locale={locale} />
 
-      {/* 5. Verified Client Testimonials */}
+      {/* 4. Verified Client Testimonials */}
       <TestimonialsSection locale={locale} />
 
-      {/* 6. Content Engine (200 SEO Articles Hub Highlights) */}
+      {/* 5. Content Engine (200 SEO Articles Hub Highlights) */}
       <ArticlesSection locale={locale} />
 
-      {/* 7. Call To Action Banner */}
+      {/* 6. Call To Action Banner */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative rounded-3xl overflow-hidden p-8 sm:p-12 lg:p-16 glass-panel border border-brand/50 text-center space-y-6">
@@ -123,15 +149,15 @@ export default function HomePage({
 
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand/20 border border-brand/40 text-brand text-xs font-bold">
               <Sparkles className="w-3.5 h-3.5 fill-brand" />
-              <span>Sẵn Sàng Ghi Lại Khoảnh Khắc Đỉnh Cao?</span>
+              <span>{dict.cta.badge}</span>
             </span>
 
             <h2 className="font-heading font-black text-2xl sm:text-4xl lg:text-5xl text-white max-w-3xl mx-auto leading-tight">
-              Đặt Lịch Ngay Hôm Nay Để Nhận Ưu Đãi Flycam & Hậu Kỳ 24H
+              {dict.cta.title}
             </h2>
 
             <p className="text-xs sm:text-base text-zinc-300 max-w-2xl mx-auto leading-relaxed">
-              Ekip nhiep.net luôn sẵn sàng đồng hành cùng bạn tại Đà Nẵng, Huế, Quảng Trị và Khánh Hòa.
+              {dict.cta.subtitle}
             </p>
 
             <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">

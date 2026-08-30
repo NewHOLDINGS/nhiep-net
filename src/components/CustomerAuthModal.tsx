@@ -829,8 +829,10 @@ export default function CustomerAuthModal({ locale }: { locale: Locale }) {
           isOpen={isQrOpen}
           onClose={() => setIsQrOpen(false)}
           bookingCode={selectedBookingForQr.bookingCode}
+          customerName={selectedBookingForQr.customerName}
           packageName={selectedBookingForQr.packageName}
           totalAmountVnd={selectedBookingForQr.estimatedTotalVnd}
+          locale={locale}
         />
       )}
     </>

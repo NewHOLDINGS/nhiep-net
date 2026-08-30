@@ -21,15 +21,8 @@ export async function generateMetadata({
   const locale = (params.locale || 'vi') as Locale;
   const dict = getDictionary(locale);
 
-  const title = `${dict.hero.badge} | nhiep.net`;
-  const desc = dict.hero.subtitle;
-
-  const geoPlaceName =
-    locale === 'zh'
-      ? '岘港, 顺化, 广治, 芽庄, 越南'
-      : locale === 'en'
-      ? 'Da Nang, Hue, Quang Tri, Nha Trang, Vietnam'
-      : 'Đà Nẵng, Thừa Thiên Huế, Quảng Trị, Khánh Hòa, Việt Nam';
+  const title = `nhiep.net — ${dict.hero.badge}`;
+  const desc = dict.hero.badge;
 
   return {
     metadataBase: new URL('https://nhiep.net'),
@@ -56,10 +49,18 @@ export async function generateMetadata({
       type: 'website',
       images: [
         {
+          url: 'https://nhiep.net/nhiep.jpg',
+          width: 1200,
+          height: 1200,
+          alt: `${title} - ${desc}`,
+          type: 'image/jpeg'
+        },
+        {
           url: 'https://nhiep.net/logo.jpg',
           width: 1200,
-          height: 630,
-          alt: title
+          height: 1200,
+          alt: `${title} - ${desc}`,
+          type: 'image/jpeg'
         }
       ]
     },
@@ -67,13 +68,13 @@ export async function generateMetadata({
       card: 'summary_large_image',
       title,
       description: desc,
-      images: ['https://nhiep.net/logo.jpg']
+      images: ['https://nhiep.net/nhiep.jpg']
     },
     other: {
-      'geo.region': 'VN-DN;VN-26;VN-25;VN-34',
-      'geo.placename': geoPlaceName,
-      'geo.position': '16.0594;108.1492',
-      ICBM: '16.0594, 108.1492',
+      'og:image:secure_url': 'https://nhiep.net/nhiep.jpg',
+      'og:image:type': 'image/jpeg',
+      'og:image:width': '1200',
+      'og:image:height': '1200',
       'DC.Language': locale
     }
   };
@@ -101,10 +102,10 @@ export default function LocaleLayout({
     '@type': 'LocalBusiness',
     name:
       validLocale === 'zh'
-        ? 'nhiep.net — 越南中部专业影视录像与摄影平台'
+        ? 'nhiep.net — 影视拍摄、摄影与后期制作预约平台'
         : validLocale === 'en'
-        ? 'nhiep.net — Central Vietnam Cinema & Photography Platform'
-        : 'nhiep.net — Nền Tảng Đặt Lịch Quay Chụp & Điện Ảnh Miền Trung',
+        ? 'nhiep.net — Filming, Photography & Post-Production Platform'
+        : 'nhiep.net — Đặt Lịch Quay Phim Chụp Hình, Hậu Kỳ',
     description: dict.footer.about,
     image: 'https://nhiep.net/logo.jpg',
     '@id': 'https://nhiep.net',

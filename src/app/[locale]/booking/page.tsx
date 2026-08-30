@@ -12,11 +12,11 @@ import { getDictionary } from '@/data/translations';
 import {
   CalendarPlus, Check, ChevronRight, ChevronLeft, MapPin, Sparkles,
   Phone, Mail, User, Clock, Calendar, CheckCircle2, ShieldCheck, ArrowRight, Loader2,
-  QrCode, ExternalLink, Copy, MessageSquare, Sliders, Plus, Minus, Video, Camera, ShoppingBag
+  QrCode, ExternalLink, Copy, MessageSquare, Sliders, Plus, Minus, Video, Camera, ShoppingBag, Building2
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { useAuth } from '@/context/AuthContext';
-import { PAYMENT_CONFIG, generateVietQrUrl } from '@/lib/payment';
+import { PAYMENT_CONFIG, generateVietQrUrl, calculateDepositAmount } from '@/lib/payment';
 import { GoogleIcon, FacebookIcon } from '@/components/SocialIcons';
 
 const ADDONS = [
@@ -99,16 +99,20 @@ const I18N_BOOKING = {
     depositHeader: 'Mục Đặt Cọc Giữ Lịch Ekip (VietQR MB BANK)',
     depositSub: 'MB BANK 89052667799 • NGUYEN XUAN TOI • Quét mã chuyển khoản tự động 24/7',
     depositNotice: 'Vui lòng hoàn tất thanh toán tiền đặt cọc để hệ thống khóa lịch và giữ ekip ưu tiên cho bạn.',
+    dynamicQrTab: 'Mã QR Tự Động Điền Tiền',
+    bizQrTab: 'MÃ QR BIZ MBBANK, CÓ VAT 10%',
+    vatIncludedBadge: '(Đã bao gồm 10% VAT)',
+    vatBasePrice: 'Giá gốc:',
     depositOptionLabel: 'Mức đặt cọc:',
     deposit40Label: 'Đặt Cọc 40%',
     deposit60Label: 'Đặt Cọc 60%',
     bookingCodeLabel: 'Mã đơn giữ lịch:',
     customerLabel: 'Khách hàng:',
     phoneLabel: 'Số điện thoại:',
-    packageLabel: 'Gói dịch vụ:',
+    packageLabel: 'Gói dịch vụ & Cấu hình:',
     shootTimeLabel: 'Thời gian chụp:',
     shootAddressLabel: 'Địa điểm:',
-    totalCostLabel: 'Tổng chi phí:',
+    totalCostLabel: 'Tổng chi phí hợp đồng:',
     bankNameLabel: 'Ngân hàng thụ hưởng:',
     bankNameValue: 'MB BANK (Ngân hàng TMCP Quân Đội)',
     accountNumberLabel: 'Số tài khoản:',
@@ -209,16 +213,20 @@ const I18N_BOOKING = {
     depositHeader: 'Secure Your Schedule with VietQR MB BANK Deposit',
     depositSub: 'MB BANK 89052667799 • NGUYEN XUAN TOI • 24/7 Automated QR Transfer',
     depositNotice: 'Please complete your deposit transfer to officially hold your shoot schedule and assign our lead creators.',
+    dynamicQrTab: 'Auto-Filled VietQR',
+    bizQrTab: 'BIZ MBBANK QR, INC. 10% VAT',
+    vatIncludedBadge: '(Inc. 10% VAT)',
+    vatBasePrice: 'Base Price:',
     depositOptionLabel: 'Deposit Amount:',
     deposit40Label: '40% Deposit',
     deposit60Label: '60% Deposit',
     bookingCodeLabel: 'Reservation Code:',
     customerLabel: 'Customer:',
     phoneLabel: 'Phone / WhatsApp:',
-    packageLabel: 'Service Package:',
+    packageLabel: 'Service Package & Config:',
     shootTimeLabel: 'Shoot Schedule:',
     shootAddressLabel: 'Location / Venue:',
-    totalCostLabel: 'Total Value:',
+    totalCostLabel: 'Total Contract Value:',
     bankNameLabel: 'Beneficiary Bank:',
     bankNameValue: 'MB BANK (Military Commercial Joint Stock Bank)',
     accountNumberLabel: 'Account Number:',
@@ -319,16 +327,20 @@ const I18N_BOOKING = {
     depositHeader: 'VietQR MB BANK 订金支付锁定团队档期',
     depositSub: 'MB BANK 89052667799 • NGUYEN XUAN TOI • 24/7 扫码自动入账',
     depositNotice: '请完成订金转账以正式锁定摄影团队档期并优先分配主创人员。',
+    dynamicQrTab: '自动填额动态二维码',
+    bizQrTab: '企业 BIZ MBBANK 码（含10%增值税）',
+    vatIncludedBadge: '(含10%增值税)',
+    vatBasePrice: '原始总价：',
     depositOptionLabel: '订金比例：',
     deposit40Label: '支付 40% 订金',
     deposit60Label: '支付 60% 订金',
     bookingCodeLabel: '预约订单编号：',
     customerLabel: '客户姓名：',
     phoneLabel: '联系电话：',
-    packageLabel: '服务套餐：',
+    packageLabel: '服务套餐与定制方案：',
     shootTimeLabel: '拍摄时间：',
     shootAddressLabel: '拍摄地点：',
-    totalCostLabel: '总费用：',
+    totalCostLabel: '合同总金额：',
     bankNameLabel: '收款银行：',
     bankNameValue: 'MB BANK（越南军队商业股份银行）',
     accountNumberLabel: '银行账号：',
@@ -372,6 +384,7 @@ function BookingForm({ locale }: { locale: Locale }) {
   const [loading, setLoading] = useState<boolean>(false);
   const [bookingResult, setBookingResult] = useState<any>(null);
   const [depositPercent, setDepositPercent] = useState<number>(40);
+  const [step5QrType, setStep5QrType] = useState<'dynamic' | 'biz'>('dynamic');
   const [copiedField, setCopiedField] = useState<string | null>(null);
 
   // Booking Mode: 'custom' (Tự tùy chỉnh thiết bị & nhân sự) or 'category' (Chọn gói theo danh mục)
@@ -502,6 +515,37 @@ function BookingForm({ locale }: { locale: Locale }) {
     setTimeout(() => setCopiedField(null), 2000);
   };
 
+  // Full unabbreviated package name including configuration and add-ons
+  const fullPackageSummary = useMemo(() => {
+    let baseName = '';
+    if (bookingMode === 'custom') {
+      if (locale === 'zh') {
+        baseName = `自主定制方案：${gimbalOperators}位4K电影云台摄像师 + ${photographers}位索尼A7R V摄影师 + ${drones}台大疆航拍机（${editingQuality.toUpperCase()}剪辑标准）`;
+      } else if (locale === 'en') {
+        baseName = `Custom Setup: ${gimbalOperators} Gimbal 4K Operators + ${photographers} Lead Photographers + ${drones} DJI Drones (${editingQuality.toUpperCase()} Editing)`;
+      } else {
+        baseName = `Cấu hình tự chọn: ${gimbalOperators} Thợ quay Gimbal 4K Cinema + ${photographers} Thợ chụp ảnh Sony A7R V + ${drones} Flycam DJI 4K (Dựng ${editingQuality.toUpperCase()})`;
+      }
+    } else {
+      baseName = locale === 'zh' ? activePackage.nameZh : locale === 'en' ? activePackage.nameEn : activePackage.nameVi;
+    }
+
+    const addonNames = selectedAddons
+      .map((id) => {
+        const item = ADDONS.find((a) => a.id === id);
+        if (!item) return null;
+        return locale === 'zh' ? item.nameZh : locale === 'en' ? item.nameEn : item.nameVi;
+      })
+      .filter(Boolean);
+
+    if (addonNames.length > 0) {
+      const addonPrefix = locale === 'zh' ? '【增值选项】' : locale === 'en' ? '【Add-ons】' : '【Bổ sung】';
+      return `${baseName} • ${addonPrefix}: ${addonNames.join(', ')}`;
+    }
+
+    return baseName;
+  }, [bookingMode, gimbalOperators, photographers, drones, editingQuality, selectedAddons, activePackage, locale]);
+
   // Step 4 -> Step 5 Submit (Save to DB, then go to VietQR Deposit)
   const handleSubmitBooking = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -512,23 +556,14 @@ function BookingForm({ locale }: { locale: Locale }) {
 
     setLoading(true);
 
-    let localizedPkgName = '';
     let pkgId = '';
     let catId: CategoryId = selectedCategory;
 
     if (bookingMode === 'custom') {
       pkgId = 'custom-builder-package';
       catId = gimbalOperators > 0 ? 'videography' : 'photography';
-      if (locale === 'zh') {
-        localizedPkgName = `定制方案：${gimbalOperators}机位云台 + ${photographers}机位摄影 + ${drones}台航拍 (${editingQuality.toUpperCase()})`;
-      } else if (locale === 'en') {
-        localizedPkgName = `Custom Setup: ${gimbalOperators} Gimbal + ${photographers} Photo + ${drones} Drone (${editingQuality.toUpperCase()})`;
-      } else {
-        localizedPkgName = `Cấu hình tự chọn: ${gimbalOperators} Gimbal + ${photographers} Máy chụp + ${drones} Flycam (${editingQuality.toUpperCase()})`;
-      }
     } else {
       pkgId = activePackage.id;
-      localizedPkgName = locale === 'zh' ? activePackage.nameZh : locale === 'en' ? activePackage.nameEn : activePackage.nameVi;
     }
 
     const customNotesDetails = bookingMode === 'custom'
@@ -546,7 +581,7 @@ function BookingForm({ locale }: { locale: Locale }) {
           zaloOrWhatsapp: zaloOrWhatsapp || phone,
           categoryId: catId,
           packageId: pkgId,
-          packageName: localizedPkgName,
+          packageName: fullPackageSummary,
           provinceId: selectedProvince,
           shootDate,
           shootTime,
@@ -585,17 +620,23 @@ function BookingForm({ locale }: { locale: Locale }) {
     } catch {}
   };
 
+  const isStep5Vat10 = step5QrType === 'biz';
+  const baseContractAmount = bookingResult?.estimatedTotalVnd || estimatedTotal;
+  const effectiveContractAmount = isStep5Vat10 ? Math.round(baseContractAmount * 1.1) : baseContractAmount;
+
   const depositAmount = useMemo(() => {
-    if (!bookingResult) return Math.round(estimatedTotal * (depositPercent / 100));
-    return Math.round(bookingResult.estimatedTotalVnd * (depositPercent / 100));
-  }, [bookingResult, estimatedTotal, depositPercent]);
+    return calculateDepositAmount(effectiveContractAmount, depositPercent);
+  }, [effectiveContractAmount, depositPercent]);
 
   const transferMemo = useMemo(() => {
-    if (!bookingResult) return 'NHIEP DIRECT';
-    return `NHIEP ${bookingResult.bookingCode}`;
-  }, [bookingResult]);
+    const code = bookingResult ? bookingResult.bookingCode : 'DIRECT';
+    return isStep5Vat10 ? `NHIEP VAT ${code}` : `NHIEP ${code}`;
+  }, [bookingResult, isStep5Vat10]);
 
   const vietQrSrc = useMemo(() => {
+    if (step5QrType === 'biz') {
+      return PAYMENT_CONFIG.qrImageBizVat || '/qr_newholdings_bizmbbank.jpg';
+    }
     if (!bookingResult) return '';
     return generateVietQrUrl({
       amount: depositAmount,
@@ -603,27 +644,28 @@ function BookingForm({ locale }: { locale: Locale }) {
       customerName: bookingResult.customerName,
       memo: transferMemo
     });
-  }, [depositAmount, bookingResult, transferMemo]);
+  }, [step5QrType, depositAmount, bookingResult, transferMemo]);
 
   const zaloNoticeUrl = useMemo(() => {
     if (!bookingResult) return `https://zalo.me/${PAYMENT_CONFIG.zalo}`;
     const code = bookingResult.bookingCode;
     const name = bookingResult.customerName;
     const phoneNum = bookingResult.phone;
-    const pkg = bookingResult.packageName;
+    const pkg = bookingResult.packageName || fullPackageSummary;
     const amountStr = depositAmount.toLocaleString('vi-VN');
+    const totalStr = effectiveContractAmount.toLocaleString('vi-VN');
 
     let msg = '';
     if (locale === 'zh') {
-      msg = `您好 nhiep.net！我已完成 VietQR MB BANK 订金转账：\n- 订单号：${code}\n- 客户姓名：${name}\n- 电话：${phoneNum}\n- 套餐：${pkg}\n- 订金金额：${amountStr} ₫\n请专员核验并确认档期。`;
+      msg = `您好 nhiep.net！我已通过 ${isStep5Vat10 ? '企业 BIZ MBBANK 码（含10%增值税）' : 'VietQR MB BANK'} 完成订金转账：\n- 订单号：${code}\n- 客户姓名：${name}\n- 电话：${phoneNum}\n- 套餐与配置：${pkg}\n- 合同总额：${totalStr} ₫${isStep5Vat10 ? '（含10%增值税）' : ''}\n- 订金金额 (${depositPercent}%)：${amountStr} ₫\n- 收款账户：MB BANK 89052667799 (NGUYEN XUAN TOI)\n请专员核验并${isStep5Vat10 ? '开具增值税发票及' : ''}确认档期。`;
     } else if (locale === 'en') {
-      msg = `Hello nhiep.net! I have completed the deposit payment via VietQR MB BANK:\n- Booking Code: ${code}\n- Customer: ${name}\n- Phone: ${phoneNum}\n- Package: ${pkg}\n- Deposit Amount: ${amountStr} VND\nPlease verify and confirm my schedule.`;
+      msg = `Hello nhiep.net! I have completed the deposit payment via ${isStep5Vat10 ? 'BIZ MBBANK QR (INC. 10% VAT)' : 'VietQR MB BANK'}:\n- Booking Code: ${code}\n- Customer: ${name}\n- Phone: ${phoneNum}\n- Package & Setup: ${pkg}\n- Total Value: ${totalStr} VND${isStep5Vat10 ? ' (Inc. 10% VAT)' : ''}\n- Deposit Amount (${depositPercent}%): ${amountStr} VND\n- Beneficiary: MB BANK 89052667799 (NGUYEN XUAN TOI)\nPlease verify and ${isStep5Vat10 ? 'issue VAT invoice & ' : ''}confirm my schedule.`;
     } else {
-      msg = `Chào nhiep.net! Tôi vừa hoàn tất chuyển khoản đặt cọc qua VietQR MB BANK cho mã đơn: ${code} (${name} - ${phoneNum}). Gói: ${pkg}. Số tiền cọc: ${amountStr} ₫. Nhờ chuyên viên xác nhận giúp tôi.`;
+      msg = `Chào nhiep.net! Tôi vừa hoàn tất chuyển khoản đặt cọc qua ${isStep5Vat10 ? 'MÃ QR BIZ MBBANK (CÓ VAT 10%)' : 'VietQR MB BANK'} cho mã đơn: ${code} (${name} - ${phoneNum}).\n- Gói & Cấu hình: ${pkg}\n- Tổng giá trị hợp đồng: ${totalStr} ₫${isStep5Vat10 ? ' (Đã bao gồm 10% VAT)' : ''}\n- Số tiền cọc (${depositPercent}%): ${amountStr} ₫\n- Ngân hàng thụ hưởng: MB BANK 89052667799 (NGUYEN XUAN TOI)\nNhờ chuyên viên kiểm tra và ${isStep5Vat10 ? 'xuất hóa đơn VAT / ' : ''}xác nhận giúp tôi!`;
     }
 
     return `https://zalo.me/${PAYMENT_CONFIG.zalo}?text=${encodeURIComponent(msg)}`;
-  }, [bookingResult, depositAmount, locale]);
+  }, [bookingResult, depositAmount, effectiveContractAmount, isStep5Vat10, depositPercent, fullPackageSummary, locale]);
 
   return (
     <div className="py-12">
@@ -1505,6 +1547,35 @@ function BookingForm({ locale }: { locale: Locale }) {
                 </p>
               </div>
 
+              {/* QR Switcher Tabs (Dynamic VietQR vs BIZ MBBANK 10% VAT) */}
+              <div className="flex flex-col sm:flex-row bg-surface-muted p-1 rounded-2xl text-xs gap-1">
+                <button
+                  type="button"
+                  onClick={() => setStep5QrType('dynamic')}
+                  className={`flex-1 py-2.5 px-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 ${
+                    step5QrType === 'dynamic'
+                      ? 'bg-brand text-black shadow-md font-black'
+                      : 'text-zinc-400 hover:text-white'
+                  }`}
+                >
+                  <Sparkles className="w-4 h-4 shrink-0" />
+                  <span>{t.dynamicQrTab}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setStep5QrType('biz')}
+                  className={`flex-1 py-2.5 px-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 ${
+                    step5QrType === 'biz'
+                      ? 'bg-amber-500 text-black shadow-md font-black'
+                      : 'text-zinc-400 hover:text-amber-400'
+                  }`}
+                >
+                  <Building2 className="w-4 h-4 shrink-0" />
+                  <span>{t.bizQrTab}</span>
+                </button>
+              </div>
+
               {/* Deposit Percentage Toggle (40% or 60%) */}
               <div className="p-4 rounded-2xl bg-surface-elevated border border-surface-border flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
@@ -1524,7 +1595,7 @@ function BookingForm({ locale }: { locale: Locale }) {
                         : 'bg-surface-muted text-zinc-300 border-surface-border hover:bg-surface'
                     }`}
                   >
-                    {t.deposit40Label}
+                    {t.deposit40Label} ({calculateDepositAmount(effectiveContractAmount, 40).toLocaleString('vi-VN')} ₫)
                   </button>
 
                   <button
@@ -1536,7 +1607,7 @@ function BookingForm({ locale }: { locale: Locale }) {
                         : 'bg-surface-muted text-zinc-300 border-surface-border hover:bg-surface'
                     }`}
                   >
-                    {t.deposit60Label}
+                    {t.deposit60Label} ({calculateDepositAmount(effectiveContractAmount, 60).toLocaleString('vi-VN')} ₫)
                   </button>
                 </div>
               </div>
@@ -1548,10 +1619,10 @@ function BookingForm({ locale }: { locale: Locale }) {
                 <div className="md:col-span-5 flex flex-col items-center justify-center p-6 rounded-3xl bg-white text-black shadow-2xl border-4 border-brand/50">
                   <div className="text-center mb-2">
                     <span className="text-[10px] font-black uppercase tracking-wider text-blue-900 block">
-                      MB BANK • QUÂN ĐỘI VIỆT NAM
+                      {isStep5Vat10 ? 'MB BANK • MÃ QR BIZ DOANH NGHIỆP' : 'MB BANK • QUÂN ĐỘI VIỆT NAM'}
                     </span>
                     <span className="text-xs font-bold text-zinc-700">
-                      Quét mã để chuyển khoản tự động
+                      {isStep5Vat10 ? 'Quét mã thanh toán có hóa đơn VAT 10%' : 'Quét mã để chuyển khoản tự động'}
                     </span>
                   </div>
 
@@ -1598,17 +1669,34 @@ function BookingForm({ locale }: { locale: Locale }) {
                       </div>
                     </div>
 
+                    {/* Total Contract Amount */}
+                    <div className="flex items-center justify-between pb-2 border-b border-surface-border">
+                      <span className="text-zinc-400 font-medium">{t.totalCostLabel}</span>
+                      <div className="text-right">
+                        <span className="font-mono font-black text-sm sm:text-base text-brand">
+                          {effectiveContractAmount.toLocaleString('vi-VN')} ₫
+                        </span>
+                        {isStep5Vat10 && (
+                          <span className="block text-[10px] text-amber-400 font-bold">
+                            {t.vatIncludedBadge} ({t.vatBasePrice} {baseContractAmount.toLocaleString('vi-VN')} ₫)
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
                     {/* Deposit Amount */}
                     <div className="flex items-center justify-between pb-2 border-b border-surface-border">
-                      <span className="text-zinc-400 font-medium">{t.depositAmountLabel} ({depositPercent}%):</span>
+                      <span className="text-zinc-400 font-medium">
+                        {t.depositAmountLabel} ({depositPercent}%){isStep5Vat10 ? ' + VAT 10%' : ''}:
+                      </span>
                       <div className="flex items-center gap-2">
-                        <span className="font-mono font-black text-base text-emerald-400">
+                        <span className={`font-mono font-black text-base ${isStep5Vat10 ? 'text-amber-400' : 'text-emerald-400'}`}>
                           {depositAmount.toLocaleString('vi-VN')} ₫
                         </span>
                         <button
                           type="button"
                           onClick={() => handleCopyText(String(depositAmount), 'amount')}
-                          className="px-2 py-0.5 rounded bg-surface-muted text-[10px] text-zinc-300 hover:text-white"
+                          className={`px-2 py-0.5 rounded text-[10px] font-bold text-black ${isStep5Vat10 ? 'bg-amber-400' : 'bg-brand'}`}
                         >
                           {copiedField === 'amount' ? t.copiedBtn : t.copyBtn}
                         </button>
@@ -1658,15 +1746,22 @@ function BookingForm({ locale }: { locale: Locale }) {
                     </div>
                   </div>
 
-                  {/* Summary details */}
-                  <div className="p-3 rounded-xl bg-surface-muted border border-surface-border text-zinc-300 space-y-1">
-                    <p>• {t.customerLabel} <strong className="text-white">{fullName}</strong> ({phone})</p>
-                    <p>• {t.packageLabel} <strong className="text-white">
-                      {bookingMode === 'custom'
-                        ? t.customPackageName
-                        : (locale === 'zh' ? activePackage.nameZh : locale === 'en' ? activePackage.nameEn : activePackage.nameVi)}
-                    </strong></p>
-                    <p>• {t.shootTimeLabel} <strong className="text-white">{shootTime} ngày {shootDate}</strong></p>
+                  {/* Summary details (Full un-abbreviated descriptions) */}
+                  <div className="p-3.5 rounded-xl bg-surface-muted border border-surface-border text-zinc-300 space-y-2">
+                    <p className="flex items-start gap-1.5">
+                      <span className="text-zinc-400 shrink-0">• {t.customerLabel}</span>
+                      <strong className="text-white">{fullName}</strong> ({phone})
+                    </p>
+                    <div className="flex items-start gap-1.5 pt-0.5">
+                      <span className="text-zinc-400 shrink-0">• {t.packageLabel}</span>
+                      <span className="font-bold text-white leading-relaxed break-words">
+                        {bookingResult?.packageName || fullPackageSummary}
+                      </span>
+                    </div>
+                    <p className="flex items-start gap-1.5 pt-0.5">
+                      <span className="text-zinc-400 shrink-0">• {t.shootTimeLabel}</span>
+                      <strong className="text-white">{shootTime} ngày {shootDate}</strong>
+                    </p>
                   </div>
                 </div>
               </div>

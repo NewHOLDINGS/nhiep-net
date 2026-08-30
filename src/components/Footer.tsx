@@ -30,20 +30,6 @@ export default function Footer({ locale }: { locale: Locale }) {
             <p className="text-sm leading-relaxed text-zinc-400 max-w-md">
               {dict.footer.about}
             </p>
-            <div className="pt-2 flex flex-wrap items-center gap-2">
-              <span className="px-2.5 py-1 rounded-md bg-brand/10 border border-brand/30 text-brand text-[11px] font-semibold">
-                Đà Nẵng
-              </span>
-              <span className="px-2.5 py-1 rounded-md bg-brand/10 border border-brand/30 text-brand text-[11px] font-semibold">
-                Thừa Thiên Huế
-              </span>
-              <span className="px-2.5 py-1 rounded-md bg-brand/10 border border-brand/30 text-brand text-[11px] font-semibold">
-                Quảng Trị
-              </span>
-              <span className="px-2.5 py-1 rounded-md bg-brand/10 border border-brand/30 text-brand text-[11px] font-semibold">
-                Khánh Hòa
-              </span>
-            </div>
           </div>
 
           {/* Col 2: Services */}
@@ -142,7 +128,7 @@ export default function Footer({ locale }: { locale: Locale }) {
               {dict.nav.admin}
             </Link>
             <span className="flex items-center gap-1 text-zinc-400">
-              Made with <Heart className="w-3.5 h-3.5 text-brand fill-brand" /> in Central Vietnam
+              Made with <Heart className="w-3.5 h-3.5 text-brand fill-brand" /> by nhiep.net
             </span>
           </div>
         </div>
