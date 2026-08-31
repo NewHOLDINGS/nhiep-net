@@ -30,7 +30,7 @@ const I18N_MODAL = {
     depositOptionLabel: 'Mức thanh toán:',
     deposit40: 'Đặt Cọc 40%',
     deposit60: 'Đặt Cọc 60%',
-    dynamicQrTab: 'Mã QR Tự Động Điền Tiền',
+    dynamicQrTab: 'MÃ QR MBBANK, KHÔNG VAT',
     bizQrTab: 'MÃ QR BIZ MBBANK, CÓ VAT 10%',
     vatIncludedBadge: '(Đã bao gồm 10% VAT)',
     vatOriginal: 'Gốc:',
@@ -59,7 +59,7 @@ const I18N_MODAL = {
     depositOptionLabel: 'Deposit Amount:',
     deposit40: '40% Deposit',
     deposit60: '60% Deposit',
-    dynamicQrTab: 'Auto-Filled VietQR',
+    dynamicQrTab: 'MBBANK QR, NO VAT',
     bizQrTab: 'BIZ MBBANK QR, INC. 10% VAT',
     vatIncludedBadge: '(Inc. 10% VAT)',
     vatOriginal: 'Base:',
@@ -88,7 +88,7 @@ const I18N_MODAL = {
     depositOptionLabel: '订金比例：',
     deposit40: '支付 40% 订金',
     deposit60: '支付 60% 订金',
-    dynamicQrTab: '自动填额动态二维码',
+    dynamicQrTab: 'MBBANK 二维码（无增值税）',
     bizQrTab: '企业 BIZ MBBANK 码（含10%增值税）',
     vatIncludedBadge: '(含10%增值税)',
     vatOriginal: '原价：',
@@ -146,16 +146,8 @@ export default function PaymentQrModal({
     ? `NHIEP VAT ${bookingCode || 'DIRECT'}`
     : `NHIEP ${bookingCode || 'DIRECT'}`;
 
-  // VietQR Dynamic URL (MB BANK BIN: 970422)
-  const dynamicQrUrl = generateVietQrUrl({
-    amount: currentAmount,
-    bookingCode: bookingCode || 'DIRECT',
-    customerName,
-    memo: transferMemo
-  });
-
   const activeQrSrc = qrType === 'dynamic'
-    ? dynamicQrUrl
+    ? (PAYMENT_CONFIG.qrImageStatic || '/qrmb.jpg')
     : (PAYMENT_CONFIG.qrImageBizVat || '/qr_newholdings_bizmbbank.jpg');
 
   const handleCopy = (text: string, field: string) => {
@@ -168,11 +160,11 @@ export default function PaymentQrModal({
     setIsConfirmedPaid(true);
   };
 
-  let zaloMessage = `Chào nhiep.net! Tôi vừa quét ${isVat10 ? 'MÃ QR BIZ MBBANK (CÓ VAT 10%)' : 'mã VietQR MB BANK'} đặt cọc cho đơn hàng:\n- Mã đơn: ${bookingCode}\n- Khách hàng: ${customerName}\n- Gói dịch vụ & cấu hình: ${packageName}\n- Tổng giá trị hợp đồng: ${effectiveTotalAmount.toLocaleString('vi-VN')} ₫${isVat10 ? ' (Đã bao gồm 10% VAT)' : ''}\n- Số tiền cọc (${depositPercent}%): ${currentAmount.toLocaleString('vi-VN')} ₫\n- Ngân hàng thụ hưởng: MB BANK ${currentAccountNumber} (${currentAccountHolder})\nNhờ chuyên viên kiểm tra và ${isVat10 ? 'xuất hóa đơn VAT / ' : ''}gửi xác nhận hợp đồng giữ lịch giúp tôi!`;
+  let zaloMessage = `Chào nhiep.net! Tôi vừa quét ${isVat10 ? 'MÃ QR BIZ MBBANK (CÓ VAT 10%)' : 'MÃ QR MBBANK (KHÔNG VAT)'} đặt cọc cho đơn hàng:\n- Mã đơn: ${bookingCode}\n- Khách hàng: ${customerName}\n- Gói dịch vụ & cấu hình: ${packageName}\n- Tổng giá trị hợp đồng: ${effectiveTotalAmount.toLocaleString('vi-VN')} ₫${isVat10 ? ' (Đã bao gồm 10% VAT)' : ''}\n- Số tiền cọc (${depositPercent}%): ${currentAmount.toLocaleString('vi-VN')} ₫\n- Ngân hàng thụ hưởng: MB BANK ${currentAccountNumber} (${currentAccountHolder})\nNhờ chuyên viên kiểm tra và ${isVat10 ? 'xuất hóa đơn VAT / ' : ''}gửi xác nhận hợp đồng giữ lịch giúp tôi!`;
   if (locale === 'en') {
-    zaloMessage = `Hello nhiep.net! I have completed the deposit payment via ${isVat10 ? 'BIZ MBBANK QR (INC. 10% VAT)' : 'VietQR MB BANK'}:\n- Booking Code: ${bookingCode}\n- Customer: ${customerName}\n- Package & Setup: ${packageName}\n- Total Value: ${effectiveTotalAmount.toLocaleString('vi-VN')} VND${isVat10 ? ' (Inc. 10% VAT)' : ''}\n- Deposit (${depositPercent}%): ${currentAmount.toLocaleString('vi-VN')} VND\n- Beneficiary: MB BANK ${currentAccountNumber} (${currentAccountHolder})\nPlease verify and ${isVat10 ? 'issue VAT invoice & ' : ''}confirm my reservation!`;
+    zaloMessage = `Hello nhiep.net! I have completed the deposit payment via ${isVat10 ? 'BIZ MBBANK QR (INC. 10% VAT)' : 'MBBANK QR (NO VAT)'}:\n- Booking Code: ${bookingCode}\n- Customer: ${customerName}\n- Package & Setup: ${packageName}\n- Total Value: ${effectiveTotalAmount.toLocaleString('vi-VN')} VND${isVat10 ? ' (Inc. 10% VAT)' : ''}\n- Deposit (${depositPercent}%): ${currentAmount.toLocaleString('vi-VN')} VND\n- Beneficiary: MB BANK ${currentAccountNumber} (${currentAccountHolder})\nPlease verify and ${isVat10 ? 'issue VAT invoice & ' : ''}confirm my reservation!`;
   } else if (locale === 'zh') {
-    zaloMessage = `您好 nhiep.net！我已通过 ${isVat10 ? '企业 BIZ MBBANK 码（含10%增值税）' : 'VietQR MB BANK'} 完成订金转账：\n- 订单号：${bookingCode}\n- 客户姓名：${customerName}\n- 套餐与配置：${packageName}\n- 合同总金额：${effectiveTotalAmount.toLocaleString('vi-VN')} ₫${isVat10 ? '（含10%增值税）' : ''}\n- 订金金额 (${depositPercent}%)：${currentAmount.toLocaleString('vi-VN')} ₫\n- 收款账户：MB BANK ${currentAccountNumber} (${currentAccountHolder})\n请专员核验并${isVat10 ? '开具增值税发票及' : ''}确认档期！`;
+    zaloMessage = `您好 nhiep.net！我已通过 ${isVat10 ? '企业 BIZ MBBANK 码（含10%增值税）' : 'MBBANK 二维码（无增值税）'} 完成订金转账：\n- 订单号：${bookingCode}\n- 客户姓名：${customerName}\n- 套餐与配置：${packageName}\n- 合同总金额：${effectiveTotalAmount.toLocaleString('vi-VN')} ₫${isVat10 ? '（含10%增值税）' : ''}\n- 订金金额 (${depositPercent}%)：${currentAmount.toLocaleString('vi-VN')} ₫\n- 收款账户：MB BANK ${currentAccountNumber} (${currentAccountHolder})\n请专员核验并${isVat10 ? '开具增值税发票及' : ''}确认档期！`;
   }
 
   const zaloNoticeUrl = `https://zalo.me/${PAYMENT_CONFIG.zalo}?text=${encodeURIComponent(zaloMessage)}`;
@@ -306,7 +298,7 @@ export default function PaymentQrModal({
               <div className="relative w-48 h-48 sm:w-52 sm:h-52 bg-white p-2 rounded-2xl shrink-0 shadow-xl overflow-hidden border-2 border-brand flex items-center justify-center">
                 <Image
                   src={activeQrSrc}
-                  alt={isVat10 ? 'MÃ QR BIZ MBBANK CÓ VAT 10%' : 'VietQR MB BANK'}
+                  alt={isVat10 ? 'MÃ QR BIZ MBBANK CÓ VAT 10%' : 'MÃ QR MBBANK KHÔNG VAT'}
                   fill
                   className="object-contain p-1"
                   unoptimized

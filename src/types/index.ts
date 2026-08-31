@@ -118,6 +118,10 @@ export interface CustomBuilderConfig {
   photographers: number;
   drones: number;
   editingQuality: 'fullhd' | '4k' | '6k';
+  standardVideoEditing?: number;
+  advancedVideoEditing?: number;
+  voiceTalent?: 'none' | 'standard' | 'premium';
+  photoRetouch?: 'none' | 'standard' | 'premium';
   express24h: boolean;
   makeupMUA: boolean;
   luxuryPhotobook: boolean;
@@ -153,6 +157,10 @@ export interface Booking {
     photographers?: number;
     drones?: number;
     editingQuality?: string;
+    standardVideoEditing?: number;
+    advancedVideoEditing?: number;
+    voiceTalent?: string;
+    photoRetouch?: string;
     express24h?: boolean;
     makeupMUA?: boolean;
     luxuryPhotobook?: boolean;

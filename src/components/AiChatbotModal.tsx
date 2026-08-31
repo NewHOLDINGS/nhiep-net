@@ -329,6 +329,18 @@ export default function AiChatbotModal({
   const handleOpenQrFromCustomizer = (config: CustomBuilderConfig) => {
     const randomCode = `NHIEP-${Math.floor(10000 + Math.random() * 90000)}`;
     const addonsList: string[] = [];
+    if (config.standardVideoEditing && config.standardVideoEditing > 0) {
+      addonsList.push(locale === 'zh' ? `${config.standardVideoEditing}条标准剪辑` : locale === 'en' ? `${config.standardVideoEditing} Standard Edit(s)` : `${config.standardVideoEditing} Dựng phim tiêu chuẩn`);
+    }
+    if (config.advancedVideoEditing && config.advancedVideoEditing > 0) {
+      addonsList.push(locale === 'zh' ? `${config.advancedVideoEditing}条高级电影剪辑` : locale === 'en' ? `${config.advancedVideoEditing} Advanced Edit(s)` : `${config.advancedVideoEditing} Dựng phim nâng cao`);
+    }
+    if (config.voiceTalent && config.voiceTalent !== 'none') {
+      addonsList.push(locale === 'zh' ? `专业配音(${config.voiceTalent === 'premium' ? '高级' : '标准'})` : locale === 'en' ? `Voice Talent (${config.voiceTalent})` : `Voice talent (${config.voiceTalent === 'premium' ? 'Cao cấp' : 'Tiêu chuẩn'})`);
+    }
+    if (config.photoRetouch && config.photoRetouch !== 'none') {
+      addonsList.push(locale === 'zh' ? `精修后期(${config.photoRetouch === 'premium' ? '高级' : '标准'})` : locale === 'en' ? `Photo Retouch (${config.photoRetouch})` : `Hậu kỳ ảnh (${config.photoRetouch === 'premium' ? 'Cao cấp' : 'Tiêu chuẩn'})`);
+    }
     if (config.express24h) {
       addonsList.push(locale === 'zh' ? '24小时极速出片 (+1.200.000 ₫)' : locale === 'en' ? '24-Hour Express Delivery (+1,200,000 VND)' : 'Hậu kỳ hỏa tốc nhận file trong 24h (+1.200.000 ₫)');
     }
@@ -341,15 +353,15 @@ export default function AiChatbotModal({
 
     let customPkgName = '';
     if (locale === 'en') {
-      customPkgName = `Custom Configuration: ${config.gimbalOperators} Gimbal 4K Operators, ${config.photographers} Lead Photographers, ${config.drones} DJI Drones (Editing: ${config.editingQuality.toUpperCase()})`;
+      customPkgName = `Custom Setup: ${config.gimbalOperators} Gimbal Operators, ${config.photographers} Photographers, ${config.drones} DJI Drones (Quality: ${config.editingQuality.toUpperCase()})`;
     } else if (locale === 'zh') {
-      customPkgName = `自主定制方案：${config.gimbalOperators}位4K电影云台摄像师、${config.photographers}位索尼A7R V摄影师、${config.drones}台大疆航拍机（${config.editingQuality.toUpperCase()}剪辑标准）`;
+      customPkgName = `自主定制方案：${config.gimbalOperators}位稳定器摄影师、${config.photographers}位专业摄影师、${config.drones}台大疆航拍机（${config.editingQuality.toUpperCase()}剪辑标准）`;
     } else {
-      customPkgName = `Cấu hình tự chọn: ${config.gimbalOperators} Thợ quay Gimbal 4K Cinema + ${config.photographers} Thợ chụp ảnh Sony A7R V + ${config.drones} Flycam DJI 4K (Dựng ${config.editingQuality.toUpperCase()})`;
+      customPkgName = `Cấu hình tự chọn: ${config.gimbalOperators} Thợ quay Gimbal + ${config.photographers} Thợ chụp ảnh + ${config.drones} Flycam DJI (Dựng ${config.editingQuality.toUpperCase()})`;
     }
 
     if (addonsList.length > 0) {
-      const addonPrefix = locale === 'zh' ? '【增值选项】' : locale === 'en' ? '【Add-ons】' : '【Bổ sung】';
+      const addonPrefix = locale === 'zh' ? '【增值/后期】' : locale === 'en' ? '【Options】' : '【Tùy chọn】';
       customPkgName += ` • ${addonPrefix}: ${addonsList.join(', ')}`;
     }
 
@@ -391,45 +403,58 @@ export default function AiChatbotModal({
 
   const handleSendCustomizerToZalo = (config: CustomBuilderConfig) => {
     const randomCode = `NHIEP-${Math.floor(10000 + Math.random() * 90000)}`;
-    let zaloMsg = '';
+    let targetUrl = '';
+
     if (locale === 'zh') {
-      zaloMsg = encodeURIComponent(
+      const msg =
         `您好 nhiep.net！我想预约自定义配置方案：\n` +
         `- 订单号：${randomCode}\n` +
-        `- 云台摄影师：${config.gimbalOperators} 位\n` +
-        `- 主摄影师：${config.photographers} 位\n` +
-        `- 航拍无人机：${config.drones} 台\n` +
+        `- 稳定器摄影师：${config.gimbalOperators} 位\n` +
+        `- 专业主摄影师：${config.photographers} 位\n` +
+        `- 大疆无人机航拍：${config.drones} 台\n` +
         `- 成片质量：${config.editingQuality.toUpperCase()}\n` +
+        (config.standardVideoEditing ? `- 标准视频剪辑：${config.standardVideoEditing} 条\n` : '') +
+        (config.advancedVideoEditing ? `- 高级电影剪辑：${config.advancedVideoEditing} 条\n` : '') +
+        (config.voiceTalent && config.voiceTalent !== 'none' ? `- 专业配音：${config.voiceTalent === 'premium' ? '高级版' : '标准版'}\n` : '') +
+        (config.photoRetouch && config.photoRetouch !== 'none' ? `- 精修后期：${config.photoRetouch === 'premium' ? '高级版' : '标准版'}\n` : '') +
         `- 增值项：${config.express24h ? '24小时极速出片, ' : ''}${config.makeupMUA ? '专属跟妆, ' : ''}${config.luxuryPhotobook ? '30x30相册' : ''}\n` +
         `- 预估总费用：${config.totalVnd.toLocaleString('vi-VN')} ₫\n` +
-        `请专属顾问联系我确认档期！`
-      );
+        `请专属顾问联系我确认档期！`;
+      targetUrl = `https://wa.me/84943391369?text=${encodeURIComponent(msg)}`;
     } else if (locale === 'en') {
-      zaloMsg = encodeURIComponent(
+      const msg =
         `Hello nhiep.net! I would like to book a custom setup:\n` +
         `- Booking Code: ${randomCode}\n` +
         `- Gimbal Operators: ${config.gimbalOperators} crew\n` +
-        `- Photographers: ${config.photographers} crew\n` +
-        `- Aerial Drones: ${config.drones} unit(s)\n` +
+        `- Lead Photographers: ${config.photographers} crew\n` +
+        `- DJI Aerial Drones: ${config.drones} unit(s)\n` +
         `- Editing Quality: ${config.editingQuality.toUpperCase()}\n` +
+        (config.standardVideoEditing ? `- Standard Video Editing: ${config.standardVideoEditing} video(s)\n` : '') +
+        (config.advancedVideoEditing ? `- Advanced Video Editing: ${config.advancedVideoEditing} video(s)\n` : '') +
+        (config.voiceTalent && config.voiceTalent !== 'none' ? `- Voice Talent: ${config.voiceTalent === 'premium' ? 'Premium' : 'Standard'}\n` : '') +
+        (config.photoRetouch && config.photoRetouch !== 'none' ? `- Photo Retouch: ${config.photoRetouch === 'premium' ? 'Premium' : 'Standard'}\n` : '') +
         `- Add-ons: ${config.express24h ? '24h Express, ' : ''}${config.makeupMUA ? 'Makeup MUA, ' : ''}${config.luxuryPhotobook ? 'Photobook 30x30' : ''}\n` +
         `- Estimated Total: ${config.totalVnd.toLocaleString('vi-VN')} VND\n` +
-        `Please contact me to confirm our schedule!`
-      );
+        `Please contact me to confirm our schedule!`;
+      targetUrl = `https://wa.me/84943391369?text=${encodeURIComponent(msg)}`;
     } else {
-      zaloMsg = encodeURIComponent(
+      const msg =
         `Chào nhiep.net! Tôi muốn đặt cấu hình quay chụp tùy biến:\n` +
         `- Mã tạm: ${randomCode}\n` +
         `- Thợ quay Gimbal: ${config.gimbalOperators} thợ\n` +
         `- Thợ chụp ảnh: ${config.photographers} thợ\n` +
-        `- Flycam: ${config.drones} máy\n` +
+        `- Flycam DJI: ${config.drones} máy\n` +
         `- Tiêu chuẩn dựng: ${config.editingQuality.toUpperCase()}\n` +
+        (config.standardVideoEditing ? `- Dựng phim tiêu chuẩn: ${config.standardVideoEditing} video\n` : '') +
+        (config.advancedVideoEditing ? `- Dựng phim nâng cao: ${config.advancedVideoEditing} video\n` : '') +
+        (config.voiceTalent && config.voiceTalent !== 'none' ? `- Voice talent: ${config.voiceTalent === 'premium' ? 'Cao cấp' : 'Tiêu chuẩn'}\n` : '') +
+        (config.photoRetouch && config.photoRetouch !== 'none' ? `- Hậu kỳ ảnh: ${config.photoRetouch === 'premium' ? 'Cao cấp' : 'Tiêu chuẩn'}\n` : '') +
         `- Tùy chọn thêm: ${config.express24h ? 'Hậu kỳ 24h, ' : ''}${config.makeupMUA ? 'Makeup MUA, ' : ''}${config.luxuryPhotobook ? 'Photobook 30x30' : ''}\n` +
         `- Tổng chi phí ước tính: ${config.totalVnd.toLocaleString('vi-VN')} ₫\n` +
-        `Nhờ chuyên viên liên hệ chốt lịch giúp tôi!`
-      );
+        `Nhờ chuyên viên liên hệ chốt lịch giúp tôi!`;
+      targetUrl = `https://zalo.me/0943391369?text=${encodeURIComponent(msg)}`;
     }
-    window.open(`https://zalo.me/0943391369?text=${zaloMsg}`, '_blank');
+    window.open(targetUrl, '_blank');
   };
 
   const handleSubmitOrderToZalo = async (e: React.FormEvent) => {
@@ -468,16 +493,17 @@ export default function AiChatbotModal({
       const bookingCode = data?.data?.bookingCode || `NHIEP-${Math.floor(10000 + Math.random() * 90000)}`;
 
       let msgText = '';
+      let chatUrl = '';
       if (locale === 'zh') {
         msgText = `您好 nhiep.net！我想通过 AI 确认预定拍摄服务：\n- 订单号：${bookingCode}\n- 客户姓名：${customerNameInput.trim()}\n- 联系方式：${customerPhoneInput.trim()}\n- 服务套餐：${pkgName} (${selectedPackageToOrder?.estimatedPriceVndFormatted || ''})\n- 机位配置：${pkgCameras}\n- 设备方案：${selectedPackageToOrder?.gear || 'Sony FX3 Cinema & Sony A7R V'}\n请专员与我对接确认详细分镜剧本。`;
+        chatUrl = `https://wa.me/84943391369?text=${encodeURIComponent(msgText)}`;
       } else if (locale === 'en') {
         msgText = `Hello nhiep.net! I want to confirm my booking via AI Assistant:\n- Booking Code: ${bookingCode}\n- Customer: ${customerNameInput.trim()}\n- Contact: ${customerPhoneInput.trim()}\n- Package: ${pkgName} (${selectedPackageToOrder?.estimatedPriceVndFormatted || ''})\n- Cameras: ${pkgCameras}\n- Gear: ${selectedPackageToOrder?.gear || 'Sony FX3 Cinema & Sony A7R V'}\nPlease contact me to confirm the production schedule.`;
+        chatUrl = `https://wa.me/84943391369?text=${encodeURIComponent(msgText)}`;
       } else {
         msgText = `Chào nhiep.net! Tôi muốn chốt lịch dịch vụ qua AI:\n- Mã đơn: ${bookingCode}\n- Khách hàng: ${customerNameInput.trim()}\n- SĐT Zalo: ${customerPhoneInput.trim()}\n- Gói dịch vụ: ${pkgName} (${selectedPackageToOrder?.estimatedPriceVndFormatted || ''})\n- Số máy quay/chụp: ${pkgCameras}\n- Ekip & Thiết bị: ${selectedPackageToOrder?.gear || 'Sony FX3 Cinema & Sony A7R V'}\nNhờ chuyên viên liên hệ lại xác nhận kịch bản chi tiết giúp tôi.`;
+        chatUrl = `https://zalo.me/0943391369?text=${encodeURIComponent(msgText)}`;
       }
-
-      const zaloMessage = encodeURIComponent(msgText);
-      const zaloUrl = `https://zalo.me/0943391369?text=${zaloMessage}`;
 
       setSubmittedOrderInfo({
         bookingCode,
@@ -486,7 +512,7 @@ export default function AiChatbotModal({
         packageName: pkgName,
         price: selectedPackageToOrder?.estimatedPriceVndFormatted || `${pkgPrice.toLocaleString('vi-VN')} ₫`,
         totalVnd: pkgPrice,
-        zaloUrl
+        zaloUrl: chatUrl
       });
 
       setOrderSuccess(true);
@@ -500,7 +526,10 @@ export default function AiChatbotModal({
       } catch {}
     } catch (err) {
       console.error('Order submission error:', err);
-      window.open('https://zalo.me/0943391369', '_blank');
+      const fallbackUrl = (locale === 'en' || locale === 'zh')
+        ? 'https://wa.me/84943391369'
+        : 'https://zalo.me/0943391369';
+      window.open(fallbackUrl, '_blank');
     }
   };
 
@@ -514,8 +543,8 @@ export default function AiChatbotModal({
           {/* Header */}
           <div className="p-3.5 sm:p-4 bg-gradient-to-r from-surface-elevated via-surface-card to-brand/10 border-b border-surface-border flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="relative w-10 h-10 rounded-xl overflow-hidden border border-brand/50 shadow-glow shrink-0">
-                <Image src="/logo.jpg" alt="nhiep.net Logo" fill className="object-cover" />
+              <div className="relative w-10 h-10 rounded-xl overflow-hidden border border-brand/50 shadow-glow shrink-0 bg-black flex items-center justify-center p-0.5">
+                <Image src="/logo.png" alt="nhiep.net Logo" fill className="object-cover" />
               </div>
               <div>
                 <h3 className="font-heading font-bold text-sm text-white flex items-center gap-2">
@@ -566,17 +595,17 @@ export default function AiChatbotModal({
 
           {/* Builder Drawer inside modal */}
           {showBuilder && (
-            <div className="p-3 bg-surface-muted/90 border-b border-surface-border animate-in slide-in-from-top-2">
+            <div className="p-3 bg-surface-muted/90 border-b border-surface-border animate-in slide-in-from-top-2 max-h-[60vh] overflow-y-auto no-scrollbar">
               <CustomizerBuilder
                 locale={locale}
                 onOpenPaymentQr={handleOpenQrFromCustomizer}
                 onSendToZalo={handleSendCustomizerToZalo}
                 onApplyConfigToChat={(cfg) => {
-                  let chatPrompt = `Tôi muốn cấu hình: ${cfg.gimbalOperators} Thợ quay Gimbal Cinema, ${cfg.photographers} Thợ chụp Sony A7R V, ${cfg.drones} Flycam, chuẩn dựng ${cfg.editingQuality.toUpperCase()}. Bạn hãy lên kịch bản và phân cảnh cho tôi.`;
+                  let chatPrompt = `Tôi muốn cấu hình: ${cfg.gimbalOperators} Thợ quay Gimbal, ${cfg.photographers} Thợ chụp ảnh, ${cfg.drones} Flycam DJI, chuẩn dựng ${cfg.editingQuality.toUpperCase()}${cfg.standardVideoEditing ? `, ${cfg.standardVideoEditing} dựng tiêu chuẩn` : ''}${cfg.advancedVideoEditing ? `, ${cfg.advancedVideoEditing} dựng nâng cao` : ''}${cfg.voiceTalent && cfg.voiceTalent !== 'none' ? `, Voice: ${cfg.voiceTalent}` : ''}. Bạn hãy lên kịch bản và phân cảnh cho tôi.`;
                   if (locale === 'en') {
-                    chatPrompt = `I would like a custom setup: ${cfg.gimbalOperators} Cinema Gimbal, ${cfg.photographers} Sony A7R V Photographers, ${cfg.drones} Aerial Drone, editing quality ${cfg.editingQuality.toUpperCase()}. Please create a production script and scene breakdown for me.`;
+                    chatPrompt = `I would like a custom setup: ${cfg.gimbalOperators} Gimbal Operators, ${cfg.photographers} Photographers, ${cfg.drones} DJI Drones, editing quality ${cfg.editingQuality.toUpperCase()}${cfg.standardVideoEditing ? `, ${cfg.standardVideoEditing} Standard Edit(s)` : ''}${cfg.advancedVideoEditing ? `, ${cfg.advancedVideoEditing} Advanced Edit(s)` : ''}. Please create a production script and scene breakdown for me.`;
                   } else if (locale === 'zh') {
-                    chatPrompt = `我想定制配置：${cfg.gimbalOperators}位电影机云台、${cfg.photographers}位索尼A7R V摄影师、${cfg.drones}台航拍机，成片标准 ${cfg.editingQuality.toUpperCase()}。请为我制定分镜脚本与机位方案。`;
+                    chatPrompt = `我想定制配置：${cfg.gimbalOperators}位稳定器摄影师、${cfg.photographers}位专业摄影师、${cfg.drones}台航拍机，成片标准 ${cfg.editingQuality.toUpperCase()}${cfg.standardVideoEditing ? `、${cfg.standardVideoEditing}条标准剪辑` : ''}${cfg.advancedVideoEditing ? `、${cfg.advancedVideoEditing}条高级剪辑` : ''}。请为我制定分镜脚本与机位方案。`;
                   }
 
                   handleSend(chatPrompt, cfg);
@@ -594,8 +623,8 @@ export default function AiChatbotModal({
                 className={`flex gap-3 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 {msg.role === 'assistant' && (
-                  <div className="w-8 h-8 rounded-xl bg-brand text-black flex items-center justify-center font-bold text-xs shrink-0 shadow-glow">
-                    <Bot className="w-4 h-4" />
+                  <div className="relative w-8 h-8 rounded-xl overflow-hidden border border-brand/50 bg-black flex items-center justify-center font-bold text-xs shrink-0 shadow-glow">
+                    <Image src="/logo.png" alt="Bot Avatar" fill className="object-cover" />
                   </div>
                 )}
 
@@ -748,8 +777,8 @@ export default function AiChatbotModal({
 
             {loading && (
               <div className="flex gap-3 justify-start items-center">
-                <div className="w-8 h-8 rounded-xl bg-brand text-black flex items-center justify-center font-bold text-xs shrink-0 shadow-glow">
-                  <Bot className="w-4 h-4" />
+                <div className="relative w-8 h-8 rounded-xl overflow-hidden border border-brand/50 bg-black flex items-center justify-center font-bold text-xs shrink-0 shadow-glow">
+                  <Image src="/logo.png" alt="Bot Avatar" fill className="object-cover" />
                 </div>
                 <div className="p-3.5 rounded-2xl rounded-tl-none bg-surface-elevated border border-surface-border text-xs text-zinc-300 flex items-center gap-2">
                   <Loader2 className="w-4 h-4 animate-spin text-brand" />

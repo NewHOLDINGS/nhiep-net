@@ -327,16 +327,35 @@ Please analyze this specific customer request deeply, formulate the production s
         customConfig &&
         (customConfig.gimbalOperators > 0 || customConfig.photographers > 0 || customConfig.drones > 0)
       ) {
+        const extraEn: string[] = [];
+        if (customConfig.standardVideoEditing) extraEn.push(`${customConfig.standardVideoEditing} Standard Video Edit(s)`);
+        if (customConfig.advancedVideoEditing) extraEn.push(`${customConfig.advancedVideoEditing} Advanced Video Edit(s)`);
+        if (customConfig.voiceTalent && customConfig.voiceTalent !== 'none') extraEn.push(`Voice Talent (${customConfig.voiceTalent})`);
+        if (customConfig.photoRetouch && customConfig.photoRetouch !== 'none') extraEn.push(`Photo Retouch (${customConfig.photoRetouch})`);
+
+        const extraZh: string[] = [];
+        if (customConfig.standardVideoEditing) extraZh.push(`${customConfig.standardVideoEditing} 条标准视频剪辑`);
+        if (customConfig.advancedVideoEditing) extraZh.push(`${customConfig.advancedVideoEditing} 条高级电影剪辑`);
+        if (customConfig.voiceTalent && customConfig.voiceTalent !== 'none') extraZh.push(`专业配音（${customConfig.voiceTalent === 'premium' ? '高级版' : '标准版'}）`);
+        if (customConfig.photoRetouch && customConfig.photoRetouch !== 'none') extraZh.push(`精修后期（${customConfig.photoRetouch === 'premium' ? '高级版' : '标准版'}）`);
+
+        const extraVi: string[] = [];
+        if (customConfig.standardVideoEditing) extraVi.push(`${customConfig.standardVideoEditing} Dựng phim tiêu chuẩn`);
+        if (customConfig.advancedVideoEditing) extraVi.push(`${customConfig.advancedVideoEditing} Dựng phim nâng cao`);
+        if (customConfig.voiceTalent && customConfig.voiceTalent !== 'none') extraVi.push(`Voice talent (${customConfig.voiceTalent === 'premium' ? 'Cao cấp' : 'Tiêu chuẩn'})`);
+        if (customConfig.photoRetouch && customConfig.photoRetouch !== 'none') extraVi.push(`Hậu kỳ ảnh (${customConfig.photoRetouch === 'premium' ? 'Cao cấp' : 'Tiêu chuẩn'})`);
+
         if (locale === 'en') {
           customTiers.push({
             id: 'pkg-user-custom',
             tier: 'Your Custom Selected Configuration',
             name: `Custom Package: ${customConfig.gimbalOperators} Gimbal + ${customConfig.photographers} Photo + ${customConfig.drones} Drone`,
-            cameraCount: `${customConfig.gimbalOperators} Video Cameras + ${customConfig.photographers} Photographers + ${customConfig.drones} Aerial Drone`,
+            cameraCount: `${customConfig.gimbalOperators} Gimbal Crew + ${customConfig.photographers} Photographers + ${customConfig.drones} DJI Drones`,
             crewDetails: `${customConfig.gimbalOperators + customConfig.photographers + (customConfig.drones > 0 ? 1 : 0)} Technical Crew`,
             gear: 'Sony FX3 Cinema 4K, Sony A7R V 61MP, DJI Drone, Ronin RS3 Pro',
             deliverables: [
               `Final Video in ${customConfig.editingQuality.toUpperCase()} Quality`,
+              ...extraEn,
               'All High-Resolution RAW & Original Files',
               customConfig.express24h ? '24-Hour Express Rapid Delivery' : 'Standard 3-5 Days Turnaround',
               customConfig.luxuryPhotobook ? '1 Luxury 30x30cm Photobook Album' : 'Color-graded Photo Collection'
@@ -349,12 +368,13 @@ Please analyze this specific customer request deeply, formulate the production s
           customTiers.push({
             id: 'pkg-user-custom',
             tier: '您的专属自选配置',
-            name: `定制方案：${customConfig.gimbalOperators}机位云台 + ${customConfig.photographers}机位摄影 + ${customConfig.drones}台航拍`,
-            cameraCount: `${customConfig.gimbalOperators}台摄像机 + ${customConfig.photographers}位摄影师 + ${customConfig.drones}台航拍机`,
+            name: `定制方案：${customConfig.gimbalOperators}位稳定器 + ${customConfig.photographers}位摄影 + ${customConfig.drones}台航拍`,
+            cameraCount: `${customConfig.gimbalOperators}位稳定器摄影师 + ${customConfig.photographers}位主摄影师 + ${customConfig.drones}台大疆航拍机`,
             crewDetails: `${customConfig.gimbalOperators + customConfig.photographers + (customConfig.drones > 0 ? 1 : 0)} 位专业人员`,
             gear: '索尼FX3电影机4K、索尼A7R V 6100万像素、大疆航拍机、如影RS3 Pro',
             deliverables: [
               `${customConfig.editingQuality.toUpperCase()} 标清/高清精剪成片`,
+              ...extraZh,
               '全部高清原始底片与素材',
               customConfig.express24h ? '24小时极速出片通道' : '3-5个工作日交付',
               customConfig.luxuryPhotobook ? '1本30x30cm高档水晶相册' : '艺术调色精修相片集'
@@ -368,11 +388,12 @@ Please analyze this specific customer request deeply, formulate the production s
             id: 'pkg-user-custom',
             tier: 'Cấu Hình Tùy Chọn Riêng Của Bạn',
             name: `Gói Tự Chọn: ${customConfig.gimbalOperators} Gimbal + ${customConfig.photographers} Chụp + ${customConfig.drones} Flycam`,
-            cameraCount: `${customConfig.gimbalOperators} Máy quay + ${customConfig.photographers} Máy chụp + ${customConfig.drones} Flycam`,
+            cameraCount: `${customConfig.gimbalOperators} Thợ quay Gimbal + ${customConfig.photographers} Thợ chụp ảnh + ${customConfig.drones} Flycam DJI`,
             crewDetails: `${customConfig.gimbalOperators + customConfig.photographers + (customConfig.drones > 0 ? 1 : 0)} Nhân sự vận hành`,
             gear: 'Sony FX3 Cinema 4K, Sony A7R V 61MP, Flycam DJI, Gimbal Ronin RS3 Pro',
             deliverables: [
               `Video hoàn thiện chuẩn ${customConfig.editingQuality.toUpperCase()}`,
+              ...extraVi,
               'Toàn bộ file gốc chất lượng cao',
               customConfig.express24h ? 'Nhận sản phẩm hỏa tốc trong 24h' : 'Bàn giao đúng tiến độ 3-5 ngày',
               customConfig.luxuryPhotobook ? '01 Album Photobook cao cấp 30x30cm' : 'Bộ ảnh đã blend màu nghệ thuật'
@@ -628,21 +649,21 @@ Please analyze this specific customer request deeply, formulate the production s
 
         const videoCrew =
           customConfig?.gimbalOperators !== undefined
-            ? `${customConfig.gimbalOperators} Thợ quay Gimbal Cinema`
+            ? `${customConfig.gimbalOperators} Thợ quay Gimbal`
             : isBigEvent
-            ? '2 - 3 Thợ quay Gimbal 4K Cinema'
-            : '1 - 2 Thợ quay Gimbal Cinema';
+            ? '2 - 3 Thợ quay Gimbal'
+            : '1 - 2 Thợ quay Gimbal';
 
         const photoCrew =
           customConfig?.photographers !== undefined
-            ? `${customConfig.photographers} Thợ chụp Sony A7R V`
-            : '1 - 2 Thợ chụp Sony A7R V 61MP bắt trọn khoảnh khắc';
+            ? `${customConfig.photographers} Thợ chụp ảnh`
+            : '1 - 2 Thợ chụp ảnh bắt trọn khoảnh khắc';
 
         const droneCrew =
           customConfig?.drones !== undefined
-            ? `${customConfig.drones} Flycam 5.1K trên không`
+            ? `${customConfig.drones} Flycam DJI trên không`
             : isBigEvent || isWedding
-            ? '1 Flycam 5.1K quay toàn cảnh địa điểm/resort'
+            ? '1 Flycam DJI quay toàn cảnh địa điểm/resort'
             : 'Tùy chọn bổ sung theo nhu cầu';
 
         parsedScriptPlan = {

@@ -45,13 +45,18 @@ const I18N_BOOKING = {
     methodCategoryTitle: 'Chọn Gói Dịch Vụ Theo Danh Mục',
     methodCategorySubtitle: 'Lựa chọn các gói quay phim, chụp ảnh, sự kiện được thiết kế tối ưu sẵn',
     // Customizer elements
-    gimbalLabel: '🎥 Thợ quay Gimbal 4K Cinema',
-    gimbalPrice: '3.500.000 ₫ / thợ',
-    photoLabel: '📷 Thợ chụp ảnh Sony A7R V',
-    photoPrice: '2.200.000 ₫ / thợ',
-    droneLabel: '🚁 Flycam DJI 4K / 5.1K',
-    dronePrice: '1.500.000 ₫ / máy',
+    gimbalLabel: '🎥 Thợ quay Gimbal',
+    photoLabel: '📷 Thợ chụp ảnh',
+    photoPrice: '2.500.000 ₫ / thợ',
+    droneLabel: '🚁 Flycam DJI',
     qualityLabel: '🎬 Tiêu chuẩn dựng màu sắc:',
+    stdEditLabel: '🎞️ Dựng phim tiêu chuẩn',
+    advEditLabel: '🎬 Dựng phim nâng cao',
+    voiceLabel: '🎙️ Voice talent',
+    photoRetouchLabel: '🖼️ Hậu kỳ ảnh',
+    optNone: 'Không chọn',
+    optStandard: 'Tiêu chuẩn',
+    optPremium: 'Cao cấp',
     expressLabel: 'Hậu kỳ hỏa tốc 24h (+1.2tr)',
     makeupLabel: 'Makeup MUA (+1.0tr)',
     photobookLabel: 'Photobook 30x30 (+1.5tr)',
@@ -99,7 +104,7 @@ const I18N_BOOKING = {
     depositHeader: 'Mục Đặt Cọc Giữ Lịch Ekip (VietQR MB BANK)',
     depositSub: 'MB BANK 89052667799 • NGUYEN XUAN TOI • Quét mã chuyển khoản tự động 24/7',
     depositNotice: 'Vui lòng hoàn tất thanh toán tiền đặt cọc để hệ thống khóa lịch và giữ ekip ưu tiên cho bạn.',
-    dynamicQrTab: 'Mã QR Tự Động Điền Tiền',
+    dynamicQrTab: 'MÃ QR MBBANK, KHÔNG VAT',
     bizQrTab: 'MÃ QR BIZ MBBANK, CÓ VAT 10%',
     vatIncludedBadge: '(Đã bao gồm 10% VAT)',
     vatBasePrice: 'Giá gốc:',
@@ -159,13 +164,18 @@ const I18N_BOOKING = {
     methodCategoryTitle: 'Choose Standard Package by Category',
     methodCategorySubtitle: 'Browse predefined packages for photography, videography, and events',
     // Customizer elements
-    gimbalLabel: '🎥 4K Cinema Gimbal Operator',
-    gimbalPrice: '3,500,000 VND / crew',
-    photoLabel: '📷 Sony A7R V Lead Photographer',
-    photoPrice: '2,200,000 VND / crew',
-    droneLabel: '🚁 DJI 4K / 5.1K Aerial Drone',
-    dronePrice: '1,500,000 VND / drone',
+    gimbalLabel: '🎥 Gimbal Operator',
+    photoLabel: '📷 Lead Photographer',
+    photoPrice: '2,500,000 VND / crew',
+    droneLabel: '🚁 DJI Flycam / Drone',
     qualityLabel: '🎬 Color Grading Standard:',
+    stdEditLabel: '🎞️ Standard Video Editing',
+    advEditLabel: '🎬 Advanced Video Editing',
+    voiceLabel: '🎙️ Voice Talent',
+    photoRetouchLabel: '🖼️ Photo Post-Production',
+    optNone: 'None',
+    optStandard: 'Standard',
+    optPremium: 'Premium',
     expressLabel: '24-Hour Express (+1.2M)',
     makeupLabel: 'Makeup & Hair (+1.0M)',
     photobookLabel: 'Photobook 30x30 (+1.5M)',
@@ -213,7 +223,7 @@ const I18N_BOOKING = {
     depositHeader: 'Secure Your Schedule with VietQR MB BANK Deposit',
     depositSub: 'MB BANK 89052667799 • NGUYEN XUAN TOI • 24/7 Automated QR Transfer',
     depositNotice: 'Please complete your deposit transfer to officially hold your shoot schedule and assign our lead creators.',
-    dynamicQrTab: 'Auto-Filled VietQR',
+    dynamicQrTab: 'MBBANK QR, NO VAT',
     bizQrTab: 'BIZ MBBANK QR, INC. 10% VAT',
     vatIncludedBadge: '(Inc. 10% VAT)',
     vatBasePrice: 'Base Price:',
@@ -235,7 +245,7 @@ const I18N_BOOKING = {
     transferMemoLabel: 'Transfer Memo / Remark:',
     copyBtn: 'Copy',
     copiedBtn: 'Copied',
-    sendZaloBtn: 'Send Receipt via Zalo / WhatsApp (+84943391369)',
+    sendZaloBtn: 'Send Receipt via WhatsApp (+84943391369)',
     confirmPaidBtn: 'I Have Completed Transfer',
     nextBtn: 'Next Step',
     backToEdit: 'Back to edit information',
@@ -250,7 +260,7 @@ const I18N_BOOKING = {
     statusValue: 'Booking Submitted (Pending 24/7 Verification)',
     backHomeBtn: 'Return to Home',
     callHotlineBtn: 'Call Hotline (+84 943 391 369)',
-    chatZaloBtn: 'Chat with Specialist (+84 943 391 369)',
+    chatZaloBtn: 'Chat via WhatsApp (+84 943 391 369)',
     adminBtn: 'View in Admin Portal',
     fillRequiredAlert: 'Please fill in Full Name, Phone Number, and Shoot Date!',
     connectionErrorAlert: 'Unable to connect to server. Please contact Hotline +84 943 391 369.',
@@ -273,13 +283,18 @@ const I18N_BOOKING = {
     methodCategoryTitle: '按分类选择官方标准套餐',
     methodCategorySubtitle: '浏览专为摄影、影视TVC及商务活动预先设计的标准套餐',
     // Customizer elements
-    gimbalLabel: '🎥 4K电影级稳定器摄影师',
-    gimbalPrice: '3,500,000 ₫ / 位',
-    photoLabel: '📷 索尼A7R V资深主摄影师',
-    photoPrice: '2,200,000 ₫ / 位',
-    droneLabel: '🚁 大疆4K/5.1K高清航拍机',
-    dronePrice: '1,500,000 ₫ / 台',
+    gimbalLabel: '🎥 稳定器摄影师',
+    photoLabel: '📷 专业主摄影师',
+    photoPrice: '2,500,000 ₫ / 位',
+    droneLabel: '🚁 大疆无人机航拍',
     qualityLabel: '🎬 调色与成片标准：',
+    stdEditLabel: '🎞️ 标准视频剪辑',
+    advEditLabel: '🎬 高级电影感剪辑',
+    voiceLabel: '🎙️ 专业配音旁白',
+    photoRetouchLabel: '🖼️ 精修后期处理',
+    optNone: '不选择',
+    optStandard: '标准版',
+    optPremium: '高级版',
     expressLabel: '24小时极速出片 (+120万)',
     makeupLabel: '专属跟妆造型 (+100万)',
     photobookLabel: '30x30水晶相册 (+150万)',
@@ -327,7 +342,7 @@ const I18N_BOOKING = {
     depositHeader: 'VietQR MB BANK 订金支付锁定团队档期',
     depositSub: 'MB BANK 89052667799 • NGUYEN XUAN TOI • 24/7 扫码自动入账',
     depositNotice: '请完成订金转账以正式锁定摄影团队档期并优先分配主创人员。',
-    dynamicQrTab: '自动填额动态二维码',
+    dynamicQrTab: 'MBBANK 二维码（无增值税）',
     bizQrTab: '企业 BIZ MBBANK 码（含10%增值税）',
     vatIncludedBadge: '(含10%增值税)',
     vatBasePrice: '原始总价：',
@@ -349,14 +364,14 @@ const I18N_BOOKING = {
     transferMemoLabel: '转账附言/备注：',
     copyBtn: '复制',
     copiedBtn: '已复制',
-    sendZaloBtn: '通过 Zalo / WhatsApp 发送付款凭证 (0943391369)',
+    sendZaloBtn: '通过 WhatsApp 发送付款凭证 (+84943391369)',
     confirmPaidBtn: '我已完成转账支付',
     nextBtn: '下一步',
     backToEdit: '返回修改预约信息',
     // Step 6 Success
     congratsTitle: '🎉 恭喜您！预约提交成功！',
     congratsSubtitle: '您的专属预约订单号为：',
-    congratsMessage: '您的预约需求与订金凭据已成功录入 nhiep.net 系统。专属客服专员将在15分钟内通过电话或Zalo/微信与您对接确认拍摄脚本并准备优秀团队。',
+    congratsMessage: '您的预约需求与订金凭据已成功录入 nhiep.net 系统。专属客服专员将在15分钟内通过电话或 WhatsApp 与您对接确认拍摄脚本并准备优秀团队。',
     orderSummaryTitle: '档期锁定凭证详情',
     emailLabel: '文件接收邮箱：',
     depositPaidLabel: '已选订金：',
@@ -364,7 +379,7 @@ const I18N_BOOKING = {
     statusValue: '已提交预约（24/7核验处理中）',
     backHomeBtn: '返回网站首页',
     callHotlineBtn: '拨打客服热线 (+84 943 391 369)',
-    chatZaloBtn: '联系专属客服 (+84 943 391 369)',
+    chatZaloBtn: '通过 WhatsApp 联系客服 (+84 943 391 369)',
     adminBtn: '前往管理后台查看',
     fillRequiredAlert: '请完整填写客户姓名、联系电话与预计拍摄日期！',
     connectionErrorAlert: '无法连接到服务器，请联系客服热线 +84 943 391 369。',
@@ -394,7 +409,11 @@ function BookingForm({ locale }: { locale: Locale }) {
   const [gimbalOperators, setGimbalOperators] = useState<number>(1);
   const [photographers, setPhotographers] = useState<number>(1);
   const [drones, setDrones] = useState<number>(0);
-  const [editingQuality, setEditingQuality] = useState<'fullhd' | '4k' | '6k'>('4k');
+  const [editingQuality, setEditingQuality] = useState<'fullhd' | '4k' | '6k'>('fullhd');
+  const [standardVideoEditing, setStandardVideoEditing] = useState<number>(0);
+  const [advancedVideoEditing, setAdvancedVideoEditing] = useState<number>(0);
+  const [voiceTalent, setVoiceTalent] = useState<'none' | 'standard' | 'premium'>('none');
+  const [photoRetouch, setPhotoRetouch] = useState<'none' | 'standard' | 'premium'>('none');
   const [express24h, setExpress24h] = useState<boolean>(false);
   const [makeupMUA, setMakeupMUA] = useState<boolean>(false);
   const [luxuryPhotobook, setLuxuryPhotobook] = useState<boolean>(false);
@@ -460,27 +479,60 @@ function BookingForm({ locale }: { locale: Locale }) {
     return PACKAGES.find((p) => p.id === selectedPackageId) || availablePackages[0] || PACKAGES[0];
   }, [selectedPackageId, availablePackages]);
 
-  // Pricing calculations for customizer
-  const PRICE_GIMBAL = 3500000;
-  const PRICE_PHOTO = 2200000;
-  const PRICE_DRONE = 1500000;
-  const PRICE_QUALITY_4K = 1000000;
-  const PRICE_QUALITY_6K = 2500000;
+  // Dynamic pricing calculations for customizer
+  // Gimbal: Full HD = 3.2M; 4K = +1.0M (4.2M); 6K RAW = +2.5M (5.7M)
+  const priceGimbalPerCrew =
+    editingQuality === '6k' ? 5700000 : editingQuality === '4k' ? 4200000 : 3200000;
+
+  // Drone: Full HD = 2.2M; 4K = +1.0M (3.2M); 6K RAW = +2.5M (4.7M)
+  const priceDronePerUnit =
+    editingQuality === '6k' ? 4700000 : editingQuality === '4k' ? 3200000 : 2200000;
+
+  // Photographer: Flat 2.5M
+  const pricePhotoPerCrew = 2500000;
+
+  // Standard Video Edit: Full HD = 1.2M; 4K = 1.5M; 6K RAW = 4.5M per video
+  const priceStdEditPerVideo =
+    editingQuality === '6k' ? 4500000 : editingQuality === '4k' ? 1500000 : 1200000;
+
+  // Advanced Video Edit: Full HD = 2.8M; 4K = 3.5M; 6K RAW = 6.5M per video
+  const priceAdvEditPerVideo =
+    editingQuality === '6k' ? 6500000 : editingQuality === '4k' ? 3500000 : 2800000;
+
+  // Voice talent: none = 0; standard = 800k; premium = 2.5M
+  const priceVoiceTalent =
+    voiceTalent === 'premium' ? 2500000 : voiceTalent === 'standard' ? 800000 : 0;
+
+  // Photo retouch: none = 0; standard = 400k; premium = 1.5M
+  const pricePhotoRetouch =
+    photoRetouch === 'premium' ? 1500000 : photoRetouch === 'standard' ? 400000 : 0;
+
   const PRICE_EXPRESS = 1200000;
   const PRICE_MUA = 1000000;
   const PRICE_PHOTOBOOK = 1500000;
 
   const customTotal = useMemo(() => {
     return (
-      gimbalOperators * PRICE_GIMBAL +
-      photographers * PRICE_PHOTO +
-      drones * PRICE_DRONE +
-      (editingQuality === '4k' ? PRICE_QUALITY_4K : editingQuality === '6k' ? PRICE_QUALITY_6K : 0) +
+      gimbalOperators * priceGimbalPerCrew +
+      photographers * pricePhotoPerCrew +
+      drones * priceDronePerUnit +
+      standardVideoEditing * priceStdEditPerVideo +
+      advancedVideoEditing * priceAdvEditPerVideo +
+      priceVoiceTalent +
+      pricePhotoRetouch +
       (express24h ? PRICE_EXPRESS : 0) +
       (makeupMUA ? PRICE_MUA : 0) +
       (luxuryPhotobook ? PRICE_PHOTOBOOK : 0)
     );
-  }, [gimbalOperators, photographers, drones, editingQuality, express24h, makeupMUA, luxuryPhotobook]);
+  }, [
+    gimbalOperators, priceGimbalPerCrew,
+    photographers, pricePhotoPerCrew,
+    drones, priceDronePerUnit,
+    standardVideoEditing, priceStdEditPerVideo,
+    advancedVideoEditing, priceAdvEditPerVideo,
+    priceVoiceTalent, pricePhotoRetouch,
+    express24h, makeupMUA, luxuryPhotobook
+  ]);
 
   const customDeposit40 = useMemo(() => {
     return Math.round((customTotal * 0.4) / 10000) * 10000;
@@ -519,12 +571,18 @@ function BookingForm({ locale }: { locale: Locale }) {
   const fullPackageSummary = useMemo(() => {
     let baseName = '';
     if (bookingMode === 'custom') {
+      const extraDetails: string[] = [];
+      if (standardVideoEditing > 0) extraDetails.push(`${standardVideoEditing} Dựng tiêu chuẩn`);
+      if (advancedVideoEditing > 0) extraDetails.push(`${advancedVideoEditing} Dựng nâng cao`);
+      if (voiceTalent !== 'none') extraDetails.push(`Voice: ${voiceTalent}`);
+      if (photoRetouch !== 'none') extraDetails.push(`Hậu kỳ ảnh: ${photoRetouch}`);
+
       if (locale === 'zh') {
-        baseName = `自主定制方案：${gimbalOperators}位4K电影云台摄像师 + ${photographers}位索尼A7R V摄影师 + ${drones}台大疆航拍机（${editingQuality.toUpperCase()}剪辑标准）`;
+        baseName = `自主定制方案：${gimbalOperators}位稳定器摄影师 + ${photographers}位专业摄影师 + ${drones}台航拍机（${editingQuality.toUpperCase()}剪辑标准${extraDetails.length > 0 ? ` • ${extraDetails.join(', ')}` : ''}）`;
       } else if (locale === 'en') {
-        baseName = `Custom Setup: ${gimbalOperators} Gimbal 4K Operators + ${photographers} Lead Photographers + ${drones} DJI Drones (${editingQuality.toUpperCase()} Editing)`;
+        baseName = `Custom Setup: ${gimbalOperators} Gimbal Operators + ${photographers} Photographers + ${drones} DJI Drones (${editingQuality.toUpperCase()} Editing${extraDetails.length > 0 ? ` • ${extraDetails.join(', ')}` : ''})`;
       } else {
-        baseName = `Cấu hình tự chọn: ${gimbalOperators} Thợ quay Gimbal 4K Cinema + ${photographers} Thợ chụp ảnh Sony A7R V + ${drones} Flycam DJI 4K (Dựng ${editingQuality.toUpperCase()})`;
+        baseName = `Cấu hình tự chọn: ${gimbalOperators} Thợ quay Gimbal + ${photographers} Thợ chụp ảnh + ${drones} Flycam DJI (Dựng ${editingQuality.toUpperCase()}${extraDetails.length > 0 ? ` • ${extraDetails.join(', ')}` : ''})`;
       }
     } else {
       baseName = locale === 'zh' ? activePackage.nameZh : locale === 'en' ? activePackage.nameEn : activePackage.nameVi;
@@ -544,7 +602,7 @@ function BookingForm({ locale }: { locale: Locale }) {
     }
 
     return baseName;
-  }, [bookingMode, gimbalOperators, photographers, drones, editingQuality, selectedAddons, activePackage, locale]);
+  }, [bookingMode, gimbalOperators, photographers, drones, editingQuality, standardVideoEditing, advancedVideoEditing, voiceTalent, photoRetouch, selectedAddons, activePackage, locale]);
 
   // Step 4 -> Step 5 Submit (Save to DB, then go to VietQR Deposit)
   const handleSubmitBooking = async (e: React.FormEvent) => {
@@ -567,7 +625,7 @@ function BookingForm({ locale }: { locale: Locale }) {
     }
 
     const customNotesDetails = bookingMode === 'custom'
-      ? `[CẤU HÌNH TỰ CHỌN]: ${gimbalOperators} Gimbal Cinema, ${photographers} Chụp ảnh Sony A7R V, ${drones} Flycam, Dựng ${editingQuality.toUpperCase()}${express24h ? ', Hậu kỳ 24h' : ''}${makeupMUA ? ', Makeup MUA' : ''}${luxuryPhotobook ? ', Photobook 30x30' : ''}. ${notes}`
+      ? `[CẤU HÌNH TỰ CHỌN]: ${gimbalOperators} Gimbal, ${photographers} Chụp ảnh, ${drones} Flycam, Dựng ${editingQuality.toUpperCase()}${standardVideoEditing > 0 ? `, ${standardVideoEditing} Dựng tiêu chuẩn` : ''}${advancedVideoEditing > 0 ? `, ${advancedVideoEditing} Dựng nâng cao` : ''}${voiceTalent !== 'none' ? `, Voice: ${voiceTalent}` : ''}${photoRetouch !== 'none' ? `, Hậu kỳ ảnh: ${photoRetouch}` : ''}${express24h ? ', Hậu kỳ 24h' : ''}${makeupMUA ? ', Makeup MUA' : ''}${luxuryPhotobook ? ', Photobook 30x30' : ''}. ${notes}`
       : notes;
 
     try {
@@ -637,14 +695,8 @@ function BookingForm({ locale }: { locale: Locale }) {
     if (step5QrType === 'biz') {
       return PAYMENT_CONFIG.qrImageBizVat || '/qr_newholdings_bizmbbank.jpg';
     }
-    if (!bookingResult) return '';
-    return generateVietQrUrl({
-      amount: depositAmount,
-      bookingCode: bookingResult.bookingCode,
-      customerName: bookingResult.customerName,
-      memo: transferMemo
-    });
-  }, [step5QrType, depositAmount, bookingResult, transferMemo]);
+    return PAYMENT_CONFIG.qrImageStatic || '/qrmb.jpg';
+  }, [step5QrType]);
 
   const currentStep5AccountNumber = isStep5Vat10
     ? (PAYMENT_CONFIG.bizAccountNumber || '943913689')
@@ -663,15 +715,19 @@ function BookingForm({ locale }: { locale: Locale }) {
     const totalStr = effectiveContractAmount.toLocaleString('vi-VN');
 
     let msg = '';
+    let chatUrl = '';
     if (locale === 'zh') {
-      msg = `您好 nhiep.net！我已通过 ${isStep5Vat10 ? '企业 BIZ MBBANK 码（含10%增值税）' : 'VietQR MB BANK'} 完成订金转账：\n- 订单号：${code}\n- 客户姓名：${name}\n- 电话：${phoneNum}\n- 套餐与配置：${pkg}\n- 合同总额：${totalStr} ₫${isStep5Vat10 ? '（含10%增值税）' : ''}\n- 订金金额 (${depositPercent}%)：${amountStr} ₫\n- 收款账户：MB BANK ${currentStep5AccountNumber} (${currentStep5AccountHolder})\n请专员核验并${isStep5Vat10 ? '开具增值税发票及' : ''}确认档期。`;
+      msg = `您好 nhiep.net！我已通过 ${isStep5Vat10 ? '企业 BIZ MBBANK 码（含10%增值税）' : 'MBBANK 二维码（无增值税）'} 完成订金转账：\n- 订单号：${code}\n- 客户姓名：${name}\n- 电话：${phoneNum}\n- 套餐与配置：${pkg}\n- 合同总额：${totalStr} ₫${isStep5Vat10 ? '（含10%增值税）' : ''}\n- 订金金额 (${depositPercent}%)：${amountStr} ₫\n- 收款账户：MB BANK ${currentStep5AccountNumber} (${currentStep5AccountHolder})\n请专员核验并${isStep5Vat10 ? '开具增值税发票及' : ''}确认档期。`;
+      chatUrl = `https://wa.me/84943391369?text=${encodeURIComponent(msg)}`;
     } else if (locale === 'en') {
-      msg = `Hello nhiep.net! I have completed the deposit payment via ${isStep5Vat10 ? 'BIZ MBBANK QR (INC. 10% VAT)' : 'VietQR MB BANK'}:\n- Booking Code: ${code}\n- Customer: ${name}\n- Phone: ${phoneNum}\n- Package & Setup: ${pkg}\n- Total Value: ${totalStr} VND${isStep5Vat10 ? ' (Inc. 10% VAT)' : ''}\n- Deposit Amount (${depositPercent}%): ${amountStr} VND\n- Beneficiary: MB BANK ${currentStep5AccountNumber} (${currentStep5AccountHolder})\nPlease verify and ${isStep5Vat10 ? 'issue VAT invoice & ' : ''}confirm my schedule.`;
+      msg = `Hello nhiep.net! I have completed the deposit payment via ${isStep5Vat10 ? 'BIZ MBBANK QR (INC. 10% VAT)' : 'MBBANK QR (NO VAT)'}:\n- Booking Code: ${code}\n- Customer: ${name}\n- Phone: ${phoneNum}\n- Package & Setup: ${pkg}\n- Total Value: ${totalStr} VND${isStep5Vat10 ? ' (Inc. 10% VAT)' : ''}\n- Deposit Amount (${depositPercent}%): ${amountStr} VND\n- Beneficiary: MB BANK ${currentStep5AccountNumber} (${currentStep5AccountHolder})\nPlease verify and ${isStep5Vat10 ? 'issue VAT invoice & ' : ''}confirm my schedule.`;
+      chatUrl = `https://wa.me/84943391369?text=${encodeURIComponent(msg)}`;
     } else {
-      msg = `Chào nhiep.net! Tôi vừa hoàn tất chuyển khoản đặt cọc qua ${isStep5Vat10 ? 'MÃ QR BIZ MBBANK (CÓ VAT 10%)' : 'VietQR MB BANK'} cho mã đơn: ${code} (${name} - ${phoneNum}).\n- Gói & Cấu hình: ${pkg}\n- Tổng giá trị hợp đồng: ${totalStr} ₫${isStep5Vat10 ? ' (Đã bao gồm 10% VAT)' : ''}\n- Số tiền cọc (${depositPercent}%): ${amountStr} ₫\n- Ngân hàng thụ hưởng: MB BANK ${currentStep5AccountNumber} (${currentStep5AccountHolder})\nNhờ chuyên viên kiểm tra và ${isStep5Vat10 ? 'xuất hóa đơn VAT / ' : ''}xác nhận giúp tôi!`;
+      msg = `Chào nhiep.net! Tôi vừa hoàn tất chuyển khoản đặt cọc qua ${isStep5Vat10 ? 'MÃ QR BIZ MBBANK (CÓ VAT 10%)' : 'MÃ QR MBBANK (KHÔNG VAT)'} cho mã đơn: ${code} (${name} - ${phoneNum}).\n- Gói & Cấu hình: ${pkg}\n- Tổng giá trị hợp đồng: ${totalStr} ₫${isStep5Vat10 ? ' (Đã bao gồm 10% VAT)' : ''}\n- Số tiền cọc (${depositPercent}%): ${amountStr} ₫\n- Ngân hàng thụ hưởng: MB BANK ${currentStep5AccountNumber} (${currentStep5AccountHolder})\nNhờ chuyên viên kiểm tra và ${isStep5Vat10 ? 'xuất hóa đơn VAT / ' : ''}xác nhận giúp tôi!`;
+      chatUrl = `https://zalo.me/${PAYMENT_CONFIG.zalo}?text=${encodeURIComponent(msg)}`;
     }
 
-    return `https://zalo.me/${PAYMENT_CONFIG.zalo}?text=${encodeURIComponent(msg)}`;
+    return chatUrl;
   }, [bookingResult, depositAmount, effectiveContractAmount, isStep5Vat10, depositPercent, fullPackageSummary, locale, currentStep5AccountNumber, currentStep5AccountHolder]);
 
   return (
@@ -835,7 +891,7 @@ function BookingForm({ locale }: { locale: Locale }) {
                     <div className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex items-center justify-between">
                       <div>
                         <span className="font-bold text-white block">{t.gimbalLabel}</span>
-                        <span className="text-[10px] text-zinc-400">{t.gimbalPrice}</span>
+                        <span className="text-[10px] text-brand font-semibold">{priceGimbalPerCrew.toLocaleString('vi-VN')} ₫ / thợ</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <button
@@ -885,11 +941,11 @@ function BookingForm({ locale }: { locale: Locale }) {
                       </div>
                     </div>
 
-                    {/* 3. Flycam trên không */}
+                    {/* 3. Flycam DJI */}
                     <div className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex items-center justify-between">
                       <div>
                         <span className="font-bold text-white block">{t.droneLabel}</span>
-                        <span className="text-[10px] text-zinc-400">{t.dronePrice}</span>
+                        <span className="text-[10px] text-brand font-semibold">{priceDronePerUnit.toLocaleString('vi-VN')} ₫ / máy</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <button
@@ -912,8 +968,8 @@ function BookingForm({ locale }: { locale: Locale }) {
                       </div>
                     </div>
 
-                    {/* 4. Tiêu chuẩn dựng */}
-                    <div className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex flex-col justify-between space-y-1">
+                    {/* 4. Tiêu chuẩn dựng màu sắc */}
+                    <div className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex flex-col justify-between space-y-1.5">
                       <span className="font-bold text-white">{t.qualityLabel}</span>
                       <div className="grid grid-cols-3 gap-1">
                         {[
@@ -925,13 +981,130 @@ function BookingForm({ locale }: { locale: Locale }) {
                             key={q.id}
                             type="button"
                             onClick={() => setEditingQuality(q.id as any)}
-                            className={`py-1 rounded-lg text-[10px] font-bold border transition-colors ${
+                            className={`py-1.5 px-1 rounded-lg text-[10px] font-bold border transition-colors ${
                               editingQuality === q.id
-                                ? 'bg-brand text-black border-brand'
-                                : 'bg-surface-muted text-zinc-300 border-surface-border'
+                                ? 'bg-brand text-black border-brand shadow-glow font-extrabold'
+                                : 'bg-surface-muted text-zinc-300 border-surface-border hover:bg-surface'
                             }`}
                           >
                             {q.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Post-production & Voice Grid */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs pt-1">
+                    {/* 5. Dựng phim tiêu chuẩn */}
+                    <div className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex items-center justify-between">
+                      <div>
+                        <span className="font-bold text-white block">{t.stdEditLabel}</span>
+                        <span className="text-[10px] text-zinc-400">{priceStdEditPerVideo.toLocaleString('vi-VN')} ₫ / video</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setStandardVideoEditing(Math.max(0, standardVideoEditing - 1))}
+                          className="w-7 h-7 rounded-lg bg-surface-muted hover:bg-surface text-white flex items-center justify-center font-bold"
+                        >
+                          <Minus className="w-3 h-3" />
+                        </button>
+                        <span className="font-mono font-bold text-sm text-brand w-4 text-center">
+                          {standardVideoEditing}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setStandardVideoEditing(Math.min(10, standardVideoEditing + 1))}
+                          className="w-7 h-7 rounded-lg bg-brand text-black flex items-center justify-center font-bold"
+                        >
+                          <Plus className="w-3 h-3" />
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* 6. Dựng phim nâng cao */}
+                    <div className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex items-center justify-between">
+                      <div>
+                        <span className="font-bold text-white block">{t.advEditLabel}</span>
+                        <span className="text-[10px] text-zinc-400">{priceAdvEditPerVideo.toLocaleString('vi-VN')} ₫ / video</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setAdvancedVideoEditing(Math.max(0, advancedVideoEditing - 1))}
+                          className="w-7 h-7 rounded-lg bg-surface-muted hover:bg-surface text-white flex items-center justify-center font-bold"
+                        >
+                          <Minus className="w-3 h-3" />
+                        </button>
+                        <span className="font-mono font-bold text-sm text-brand w-4 text-center">
+                          {advancedVideoEditing}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setAdvancedVideoEditing(Math.min(10, advancedVideoEditing + 1))}
+                          className="w-7 h-7 rounded-lg bg-brand text-black flex items-center justify-center font-bold"
+                        >
+                          <Plus className="w-3 h-3" />
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* 7. Voice talent */}
+                    <div className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex flex-col justify-between space-y-1.5">
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold text-white">{t.voiceLabel}</span>
+                        <span className="text-[10px] text-brand font-mono font-semibold">
+                          {priceVoiceTalent > 0 ? `+${priceVoiceTalent.toLocaleString('vi-VN')} ₫` : '0 ₫'}
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-3 gap-1">
+                        {[
+                          { id: 'none', label: t.optNone },
+                          { id: 'standard', label: `${t.optStandard} (800k)` },
+                          { id: 'premium', label: `${t.optPremium} (2.5tr)` }
+                        ].map((v) => (
+                          <button
+                            key={v.id}
+                            type="button"
+                            onClick={() => setVoiceTalent(v.id as any)}
+                            className={`py-1.5 px-1 rounded-lg text-[10px] font-bold border transition-colors ${
+                              voiceTalent === v.id
+                                ? 'bg-brand text-black border-brand shadow-glow font-extrabold'
+                                : 'bg-surface-muted text-zinc-300 border-surface-border hover:bg-surface'
+                            }`}
+                          >
+                            {v.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* 8. Hậu kỳ ảnh */}
+                    <div className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex flex-col justify-between space-y-1.5">
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold text-white">{t.photoRetouchLabel}</span>
+                        <span className="text-[10px] text-brand font-mono font-semibold">
+                          {pricePhotoRetouch > 0 ? `+${pricePhotoRetouch.toLocaleString('vi-VN')} ₫` : '0 ₫'}
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-3 gap-1">
+                        {[
+                          { id: 'none', label: t.optNone },
+                          { id: 'standard', label: `${t.optStandard} (400k)` },
+                          { id: 'premium', label: `${t.optPremium} (1.5tr)` }
+                        ].map((p) => (
+                          <button
+                            key={p.id}
+                            type="button"
+                            onClick={() => setPhotoRetouch(p.id as any)}
+                            className={`py-1.5 px-1 rounded-lg text-[10px] font-bold border transition-colors ${
+                              photoRetouch === p.id
+                                ? 'bg-brand text-black border-brand shadow-glow font-extrabold'
+                                : 'bg-surface-muted text-zinc-300 border-surface-border hover:bg-surface'
+                            }`}
+                          >
+                            {p.label}
                           </button>
                         ))}
                       </div>
@@ -1110,8 +1283,12 @@ function BookingForm({ locale }: { locale: Locale }) {
                     </div>
                   </div>
 
-                  {(express24h || makeupMUA || luxuryPhotobook) && (
+                  {(standardVideoEditing > 0 || advancedVideoEditing > 0 || voiceTalent !== 'none' || photoRetouch !== 'none' || express24h || makeupMUA || luxuryPhotobook) && (
                     <div className="flex flex-wrap gap-2 pt-1 text-[11px] text-zinc-300">
+                      {standardVideoEditing > 0 && <span className="px-2 py-0.5 rounded-lg bg-surface-elevated border border-surface-border text-zinc-200">🎞️ {standardVideoEditing} Dựng tiêu chuẩn</span>}
+                      {advancedVideoEditing > 0 && <span className="px-2 py-0.5 rounded-lg bg-surface-elevated border border-surface-border text-zinc-200">🎬 {advancedVideoEditing} Dựng nâng cao</span>}
+                      {voiceTalent !== 'none' && <span className="px-2 py-0.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-300">🎙️ Voice: {voiceTalent === 'premium' ? 'Cao cấp' : 'Tiêu chuẩn'}</span>}
+                      {photoRetouch !== 'none' && <span className="px-2 py-0.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300">🖼️ Hậu kỳ: {photoRetouch === 'premium' ? 'Cao cấp' : 'Tiêu chuẩn'}</span>}
                       {express24h && <span className="px-2 py-0.5 rounded-lg bg-brand/10 border border-brand/30 text-brand font-semibold">⚡ Hậu kỳ 24h</span>}
                       {makeupMUA && <span className="px-2 py-0.5 rounded-lg bg-purple-500/10 border border-purple-500/30 text-purple-300 font-semibold">💄 Makeup MUA</span>}
                       {luxuryPhotobook && <span className="px-2 py-0.5 rounded-lg bg-blue-500/10 border border-blue-500/30 text-blue-300 font-semibold">📖 Photobook 30x30</span>}
@@ -1635,7 +1812,7 @@ function BookingForm({ locale }: { locale: Locale }) {
 
                   <div className="relative w-56 h-56 sm:w-60 sm:h-60 rounded-2xl overflow-hidden shadow-inner border border-zinc-200">
                     {vietQrSrc ? (
-                      <img src={vietQrSrc} alt="VietQR MB BANK" className="w-full h-full object-contain" />
+                      <img src={vietQrSrc} alt={isStep5Vat10 ? 'MÃ QR BIZ MBBANK CÓ VAT 10%' : 'MÃ QR MBBANK KHÔNG VAT'} className="w-full h-full object-contain" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-zinc-100">
                         <QrCode className="w-16 h-16 text-zinc-400 animate-pulse" />
