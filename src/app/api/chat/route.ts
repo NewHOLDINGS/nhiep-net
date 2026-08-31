@@ -121,19 +121,17 @@ NHIEP.NET Knowledge Base & Operations:
   + Dựng phim nâng cao: Full HD 2.800.000 đ/video, 4K 3.500.000 đ/video, 6K RAW 6.500.000 đ/video
   + Voice talent: Tiêu chuẩn 800.000 đ, Cao cấp 2.500.000 đ/video
   + Hậu kỳ ảnh: Tiêu chuẩn 400.000 đ, Cao cấp 1.500.000 đ/show
-- Available matching packages on website:
-${recommended.map((r, i) => `${i + 1}. ${r.name} - Giá: ${r.price}`).join('\n')}
 `;
 
       const promptInstructions = `You are NHIEP.NET AI Consultant.
 CRITICAL RESPONSE GUIDELINES:
 1. Language: 100% in ${targetLangName}.
-2. Tone: Warm, natural, concise, polite, and human-like. Speak directly to the point without verbose, repetitive, or robotic greetings.
-3. STRICT PROHIBITION: DO NOT use markdown bold asterisks (**) or underscores (__) anywhere in the text. Write clean, natural text.
-4. Response Flow:
-   - Part 1: Directly address and solve the customer's specific question or request in 1-2 focused, insightful sentences.
-   - Part 2: Introduce 3 to 5 matching packages currently available on the nhiep.net website (with package names and prices).
-   - Part 3: Guide the customer to the "TỰ CHỈNH THỢ & MÁY" (Custom Crew & Gear) panel right below to flexibly adjust the number of gimbal operators, photographers, drones, and video editing according to their exact budget.
+2. Tone of voice: Warm, natural, polite, empathetic, and human-like. Speak directly to the point without verbose or robotic greetings.
+3. STRICT PROHIBITION: DO NOT use markdown bold asterisks (**) or underscores (__) anywhere in your conversational text. Write clean, natural text.
+4. EXACT 2-PART RESPONSE FLOW:
+   - Part 1 (Direct & Concise Answer): Directly address the customer's specific needs, project concept, timeline, or budget in 1-2 focused, warm, and natural sentences. Provide a clear solution or crew configuration.
+   - Part 2 (Custom Crew & Gear Guide): Promptly guide the customer to use the "TỰ CHỈNH THỢ & MÁY" (Custom Crew & Gear Builder) panel right below to freely adjust the number of gimbal operators, photographers, drones, and video editing according to their exact budget.
+   - DO NOT suggest or list standard preset packages from the website. Keep the focus 100% on answering directly and guiding to the Custom Crew & Gear Builder.
 5. In addition to your conversational text, you MUST provide a JSON block at the very end enclosed in \`\`\`json ... \`\`\` with this exact schema (ALL VALUES IN ${targetLangName}):
 {
   "conceptTitle": "Title of the custom script in ${targetLangName}",
@@ -738,59 +736,29 @@ Please analyze this customer request, deliver a focused and natural answer in ${
 
     if (!aiResponseText) {
       if (locale === 'zh') {
-        aiResponseText = `您好！我是 NHIEP.NET，很高兴为您提供专业拍摄策划方案。${
+        aiResponseText = `您好！我是 NHIEP.NET，很高兴为您服务。${
           latestUserMsg ? `针对您提出的需求 "${latestUserMsg}"` : ''
         }${
-          attachments.length > 0 ? `以及上传的 ${attachments.length} 份参考资料` : ''
-        }${driveLink ? `（Drive链接：${driveLink}）` : ''}，我已为您制定了最合适的执行方案：
+          attachments.length > 0 ? `及上传的文件资料` : ''
+        }${driveLink ? `（Drive链接：${driveLink}）` : ''}，为您推荐的最佳机位配置为：${parsedScriptPlan.cameraCrewProposal.videoCameras}、${parsedScriptPlan.cameraCrewProposal.photoCameras}、${parsedScriptPlan.cameraCrewProposal.drones}。
 
-1. 推荐机位配置与人员：
-- 机位建议：${parsedScriptPlan.cameraCrewProposal.videoCameras}、${parsedScriptPlan.cameraCrewProposal.photoCameras}、${parsedScriptPlan.cameraCrewProposal.drones}。
-- 成片标准：电影级 4K / Full HD 精细调色，交付全部高清原片底片。
-
-2. 网站现有匹配套餐推荐：
-${recommended.length > 0 ? recommended.map((r) => `- ${r.name}（参考价：${r.price}）`).join('\n') : '- NHIEP.NET 精选摄影与摄制套餐'}
-
-3. 自主定制设备与人员方案：
-您也可以直接点击上方的“自主定制”面板，自由增减稳定器摄影师、主摄影师、大疆无人机数量，以及选择标准剪辑或高级电影感剪辑，完全贴合您的预算。
-
-如需对接具体档期或定制分镜，欢迎点击通过 WhatsApp（+84943391369）与专属顾问联系，或直接扫码 VietQR MB BANK 锁定档期！`;
+您可以直接在下方的“自主定制”面板中，根据您的实际预算自由增减机位人员与剪辑标准！`;
       } else if (locale === 'en') {
-        aiResponseText = `Hello! I am NHIEP.NET, glad to assist you with your production plan.${
+        aiResponseText = `Hello! I am NHIEP.NET, glad to assist you.${
           latestUserMsg ? ` Regarding your request "${latestUserMsg}"` : ''
         }${
-          attachments.length > 0 ? ` and the ${attachments.length} attached document(s)` : ''
-        }${driveLink ? ` (Drive Link: ${driveLink})` : ''}, I have analyzed the details and prepared the optimal production plan for you:
+          attachments.length > 0 ? ` and your attached files` : ''
+        }${driveLink ? ` (Drive Link: ${driveLink})` : ''}, the optimal production setup recommended for you is ${parsedScriptPlan.cameraCrewProposal.videoCameras}, ${parsedScriptPlan.cameraCrewProposal.photoCameras}, ${parsedScriptPlan.cameraCrewProposal.drones}.
 
-1. Recommended Crew & Gear Breakdown:
-- Proposed Setup: ${parsedScriptPlan.cameraCrewProposal.videoCameras}, ${parsedScriptPlan.cameraCrewProposal.photoCameras}, ${parsedScriptPlan.cameraCrewProposal.drones}.
-- Deliverables: High quality 4K Cinema / Full HD color-graded video with 100% original RAW files included.
-
-2. Relevant Packages on our Website:
-${recommended.length > 0 ? recommended.map((r) => `- ${r.name} (${r.price})`).join('\n') : '- NHIEP.NET Standard & Premium Packages'}
-
-3. Custom Crew & Gear Builder:
-You can also use the Custom Crew & Gear Builder above to freely adjust the number of Gimbal operators, photographers, DJI Drones, standard or advanced video editing according to your exact budget.
-
-Feel free to confirm your schedule via WhatsApp (+84943391369) or proceed with VietQR MB BANK deposit!`;
+You can directly use the Custom Crew & Gear Builder right below to freely customize the number of gimbal operators, photographers, drones, and video editing according to your budget!`;
       } else {
-        aiResponseText = `Chào bạn! Tôi là NHIEP.NET, rất vui được đồng hành cùng bạn.${
+        aiResponseText = `Chào bạn! Tôi là NHIEP.NET, rất vui được hỗ trợ bạn.${
           latestUserMsg ? ` Về yêu cầu "${latestUserMsg}" của bạn` : ''
         }${
-          attachments.length > 0 ? ` cùng ${attachments.length} tệp tài liệu bạn vừa gửi` : ''
-        }${driveLink ? ` (Link Drive: ${driveLink})` : ''}, tôi đã nghiên cứu kỹ và lên phương án sản xuất tối ưu nhất cho bạn:
+          attachments.length > 0 ? ` cùng các tệp tài liệu bạn vừa gửi` : ''
+        }${driveLink ? ` (Link Drive: ${driveLink})` : ''}, tôi đã nghiên cứu kỹ và đề xuất cấu hình tối ưu cho buổi quay chụp gồm ${parsedScriptPlan.cameraCrewProposal.videoCameras}, ${parsedScriptPlan.cameraCrewProposal.photoCameras}, ${parsedScriptPlan.cameraCrewProposal.drones}.
 
-1. Phương án nhân sự & máy quay đề xuất:
-- Cấu hình đề xuất: ${parsedScriptPlan.cameraCrewProposal.videoCameras}, ${parsedScriptPlan.cameraCrewProposal.photoCameras}, ${parsedScriptPlan.cameraCrewProposal.drones}.
-- Chuẩn chất lượng: Quay dựng 4K Cinema / Full HD chất lượng cao, cân màu DaVinci Resolve và bàn giao toàn bộ file gốc.
-
-2. Gợi ý gói sẵn có trên hệ thống phù hợp với bạn:
-${recommended.length > 0 ? recommended.map((r) => `- ${r.name} (Giá: ${r.price})`).join('\n') : '- Gói Dịch Vụ Tiêu Chuẩn & Cao Cấp nhiep.net'}
-
-3. Tự chỉnh Thợ & Máy theo ngân sách riêng của bạn:
-Bạn hoàn toàn có thể chủ động bấm mở bảng Tự chỉnh Thợ & Máy ở ngay phía trên để tăng giảm số lượng thợ quay Gimbal, thợ chụp ảnh, Flycam DJI, chọn Dựng phim tiêu chuẩn hoặc Dựng phim nâng cao theo đúng ngân sách dự kiến.
-
-Nếu bạn cần tư vấn thêm hoặc muốn chốt lịch ngay, hãy bấm Chốt gói qua Zalo (0943391369) hoặc chọn Đặt cọc VietQR MB BANK nhé!`;
+Bạn có thể chủ động sử dụng ngay bảng TỰ CHỈNH THỢ & MÁY ở bên dưới để tự do điều chỉnh tăng giảm số lượng thợ quay Gimbal, thợ chụp ảnh, Flycam DJI và tiêu chuẩn dựng phim theo đúng ngân sách thực tế của bạn nhé!`;
       }
     }
 
