@@ -1567,7 +1567,7 @@ function BookingForm({ locale }: { locale: Locale }) {
                     required
                     value={shootDate}
                     onChange={(e) => setShootDate(e.target.value)}
-                    className="w-full bg-surface-muted border border-surface-border rounded-xl px-4 py-3 text-xs sm:text-sm text-white focus:outline-none focus:border-brand"
+                    className="w-full bg-surface-muted border border-surface-border rounded-xl px-4 py-3 text-base sm:text-sm text-white focus:outline-none focus:border-brand"
                   />
                 </div>
 
@@ -1579,7 +1579,7 @@ function BookingForm({ locale }: { locale: Locale }) {
                     type="time"
                     value={shootTime}
                     onChange={(e) => setShootTime(e.target.value)}
-                    className="w-full bg-surface-muted border border-surface-border rounded-xl px-4 py-3 text-xs sm:text-sm text-white focus:outline-none focus:border-brand"
+                    className="w-full bg-surface-muted border border-surface-border rounded-xl px-4 py-3 text-base sm:text-sm text-white focus:outline-none focus:border-brand"
                   />
                 </div>
               </div>
@@ -1593,7 +1593,7 @@ function BookingForm({ locale }: { locale: Locale }) {
                   value={shootAddress}
                   onChange={(e) => setShootAddress(e.target.value)}
                   placeholder={t.shootAddressPlaceholder}
-                  className="w-full bg-surface-muted border border-surface-border rounded-xl px-4 py-3 text-xs sm:text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-brand"
+                  className="w-full bg-surface-muted border border-surface-border rounded-xl px-4 py-3 text-base sm:text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-brand"
                 />
               </div>
 
@@ -1653,7 +1653,7 @@ function BookingForm({ locale }: { locale: Locale }) {
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     placeholder={t.fullNamePlaceholder}
-                    className="w-full bg-surface-muted border border-surface-border rounded-xl px-4 py-3 text-xs sm:text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-brand"
+                    className="w-full bg-surface-muted border border-surface-border rounded-xl px-4 py-3 text-base sm:text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-brand"
                   />
                 </div>
 
@@ -1678,7 +1678,7 @@ function BookingForm({ locale }: { locale: Locale }) {
                       setPhone(val);
                     }}
                     placeholder={locale === 'vi' ? '0943391369' : t.phoneNumberPlaceholder}
-                    className="w-full bg-surface-muted border border-surface-border rounded-xl px-4 py-3 text-xs sm:text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-brand font-mono"
+                    className="w-full bg-surface-muted border border-surface-border rounded-xl px-4 py-3 text-base sm:text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-brand font-mono"
                   />
                   {locale === 'vi' && phone && phone.length > 0 && (!phone.startsWith('0') || phone.length !== 10) && (
                     <p className="text-[11px] text-amber-400 mt-1">
@@ -1701,7 +1701,7 @@ function BookingForm({ locale }: { locale: Locale }) {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder={t.emailAddressPlaceholder}
-                    className="w-full bg-surface-muted border border-surface-border rounded-xl px-4 py-3 text-xs sm:text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-brand"
+                    className="w-full bg-surface-muted border border-surface-border rounded-xl px-4 py-3 text-base sm:text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-brand"
                   />
                 </div>
 
@@ -1717,7 +1717,7 @@ function BookingForm({ locale }: { locale: Locale }) {
                     value={zaloOrWhatsapp}
                     onChange={(e) => setZaloOrWhatsapp(e.target.value)}
                     placeholder={t.zaloOrWhatsappPlaceholder}
-                    className="w-full bg-surface-muted border border-surface-border rounded-xl px-4 py-3 text-xs sm:text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-brand"
+                    className="w-full bg-surface-muted border border-surface-border rounded-xl px-4 py-3 text-base sm:text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-brand"
                   />
                 </div>
               </div>

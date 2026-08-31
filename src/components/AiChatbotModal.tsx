@@ -544,8 +544,8 @@ export default function AiChatbotModal({
 
   return (
     <>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/75 backdrop-blur-md animate-in fade-in duration-200">
-        <div className="relative w-full max-w-3xl h-[720px] max-h-[94vh] glass-panel bg-surface-card rounded-3xl border border-brand/40 shadow-2xl flex flex-col overflow-hidden">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200 overflow-hidden">
+        <div className="relative w-full max-w-3xl h-[100dvh] sm:h-[720px] sm:max-h-[94vh] glass-panel bg-surface-card rounded-none sm:rounded-3xl border-0 sm:border border-brand/40 shadow-2xl flex flex-col overflow-hidden">
           
           {/* Header */}
           <div className="p-3.5 sm:p-4 bg-gradient-to-r from-surface-elevated via-surface-card to-brand/10 border-b border-surface-border flex items-center justify-between">
@@ -602,7 +602,7 @@ export default function AiChatbotModal({
 
           {/* Builder Drawer inside modal */}
           {showBuilder && (
-            <div className="p-3 bg-surface-muted/90 border-b border-surface-border animate-in slide-in-from-top-2 max-h-[60vh] overflow-y-auto no-scrollbar">
+            <div className="p-3 bg-surface-muted/90 border-b border-surface-border animate-in slide-in-from-top-2 max-h-[38vh] sm:max-h-[55vh] overflow-y-auto no-scrollbar">
               <CustomizerBuilder
                 locale={locale}
                 onOpenPaymentQr={handleOpenQrFromCustomizer}
@@ -837,7 +837,7 @@ export default function AiChatbotModal({
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   disabled={loading}
-                  className="w-full bg-surface-muted border border-surface-border rounded-2xl px-4 py-2.5 text-xs sm:text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-brand transition-colors"
+                  className="w-full bg-surface-muted border border-surface-border rounded-2xl px-4 py-2.5 sm:py-2.5 text-base sm:text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-brand transition-colors"
                 />
               </div>
 
