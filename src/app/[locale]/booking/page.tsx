@@ -468,11 +468,6 @@ function BookingForm({ locale }: { locale: Locale }) {
         }
         setStep(2);
       }
-    } else {
-      const firstInCat = PACKAGES.find((p) => p.categoryId === selectedCategory);
-      if (firstInCat && !selectedPackageId) {
-        setSelectedPackageId(firstInCat.id);
-      }
     }
   }, [preselectedPackageId]);
 
@@ -482,8 +477,9 @@ function BookingForm({ locale }: { locale: Locale }) {
   }, [selectedCategory]);
 
   const activePackage = useMemo(() => {
-    return PACKAGES.find((p) => p.id === selectedPackageId) || availablePackages[0] || PACKAGES[0];
-  }, [selectedPackageId, availablePackages]);
+    if (!selectedPackageId) return null;
+    return PACKAGES.find((p) => p.id === selectedPackageId) || null;
+  }, [selectedPackageId]);
 
   // Dynamic pricing calculations for customizer
   // Gimbal: Full HD = 3.2M; 4K = +1.0M (4.2M); 6K RAW = +2.5M (5.7M)
@@ -591,7 +587,9 @@ function BookingForm({ locale }: { locale: Locale }) {
         baseName = `Cấu hình tự chọn: ${gimbalOperators} Thợ quay Gimbal + ${photographers} Thợ chụp ảnh + ${drones} Flycam DJI (Dựng ${editingQuality.toUpperCase()}${extraDetails.length > 0 ? ` • ${extraDetails.join(', ')}` : ''})`;
       }
     } else {
-      baseName = locale === 'zh' ? activePackage.nameZh : locale === 'en' ? activePackage.nameEn : activePackage.nameVi;
+      baseName = activePackage
+        ? (locale === 'zh' ? activePackage.nameZh : locale === 'en' ? activePackage.nameEn : activePackage.nameVi)
+        : (locale === 'zh' ? '精选套餐' : locale === 'en' ? 'Selected Package' : 'Gói Dịch Vụ');
     }
 
     const addonNames = selectedAddons
@@ -627,7 +625,7 @@ function BookingForm({ locale }: { locale: Locale }) {
       pkgId = 'custom-builder-package';
       catId = gimbalOperators > 0 ? 'videography' : 'photography';
     } else {
-      pkgId = activePackage.id;
+      pkgId = activePackage ? activePackage.id : (availablePackages[0]?.id || 'pkg-default');
     }
 
     const customNotesDetails = bookingMode === 'custom'
@@ -1227,8 +1225,8 @@ function BookingForm({ locale }: { locale: Locale }) {
                         type="button"
                         onClick={() => {
                           setSelectedCategory(cat.id);
-                          const first = PACKAGES.find((p) => p.categoryId === cat.id);
-                          if (first) setSelectedPackageId(first.id);
+                          setSelectedPackageId('');
+                          setShowAllPackages(false);
                         }}
                         className={`p-4 rounded-xl border text-left transition-all flex items-start gap-3 ${
                           selectedCategory === cat.id
@@ -1350,10 +1348,17 @@ function BookingForm({ locale }: { locale: Locale }) {
                 /* Category Standard Packages */
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <h3 className="font-heading font-bold text-lg text-white">
-                      {showAllPackages ? t.selectPackage : t.selectedPackageHeader}
-                    </h3>
-                    {!showAllPackages && (
+                    <div>
+                      <h3 className="font-heading font-bold text-lg text-white">
+                        {(!selectedPackageId || showAllPackages) ? t.selectPackage : t.selectedPackageHeader}
+                      </h3>
+                      {!selectedPackageId && (
+                        <p className="text-xs text-zinc-400 mt-0.5">
+                          {locale === 'zh' ? '请点击选择下方其中一个套餐：' : locale === 'en' ? 'Please click to select one package below:' : 'Vui lòng bấm chọn 1 gói dịch vụ phù hợp bên dưới:'}
+                        </p>
+                      )}
+                    </div>
+                    {selectedPackageId && !showAllPackages && (
                       <button
                         type="button"
                         onClick={() => setShowAllPackages(true)}
@@ -1365,7 +1370,7 @@ function BookingForm({ locale }: { locale: Locale }) {
                     )}
                   </div>
 
-                  {showAllPackages ? (
+                  {(!selectedPackageId || showAllPackages) ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {availablePackages.map((pkg) => {
                         const isSelected = selectedPackageId === pkg.id;
@@ -1379,7 +1384,7 @@ function BookingForm({ locale }: { locale: Locale }) {
                               setSelectedPackageId(pkg.id);
                               setShowAllPackages(false);
                             }}
-                            className={`cursor-pointer rounded-2xl p-4 border transition-all flex flex-col justify-between ${
+                            className={`cursor-pointer rounded-2xl p-4 border transition-all flex flex-col justify-between hover:border-brand/70 hover:scale-[1.01] ${
                               isSelected
                                 ? 'bg-brand/10 border-brand shadow-glow'
                                 : 'bg-surface-muted hover:bg-surface-elevated border-surface-border'
@@ -1410,7 +1415,7 @@ function BookingForm({ locale }: { locale: Locale }) {
                     </div>
                   ) : (
                     /* Display ONLY the single selected package card */
-                    (() => {
+                    activePackage && (() => {
                       const pkg = activePackage;
                       const name = locale === 'zh' ? pkg.nameZh : locale === 'en' ? pkg.nameEn : pkg.nameVi;
                       const deliverables = locale === 'zh' ? pkg.deliverablesZh : locale === 'en' ? pkg.deliverablesEn : pkg.deliverablesVi;
@@ -1514,7 +1519,13 @@ function BookingForm({ locale }: { locale: Locale }) {
                   </button>
                   <button
                     type="button"
-                    onClick={() => setStep(3)}
+                    onClick={() => {
+                      if (bookingMode === 'category' && !selectedPackageId) {
+                        alert(locale === 'zh' ? '请先点击选择一个服务套餐' : locale === 'en' ? 'Please click to select a package first' : 'Vui lòng bấm chọn 1 gói dịch vụ trước khi tiếp tục');
+                        return;
+                      }
+                      setStep(3);
+                    }}
                     className="px-8 py-3.5 rounded-xl bg-brand hover:bg-brand-400 text-black font-extrabold text-sm flex items-center gap-2 shadow-glow"
                   >
                     <span>{t.nextStep}</span>
@@ -1771,7 +1782,7 @@ function BookingForm({ locale }: { locale: Locale }) {
                   <strong className="text-white font-bold">
                     {bookingMode === 'custom'
                       ? t.customPackageName
-                      : (locale === 'zh' ? activePackage.nameZh : locale === 'en' ? activePackage.nameEn : activePackage.nameVi)}
+                      : (activePackage ? (locale === 'zh' ? activePackage.nameZh : locale === 'en' ? activePackage.nameEn : activePackage.nameVi) : '')}
                   </strong>
                 </div>
 
@@ -2168,7 +2179,7 @@ function BookingForm({ locale }: { locale: Locale }) {
                   <strong className="text-brand">
                     {bookingMode === 'custom'
                       ? t.customPackageName
-                      : (locale === 'zh' ? activePackage.nameZh : locale === 'en' ? activePackage.nameEn : activePackage.nameVi)}
+                      : (activePackage ? (locale === 'zh' ? activePackage.nameZh : locale === 'en' ? activePackage.nameEn : activePackage.nameVi) : '')}
                   </strong>
                 </div>
 
