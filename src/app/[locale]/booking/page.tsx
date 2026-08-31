@@ -1108,8 +1108,8 @@ function BookingForm({ locale }: { locale: Locale }) {
                       <div className="grid grid-cols-3 gap-1">
                         {[
                           { id: 'fullhd', label: 'Full HD' },
-                          { id: '4k', label: '4K Cinema (+1tr)' },
-                          { id: '6k', label: '6K RAW (+2.5tr)' }
+                          { id: '4k', label: '4K' },
+                          { id: '6k', label: '6K' }
                         ].map((q) => (
                           <button
                             key={q.id}
