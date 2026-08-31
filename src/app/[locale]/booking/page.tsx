@@ -616,6 +616,18 @@ function BookingForm({ locale }: { locale: Locale }) {
       return;
     }
 
+    if (locale === 'vi') {
+      if (!/^0\d{9}$/.test(phone)) {
+        alert('Số điện thoại không hợp lệ. Vui lòng nhập đúng 10 chữ số bắt đầu bằng số 0 (Ví dụ: 0943391369).');
+        return;
+      }
+    } else {
+      if (!phone || phone.replace(/\D/g, '').length < 5) {
+        alert(locale === 'zh' ? '请输入有效的联系电话（仅限数字）。' : 'Please enter a valid phone number (digits only).');
+        return;
+      }
+    }
+
     setLoading(true);
 
     let pkgId = '';
@@ -1627,71 +1639,6 @@ function BookingForm({ locale }: { locale: Locale }) {
                 )}
               </div>
 
-              {/* Fast Social Sign-In Banner if Not Logged In */}
-              {!user ? (
-                <div className="p-4 rounded-2xl bg-gradient-to-r from-surface-elevated to-surface-card border border-brand/40 space-y-3 shadow-lg">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 text-xs font-bold text-white">
-                      <Sparkles className="w-4 h-4 text-brand animate-pulse" />
-                      <span>{t.oneTapLogin}</span>
-                    </div>
-                    <span className="text-[10px] text-zinc-400 hidden sm:inline">{t.noPasswordRequired}</span>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                    <button
-                      type="button"
-                      onClick={() => openAuthModal()}
-                      className="w-full py-3 px-4 rounded-xl bg-white hover:bg-zinc-100 text-zinc-800 font-bold text-xs flex items-center justify-center gap-2.5 transition-all shadow-md active:scale-95"
-                    >
-                      <GoogleIcon className="w-4 h-4" />
-                      <span>{t.continueGoogle}</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => openAuthModal()}
-                      className="w-full py-3 px-4 rounded-xl bg-[#1877F2] hover:bg-[#166FE5] text-white font-bold text-xs flex items-center justify-center gap-2.5 transition-all shadow-md active:scale-95"
-                    >
-                      <div className="w-4 h-4 rounded-full bg-white flex items-center justify-center p-0.5">
-                        <FacebookIcon className="w-3 h-3" />
-                      </div>
-                      <span>{t.continueFacebook}</span>
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                /* Auto-fill confirmation notification when logged in */
-                <div className="p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between gap-3">
-                  <div className="flex items-center gap-3">
-                    <div className="relative w-9 h-9 rounded-xl overflow-hidden bg-brand/20 border border-brand/40 flex items-center justify-center text-brand font-bold text-xs shrink-0">
-                      {user.avatar ? (
-                        <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
-                      ) : (
-                        user.name.charAt(0).toUpperCase()
-                      )}
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold text-white flex items-center gap-1.5">
-                        <span>{t.autoFilledFrom} {user.provider === 'google' ? 'Google' : user.provider === 'facebook' ? 'Facebook' : ''}: <strong>{user.name}</strong></span>
-                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                      </p>
-                      <p className="text-[11px] text-zinc-400">
-                        {user.email || user.facebookUrl || user.phone || t.readyToBook}
-                      </p>
-                    </div>
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={openAuthModal}
-                    className="text-[11px] text-brand hover:underline font-bold shrink-0 px-2 py-1 rounded-lg bg-surface-elevated border border-surface-border"
-                  >
-                    {t.switchAccount}
-                  </button>
-                </div>
-              )}
-
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-zinc-300 mb-1.5 flex items-center justify-between">
@@ -1721,10 +1668,23 @@ function BookingForm({ locale }: { locale: Locale }) {
                     type="tel"
                     required
                     value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    placeholder={t.phoneNumberPlaceholder}
-                    className="w-full bg-surface-muted border border-surface-border rounded-xl px-4 py-3 text-xs sm:text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-brand"
+                    onChange={(e) => {
+                      let val = e.target.value;
+                      if (locale === 'vi') {
+                        val = val.replace(/\D/g, '').slice(0, 10);
+                      } else {
+                        val = val.replace(/[^0-9+]/g, '');
+                      }
+                      setPhone(val);
+                    }}
+                    placeholder={locale === 'vi' ? '0943391369' : t.phoneNumberPlaceholder}
+                    className="w-full bg-surface-muted border border-surface-border rounded-xl px-4 py-3 text-xs sm:text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-brand font-mono"
                   />
+                  {locale === 'vi' && phone && phone.length > 0 && (!phone.startsWith('0') || phone.length !== 10) && (
+                    <p className="text-[11px] text-amber-400 mt-1">
+                      * Yêu cầu đúng 10 số và bắt đầu bằng số 0 (Đã nhập: {phone.length}/10 số)
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -1760,19 +1720,6 @@ function BookingForm({ locale }: { locale: Locale }) {
                     className="w-full bg-surface-muted border border-surface-border rounded-xl px-4 py-3 text-xs sm:text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-brand"
                   />
                 </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
-                  {t.specialNotes}
-                </label>
-                <textarea
-                  rows={3}
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  placeholder={t.specialNotesPlaceholder}
-                  className="w-full bg-surface-muted border border-surface-border rounded-xl px-4 py-3 text-xs sm:text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-brand"
-                />
               </div>
 
               {/* Summary Card before proceed to deposit */}
