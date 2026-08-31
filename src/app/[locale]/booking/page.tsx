@@ -21,6 +21,8 @@ import { GoogleIcon, FacebookIcon } from '@/components/SocialIcons';
 
 const ADDONS = [
   { id: 'addonDrone', nameVi: 'Flycam 4K / 5.1K trên không', nameEn: '4K / 5.1K Aerial Drone Flight', nameZh: '4K/5.1K高清航拍无人机', priceVnd: 1500000 },
+  { id: 'addonStdEdit', nameVi: 'Dựng phim tiêu chuẩn (Full HD 1.2tr / 4K 1.5tr / 6K 4.5tr)', nameEn: 'Standard Video Editing (Full HD 1.2M / 4K 1.5M / 6K 4.5M)', nameZh: '标准视频剪辑（Full HD 120万 / 4K 150万 / 6K 450万）', priceVnd: 1200000 },
+  { id: 'addonAdvEdit', nameVi: 'Dựng phim nâng cao (Full HD 2.8tr / 4K 3.5tr / 6K 6.5tr)', nameEn: 'Advanced Video Editing (Full HD 2.8M / 4K 3.5M / 6K 6.5M)', nameZh: '高级电影感剪辑（Full HD 280万 / 4K 350万 / 6K 650万）', priceVnd: 2800000 },
   { id: 'addonExpress', nameVi: 'Hậu kỳ hỏa tốc nhận file trong 24h', nameEn: '24-Hour Express Rapid Delivery', nameZh: '24小时极速出片通道', priceVnd: 1200000 },
   { id: 'addonExtraPhotographer', nameVi: 'Thêm 01 Nhiếp ảnh gia phụ', nameEn: '1 Additional Lead Photographer', nameZh: '增加1位资深副摄影师', priceVnd: 1800000 },
   { id: 'addonMUA', nameVi: 'Chuyên viên Trang điểm & Làm tóc', nameEn: 'On-Location Makeup Artist & Hair Styling', nameZh: '专属造型师跟妆与发型设计', priceVnd: 1000000 },
@@ -891,7 +893,17 @@ function BookingForm({ locale }: { locale: Locale }) {
                     <div className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex items-center justify-between">
                       <div>
                         <span className="font-bold text-white block">{t.gimbalLabel}</span>
-                        <span className="text-[10px] text-brand font-semibold">{priceGimbalPerCrew.toLocaleString('vi-VN')} ₫ / thợ</span>
+                        <div className="flex items-center gap-1.5 mt-0.5">
+                          <span className="text-[11px] text-brand font-bold font-mono">
+                            {priceGimbalPerCrew.toLocaleString('vi-VN')} ₫ / thợ
+                          </span>
+                          <span className="px-1 py-0.2 rounded bg-surface-muted border border-surface-border text-[9px] text-zinc-400">
+                            {editingQuality.toUpperCase()}
+                          </span>
+                        </div>
+                        <span className="text-[9px] text-zinc-400 block mt-0.5">
+                          {locale === 'zh' ? 'Full HD: 320万 • 4K: 420万 • 6K: 570万' : locale === 'en' ? 'Full HD: 3.2M • 4K: 4.2M • 6K: 5.7M' : 'Full HD: 3.2tr • 4K: 4.2tr • 6K: 5.7tr'}
+                        </span>
                       </div>
                       <div className="flex items-center gap-2">
                         <button
@@ -918,7 +930,12 @@ function BookingForm({ locale }: { locale: Locale }) {
                     <div className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex items-center justify-between">
                       <div>
                         <span className="font-bold text-white block">{t.photoLabel}</span>
-                        <span className="text-[10px] text-zinc-400">{t.photoPrice}</span>
+                        <div className="flex items-center gap-1.5 mt-0.5">
+                          <span className="text-[11px] text-brand font-bold font-mono">{t.photoPrice}</span>
+                        </div>
+                        <span className="text-[9px] text-zinc-400 block mt-0.5">
+                          {locale === 'zh' ? '固定价格，不受画质影响' : locale === 'en' ? 'Flat rate for all resolutions' : 'Giá cố định mọi độ phân giải'}
+                        </span>
                       </div>
                       <div className="flex items-center gap-2">
                         <button
@@ -945,7 +962,17 @@ function BookingForm({ locale }: { locale: Locale }) {
                     <div className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex items-center justify-between">
                       <div>
                         <span className="font-bold text-white block">{t.droneLabel}</span>
-                        <span className="text-[10px] text-brand font-semibold">{priceDronePerUnit.toLocaleString('vi-VN')} ₫ / máy</span>
+                        <div className="flex items-center gap-1.5 mt-0.5">
+                          <span className="text-[11px] text-brand font-bold font-mono">
+                            {priceDronePerUnit.toLocaleString('vi-VN')} ₫ / máy
+                          </span>
+                          <span className="px-1 py-0.2 rounded bg-surface-muted border border-surface-border text-[9px] text-zinc-400">
+                            {editingQuality.toUpperCase()}
+                          </span>
+                        </div>
+                        <span className="text-[9px] text-zinc-400 block mt-0.5">
+                          {locale === 'zh' ? 'Full HD: 220万 • 4K: 320万 • 6K: 470万' : locale === 'en' ? 'Full HD: 2.2M • 4K: 3.2M • 6K: 4.7M' : 'Full HD: 2.2tr • 4K: 3.2tr • 6K: 4.7tr'}
+                        </span>
                       </div>
                       <div className="flex items-center gap-2">
                         <button
@@ -1000,7 +1027,17 @@ function BookingForm({ locale }: { locale: Locale }) {
                     <div className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex items-center justify-between">
                       <div>
                         <span className="font-bold text-white block">{t.stdEditLabel}</span>
-                        <span className="text-[10px] text-zinc-400">{priceStdEditPerVideo.toLocaleString('vi-VN')} ₫ / video</span>
+                        <div className="flex items-center gap-1.5 mt-0.5">
+                          <span className="text-[11px] text-brand font-bold font-mono">
+                            {priceStdEditPerVideo.toLocaleString('vi-VN')} ₫ / video
+                          </span>
+                          <span className="px-1 py-0.2 rounded bg-surface-muted border border-surface-border text-[9px] text-zinc-400">
+                            {editingQuality.toUpperCase()}
+                          </span>
+                        </div>
+                        <span className="text-[9px] text-zinc-400 block mt-0.5">
+                          {locale === 'zh' ? 'Full HD: 120万 • 4K: 150万 • 6K: 450万' : locale === 'en' ? 'Full HD: 1.2M • 4K: 1.5M • 6K: 4.5M' : 'Full HD: 1.2tr • 4K: 1.5tr • 6K: 4.5tr'}
+                        </span>
                       </div>
                       <div className="flex items-center gap-2">
                         <button
@@ -1027,7 +1064,17 @@ function BookingForm({ locale }: { locale: Locale }) {
                     <div className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex items-center justify-between">
                       <div>
                         <span className="font-bold text-white block">{t.advEditLabel}</span>
-                        <span className="text-[10px] text-zinc-400">{priceAdvEditPerVideo.toLocaleString('vi-VN')} ₫ / video</span>
+                        <div className="flex items-center gap-1.5 mt-0.5">
+                          <span className="text-[11px] text-brand font-bold font-mono">
+                            {priceAdvEditPerVideo.toLocaleString('vi-VN')} ₫ / video
+                          </span>
+                          <span className="px-1 py-0.2 rounded bg-surface-muted border border-surface-border text-[9px] text-zinc-400">
+                            {editingQuality.toUpperCase()}
+                          </span>
+                        </div>
+                        <span className="text-[9px] text-zinc-400 block mt-0.5">
+                          {locale === 'zh' ? 'Full HD: 280万 • 4K: 350万 • 6K: 650万' : locale === 'en' ? 'Full HD: 2.8M • 4K: 3.5M • 6K: 6.5M' : 'Full HD: 2.8tr • 4K: 3.5tr • 6K: 6.5tr'}
+                        </span>
                       </div>
                       <div className="flex items-center gap-2">
                         <button

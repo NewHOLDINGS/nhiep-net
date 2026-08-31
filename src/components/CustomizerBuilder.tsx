@@ -241,8 +241,16 @@ export default function CustomizerBuilder({
         <div className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex items-center justify-between">
           <div>
             <span className="font-bold text-white block">{t.gimbalLabel}</span>
-            <span className="text-[10px] text-brand font-semibold">
-              {priceGimbalPerCrew.toLocaleString('vi-VN')} ₫ / thợ
+            <div className="flex items-center gap-1.5 mt-0.5">
+              <span className="text-[11px] text-brand font-bold font-mono">
+                {priceGimbalPerCrew.toLocaleString('vi-VN')} ₫ / thợ
+              </span>
+              <span className="px-1 py-0.2 rounded bg-surface-muted border border-surface-border text-[9px] text-zinc-400">
+                {editingQuality.toUpperCase()}
+              </span>
+            </div>
+            <span className="text-[9px] text-zinc-400 block mt-0.5">
+              {locale === 'zh' ? 'Full HD: 320万 • 4K: 420万 • 6K: 570万' : locale === 'en' ? 'Full HD: 3.2M • 4K: 4.2M • 6K: 5.7M' : 'Full HD: 3.2tr • 4K: 4.2tr • 6K: 5.7tr'}
             </span>
           </div>
           <div className="flex items-center gap-2">
@@ -270,7 +278,12 @@ export default function CustomizerBuilder({
         <div className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex items-center justify-between">
           <div>
             <span className="font-bold text-white block">{t.photoLabel}</span>
-            <span className="text-[10px] text-zinc-400">{t.photoPrice}</span>
+            <div className="flex items-center gap-1.5 mt-0.5">
+              <span className="text-[11px] text-brand font-bold font-mono">{t.photoPrice}</span>
+            </div>
+            <span className="text-[9px] text-zinc-400 block mt-0.5">
+              {locale === 'zh' ? '固定价格，不受画质影响' : locale === 'en' ? 'Flat rate for all resolutions' : 'Giá cố định mọi độ phân giải'}
+            </span>
           </div>
           <div className="flex items-center gap-2">
             <button
@@ -297,8 +310,16 @@ export default function CustomizerBuilder({
         <div className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex items-center justify-between">
           <div>
             <span className="font-bold text-white block">{t.droneLabel}</span>
-            <span className="text-[10px] text-brand font-semibold">
-              {priceDronePerUnit.toLocaleString('vi-VN')} ₫ / máy
+            <div className="flex items-center gap-1.5 mt-0.5">
+              <span className="text-[11px] text-brand font-bold font-mono">
+                {priceDronePerUnit.toLocaleString('vi-VN')} ₫ / máy
+              </span>
+              <span className="px-1 py-0.2 rounded bg-surface-muted border border-surface-border text-[9px] text-zinc-400">
+                {editingQuality.toUpperCase()}
+              </span>
+            </div>
+            <span className="text-[9px] text-zinc-400 block mt-0.5">
+              {locale === 'zh' ? 'Full HD: 220万 • 4K: 320万 • 6K: 470万' : locale === 'en' ? 'Full HD: 2.2M • 4K: 3.2M • 6K: 4.7M' : 'Full HD: 2.2tr • 4K: 3.2tr • 6K: 4.7tr'}
             </span>
           </div>
           <div className="flex items-center gap-2">
@@ -354,8 +375,16 @@ export default function CustomizerBuilder({
         <div className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex items-center justify-between">
           <div>
             <span className="font-bold text-white block">{t.stdEditLabel}</span>
-            <span className="text-[10px] text-zinc-400">
-              {priceStdEditPerVideo.toLocaleString('vi-VN')} ₫ / video
+            <div className="flex items-center gap-1.5 mt-0.5">
+              <span className="text-[11px] text-brand font-bold font-mono">
+                {priceStdEditPerVideo.toLocaleString('vi-VN')} ₫ / video
+              </span>
+              <span className="px-1 py-0.2 rounded bg-surface-muted border border-surface-border text-[9px] text-zinc-400">
+                {editingQuality.toUpperCase()}
+              </span>
+            </div>
+            <span className="text-[9px] text-zinc-400 block mt-0.5">
+              {locale === 'zh' ? 'Full HD: 120万 • 4K: 150万 • 6K: 450万' : locale === 'en' ? 'Full HD: 1.2M • 4K: 1.5M • 6K: 4.5M' : 'Full HD: 1.2tr • 4K: 1.5tr • 6K: 4.5tr'}
             </span>
           </div>
           <div className="flex items-center gap-2">
@@ -383,8 +412,16 @@ export default function CustomizerBuilder({
         <div className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex items-center justify-between">
           <div>
             <span className="font-bold text-white block">{t.advEditLabel}</span>
-            <span className="text-[10px] text-zinc-400">
-              {priceAdvEditPerVideo.toLocaleString('vi-VN')} ₫ / video
+            <div className="flex items-center gap-1.5 mt-0.5">
+              <span className="text-[11px] text-brand font-bold font-mono">
+                {priceAdvEditPerVideo.toLocaleString('vi-VN')} ₫ / video
+              </span>
+              <span className="px-1 py-0.2 rounded bg-surface-muted border border-surface-border text-[9px] text-zinc-400">
+                {editingQuality.toUpperCase()}
+              </span>
+            </div>
+            <span className="text-[9px] text-zinc-400 block mt-0.5">
+              {locale === 'zh' ? 'Full HD: 280万 • 4K: 350万 • 6K: 650万' : locale === 'en' ? 'Full HD: 2.8M • 4K: 3.5M • 6K: 6.5M' : 'Full HD: 2.8tr • 4K: 3.5tr • 6K: 6.5tr'}
             </span>
           </div>
           <div className="flex items-center gap-2">
