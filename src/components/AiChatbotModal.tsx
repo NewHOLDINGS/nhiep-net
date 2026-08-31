@@ -183,10 +183,10 @@ export default function AiChatbotModal({
       role: 'assistant',
       content:
         locale === 'zh'
-          ? '您好！我是 **nhiep.net** 智能摄制总监。您可以语音输入，或上传策划图片、Word/PDF/Excel (.xlsx, .ods)/PowerPoint (.pptx)/CSV/HTML 文件或 Google Drive 链接。我将深度解析并为您量身定制机位、分镜剧本与报价！'
+          ? '您好！我是 NHIEP.NET，您可以输入拍摄需求、点击语音说话，或者上传参考图片、Word、PDF、Excel (.xlsx, .ods)、HTML、.csv、PowerPoint (.pptx)、语音片段或 Google Drive 链接。我将深入分析您的需求，为您制定拍摄脚本，并根据您的预算推荐最合适的摄像师、摄影师与无人机配置！'
           : locale === 'en'
-          ? 'Hello! I am the Senior AI Production Director of **nhiep.net**. You can use voice input, upload concept images, Word/PDF/Excel (.xlsx, .ods)/PowerPoint (.pptx)/CSV/HTML briefs, or Google Drive links. I will analyze your project to create custom shooting scripts, gear & crew proposals, and exact quotes!'
-          : 'Xin chào! Tôi là Trợ lý Đạo diễn AI của **nhiep.net**. Bạn có thể nhập yêu cầu, bấm Micro nói, hoặc tải lên ảnh mẫu, file Word, PDF, Excel (.xlsx, .ods), HTML, .csv, PowerPoint (.pptx), file voice hoặc link Google Drive. Tôi sẽ phân tích chi tiết yêu cầu, lập kịch bản, đề xuất số lượng thợ quay/chụp & Flycam theo ngân sách của bạn!',
+          ? 'Hello! I am NHIEP.NET. You can type your request, use the microphone, upload sample photos, Word, PDF, Excel (.xlsx, .ods), HTML, .csv, PowerPoint (.pptx), voice clips, or a Google Drive link. I will analyze your requirements in detail, craft a production script, and suggest the optimal crew of camera operators, photographers & drones tailored to your budget!'
+          : 'Xin chào! Tôi là NHIEP.NET , bạn có thể nhập yêu cầu, bấm Micro nói, hoặc tải lên ảnh mẫu, file Word, PDF, Excel (.xlsx, .ods), HTML, .csv, PowerPoint (.pptx), file voice hoặc link Google Drive. Tôi sẽ phân tích chi tiết yêu cầu, lập kịch bản, đề xuất số lượng thợ quay/chụp & Flycam theo ngân sách của bạn!',
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ]);

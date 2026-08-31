@@ -101,26 +101,36 @@ export async function POST(req: NextRequest) {
 
     if (apiKey) {
       const knowledgeContext = `
-nhiep.net Knowledge Base & Operations:
-- Operating regions: Da Nang, Hue, Quang Tri, Nha Trang / Cam Ranh / Hoi An (Central Vietnam).
+NHIEP.NET Knowledge Base & Operations:
+- Identity: You are NHIEP.NET, a professional, human-like, warm, and experienced photography & cinematography director in Central Vietnam.
+- Operating regions: Da Nang, Hoi An, Hue, Quang Tri, Nha Trang / Cam Ranh.
 - 24/7 Hotline & WhatsApp / Zalo: 0943391369 (International: +84943391369).
 - Official Bank Account: MB BANK 89052667799 - NGUYEN XUAN TOI.
 - Cinema gear: Sony FX3 Cinema Line, Sony FX6, Sony A7R V (61MP 8K), Sony A7 IV, DJI Mavic 3 Pro / Inspire 5.1K Drones, DJI Ronin RS3 Pro Gimbals, Sennheiser / Rode Wireless Pro Microphones, Aputure 600d / Nanlite Studio Lights.
 - Color grading: Full HD 1080p, 4K Cinema 10-bit DaVinci Resolve, 6K Master RAW.
-- Matched packages: ${recommended.map((r) => `${r.name} (${r.price})`).join(', ')}
+- Pricing rules:
+  + Thợ quay Gimbal: Full HD 3.200.000 đ/thợ, 4K 4.200.000 đ/thợ, 6K RAW 5.700.000 đ/thợ
+  + Flycam DJI: Full HD 2.200.000 đ/máy, 4K 3.200.000 đ/máy, 6K RAW 4.700.000 đ/máy
+  + Thợ chụp ảnh: 2.500.000 đ/thợ (cố định mọi độ phân giải)
+  + Dựng phim tiêu chuẩn: Full HD 1.200.000 đ/video, 4K 1.500.000 đ/video, 6K RAW 4.500.000 đ/video
+  + Dựng phim nâng cao: Full HD 2.800.000 đ/video, 4K 3.500.000 đ/video, 6K RAW 6.500.000 đ/video
+  + Voice talent: Tiêu chuẩn 800.000 đ, Cao cấp 2.500.000 đ/video
+  + Hậu kỳ ảnh: Tiêu chuẩn 400.000 đ, Cao cấp 1.500.000 đ/show
+- Available matching packages on website: ${recommended.map((r) => `${r.name} (${r.price})`).join(', ')}
 `;
 
-      const promptInstructions = `You are the Senior AI Production Director of nhiep.net.
-CRITICAL LANGUAGE CONSTRAINT:
-You MUST respond 100% in ${targetLangName}.
-Every single sentence, paragraph, heading, and EVERY FIELD inside the JSON schema (including conceptTitle, summary, cameraCrewProposal, timelineBreakdown, customPackages, tier, name, cameraCount, crewDetails, gear, deliverables, highlights) MUST be written in ${targetLangName}. Do NOT mix Vietnamese into English or Chinese responses!
-
-CRITICAL INSTRUCTIONS:
-1. DEEPLY ANALYZE the customer's actual input, specific context, and all attached files (.xlsx, .ods, .html, .csv, .pptx, .docx, word, pdf, images, voice notes, drive link).
-2. DO NOT output repetitive generic canned responses. Tailor the advice specifically to the user's event type, scale, timeline, style, and budget.
-3. Recommend exact equipment and personnel breakdown tailored to this project (e.g. number of gimbal operators, photographers, drones, editing quality, audio/lighting systems).
-4. Provide 3 customized flexible package options with exact estimated VND prices (Budget, Standard, VIP).
-5. In addition to your detailed markdown consultation response, you MUST provide a JSON block at the very end enclosed in \`\`\`json ... \`\`\` with this exact schema (ALL VALUES IN ${targetLangName}):
+      const promptInstructions = `You are NHIEP.NET.
+CRITICAL LANGUAGE & TONE RULES:
+1. You MUST respond 100% in ${targetLangName}.
+2. Tone of voice: Speak naturally, warmly, politely, and empathetically like a real human creative director and production consultant at NHIEP.NET.
+3. STRICTLY AVOID markdown asterisks like **bold** or *italic* anywhere in your text. Write clean, natural sentences without robotic punctuation or asterisks.
+4. Deeply analyze the customer's actual input, specific context, and all attached files (.xlsx, .ods, .html, .csv, .pptx, .docx, word, pdf, images, voice notes, drive link).
+5. Address the customer's specific needs, scale, timeline, and keywords directly.
+6. Provide helpful recommendations:
+   - Propose an optimal crew breakdown (number of gimbal operators, photographers, drones, editing quality, audio/lighting).
+   - Suggest that the customer can use the "Tự chỉnh Thợ & Máy theo ngân sách" (Custom Crew & Gear) feature on the interface to freely customize equipment and crew numbers.
+   - Mention the relevant packages currently available on NHIEP.NET (${recommended.map((r) => r.name).join(', ')}).
+7. In addition to your detailed conversational response, you MUST provide a JSON block at the very end enclosed in \`\`\`json ... \`\`\` with this exact schema (ALL VALUES IN ${targetLangName}):
 {
   "conceptTitle": "Title of the custom script in ${targetLangName}",
   "summary": "Specific analysis summary in ${targetLangName}",
@@ -188,7 +198,7 @@ Customer Project Details:
 ${attachmentDetails || 'No files attached'}
 ${customConfig ? `- Customer Manual Customizer Configuration: ${JSON.stringify(customConfig)}` : ''}
 
-Please analyze this specific customer request deeply, formulate the production script in ${targetLangName}, recommend equipment and crew, and output the response and the json structure.`;
+Please analyze this specific customer request deeply, formulate the production response in ${targetLangName} (remember: NO markdown asterisks in text), recommend equipment and crew, and output the response and the json structure.`;
 
       const candidateModels = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash'];
 
@@ -250,7 +260,10 @@ Please analyze this specific customer request deeply, formulate the production s
                 }
               }
 
-              aiResponseText = candidateText.replace(/\`\`\`json\s*[\s\S]*?\s*\`\`\`/, '').trim();
+              let cleaned = candidateText.replace(/\`\`\`json\s*[\s\S]*?\s*\`\`\`/, '').trim();
+              // Clean markdown asterisks to ensure completely natural human-like text
+              cleaned = cleaned.replace(/\*\*/g, '').replace(/__/g, '');
+              aiResponseText = cleaned;
               break;
             }
           }
@@ -715,35 +728,59 @@ Please analyze this specific customer request deeply, formulate the production s
 
     if (!aiResponseText) {
       if (locale === 'zh') {
-        aiResponseText = `您好！**nhiep.net** AI 摄制总监已深入分析您的需求${
-          attachments.length > 0 ? `及上传的 ${attachments.length} 份文件` : ''
-        }：\n\n🎬 **专属策划剧本与设备建议：**\n- **机位配置推荐**：${
-          parsedScriptPlan.cameraCrewProposal.videoCameras
-        } + ${parsedScriptPlan.cameraCrewProposal.photoCameras} + ${
-          parsedScriptPlan.cameraCrewProposal.drones
-        }\n- **后期标准**：支持 4K Cinema 10-bit 调色与 24 小时极速出片。\n\n📸 **可供选择的定制执行套餐：**\n${finalCustomPackages
-          .map((p) => `• **${p.name}**（${p.cameraCount}）：**${p.estimatedPriceVndFormatted}**\n  _${p.highlights}_`)
-          .join('\n\n')}\n\n👉 您可直接在下方根据预算与需求**自由调整机位数量**，或点击**预定定金 (VietQR MB BANK)** / **联系顾问 0943391369** 立即确认档期！`;
+        aiResponseText = `您好！我是 NHIEP.NET，很高兴为您提供专业拍摄策划方案。${
+          latestUserMsg ? `针对您提出的需求 "${latestUserMsg}"` : ''
+        }${
+          attachments.length > 0 ? `以及上传的 ${attachments.length} 份参考资料` : ''
+        }${driveLink ? `（Drive链接：${driveLink}）` : ''}，我已为您制定了最合适的执行方案：
+
+1. 推荐机位配置与人员：
+- 机位建议：${parsedScriptPlan.cameraCrewProposal.videoCameras}、${parsedScriptPlan.cameraCrewProposal.photoCameras}、${parsedScriptPlan.cameraCrewProposal.drones}。
+- 成片标准：电影级 4K / Full HD 精细调色，交付全部高清原片底片。
+
+2. 网站现有匹配套餐推荐：
+${recommended.length > 0 ? recommended.map((r) => `- ${r.name}（参考价：${r.price}）`).join('\n') : '- NHIEP.NET 精选摄影与摄制套餐'}
+
+3. 自主定制设备与人员方案：
+您也可以直接点击上方的“自主定制”面板，自由增减稳定器摄影师、主摄影师、大疆无人机数量，以及选择标准剪辑或高级电影感剪辑，完全贴合您的预算。
+
+如需对接具体档期或定制分镜，欢迎点击通过 WhatsApp（+84943391369）与专属顾问联系，或直接扫码 VietQR MB BANK 锁定档期！`;
       } else if (locale === 'en') {
-        aiResponseText = `Hello! **nhiep.net** AI Production Director has analyzed your request${
-          attachments.length > 0 ? ` and ${attachments.length} attached document(s)` : ''
-        }:\n\n🎬 **Tailored Production Plan & Crew Breakdown:**\n- **Recommended Crew**: ${
-          parsedScriptPlan.cameraCrewProposal.videoCameras
-        }, ${parsedScriptPlan.cameraCrewProposal.photoCameras}, ${
-          parsedScriptPlan.cameraCrewProposal.drones
-        }\n- **Editing Quality**: Full HD 1080p, 4K Cinema 10-bit, and 24h rapid delivery options.\n\n📸 **Flexible Production Packages:**\n${finalCustomPackages
-          .map((p) => `• **${p.name}** (${p.cameraCount}): **${p.estimatedPriceVndFormatted}**\n  _${p.highlights}_`)
-          .join('\n\n')}\n\n👉 You can adjust camera/crew options manually below according to your budget, generate a VietQR MB BANK deposit code, or forward this plan to **Zalo / WhatsApp +84943391369**!`;
+        aiResponseText = `Hello! I am NHIEP.NET, glad to assist you with your production plan.${
+          latestUserMsg ? ` Regarding your request "${latestUserMsg}"` : ''
+        }${
+          attachments.length > 0 ? ` and the ${attachments.length} attached document(s)` : ''
+        }${driveLink ? ` (Drive Link: ${driveLink})` : ''}, I have analyzed the details and prepared the optimal production plan for you:
+
+1. Recommended Crew & Gear Breakdown:
+- Proposed Setup: ${parsedScriptPlan.cameraCrewProposal.videoCameras}, ${parsedScriptPlan.cameraCrewProposal.photoCameras}, ${parsedScriptPlan.cameraCrewProposal.drones}.
+- Deliverables: High quality 4K Cinema / Full HD color-graded video with 100% original RAW files included.
+
+2. Relevant Packages on our Website:
+${recommended.length > 0 ? recommended.map((r) => `- ${r.name} (${r.price})`).join('\n') : '- NHIEP.NET Standard & Premium Packages'}
+
+3. Custom Crew & Gear Builder:
+You can also use the Custom Crew & Gear Builder above to freely adjust the number of Gimbal operators, photographers, DJI Drones, standard or advanced video editing according to your exact budget.
+
+Feel free to confirm your schedule via WhatsApp (+84943391369) or proceed with VietQR MB BANK deposit!`;
       } else {
-        aiResponseText = `Chào bạn! Đạo diễn AI của **nhiep.net** đã phân tích kỹ lưỡng yêu cầu của bạn${
-          attachments.length > 0 ? ` cùng ${attachments.length} tài liệu/bảng tính/slide đính kèm` : ''
-        }${driveLink ? ` (Link Drive: ${driveLink})` : ''} để lập kịch bản và phân bổ ekip linh hoạt:\n\n🎬 **Kịch Bản & Phương Án Máy Quay / Nhân Sự Đề Xuất:**\n- **Số lượng máy & nhân sự**: ${
-          parsedScriptPlan.cameraCrewProposal.videoCameras
-        }, ${parsedScriptPlan.cameraCrewProposal.photoCameras}, ${
-          parsedScriptPlan.cameraCrewProposal.drones
-        }.\n- **Chất lượng bàn giao**: Quay 4K 10-bit chuẩn điện ảnh, chỉnh màu DaVinci Resolve, trả 100% file gốc.\n\n📦 **Các tùy chọn gói linh hoạt theo ngân sách để bạn lựa chọn:**\n${finalCustomPackages
-          .map((p) => `• **${p.name}** (${p.cameraCount}): **${p.estimatedPriceVndFormatted}**\n  _${p.highlights}_`)
-          .join('\n\n')}\n\n👉 Bạn có thể **tự tùy chỉnh thủ công số lượng thợ & flycam** theo ý muốn ở bảng bên dưới, bấm **Thêm vào giỏ hàng**, **Đặt cọc VietQR MB BANK 89052667799** hoặc bấm **Gửi Zalo 0943391369** để giữ lịch ekip ngay!`;
+        aiResponseText = `Chào bạn! Tôi là NHIEP.NET, rất vui được đồng hành cùng bạn.${
+          latestUserMsg ? ` Về yêu cầu "${latestUserMsg}" của bạn` : ''
+        }${
+          attachments.length > 0 ? ` cùng ${attachments.length} tệp tài liệu bạn vừa gửi` : ''
+        }${driveLink ? ` (Link Drive: ${driveLink})` : ''}, tôi đã nghiên cứu kỹ và lên phương án sản xuất tối ưu nhất cho bạn:
+
+1. Phương án nhân sự & máy quay đề xuất:
+- Cấu hình đề xuất: ${parsedScriptPlan.cameraCrewProposal.videoCameras}, ${parsedScriptPlan.cameraCrewProposal.photoCameras}, ${parsedScriptPlan.cameraCrewProposal.drones}.
+- Chuẩn chất lượng: Quay dựng 4K Cinema / Full HD chất lượng cao, cân màu DaVinci Resolve và bàn giao toàn bộ file gốc.
+
+2. Gợi ý gói sẵn có trên hệ thống phù hợp với bạn:
+${recommended.length > 0 ? recommended.map((r) => `- ${r.name} (Giá: ${r.price})`).join('\n') : '- Gói Dịch Vụ Tiêu Chuẩn & Cao Cấp nhiep.net'}
+
+3. Tự chỉnh Thợ & Máy theo ngân sách riêng của bạn:
+Bạn hoàn toàn có thể chủ động bấm mở bảng Tự chỉnh Thợ & Máy ở ngay phía trên để tăng giảm số lượng thợ quay Gimbal, thợ chụp ảnh, Flycam DJI, chọn Dựng phim tiêu chuẩn hoặc Dựng phim nâng cao theo đúng ngân sách dự kiến.
+
+Nếu bạn cần tư vấn thêm hoặc muốn chốt lịch ngay, hãy bấm Chốt gói qua Zalo (0943391369) hoặc chọn Đặt cọc VietQR MB BANK nhé!`;
       }
     }
 
