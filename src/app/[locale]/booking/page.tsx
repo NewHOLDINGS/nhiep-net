@@ -12,7 +12,7 @@ import { getDictionary } from '@/data/translations';
 import {
   CalendarPlus, Check, ChevronRight, ChevronLeft, MapPin, Sparkles,
   Phone, Mail, User, Clock, Calendar, CheckCircle2, ShieldCheck, ArrowRight, Loader2,
-  QrCode, ExternalLink, Copy, MessageSquare, Sliders, Plus, Minus, Video, Camera, ShoppingBag, Building2
+  QrCode, ExternalLink, Copy, MessageSquare, Sliders, Plus, Minus, Video, Camera, ShoppingBag, Building2, RotateCcw
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { useAuth } from '@/context/AuthContext';
@@ -20,9 +20,6 @@ import { PAYMENT_CONFIG, generateVietQrUrl, calculateDepositAmount } from '@/lib
 import { GoogleIcon, FacebookIcon } from '@/components/SocialIcons';
 
 const ADDONS = [
-  { id: 'addonDrone', nameVi: 'Flycam 4K / 5.1K trên không', nameEn: '4K / 5.1K Aerial Drone Flight', nameZh: '4K/5.1K高清航拍无人机', priceVnd: 1500000 },
-  { id: 'addonStdEdit', nameVi: 'Dựng phim tiêu chuẩn (Full HD 1.2tr / 4K 1.5tr / 6K 4.5tr)', nameEn: 'Standard Video Editing (Full HD 1.2M / 4K 1.5M / 6K 4.5M)', nameZh: '标准视频剪辑（Full HD 120万 / 4K 150万 / 6K 450万）', priceVnd: 1200000 },
-  { id: 'addonAdvEdit', nameVi: 'Dựng phim nâng cao (Full HD 2.8tr / 4K 3.5tr / 6K 6.5tr)', nameEn: 'Advanced Video Editing (Full HD 2.8M / 4K 3.5M / 6K 6.5M)', nameZh: '高级电影感剪辑（Full HD 280万 / 4K 350万 / 6K 650万）', priceVnd: 2800000 },
   { id: 'addonExpress', nameVi: 'Hậu kỳ hỏa tốc nhận file trong 24h', nameEn: '24-Hour Express Rapid Delivery', nameZh: '24小时极速出片通道', priceVnd: 1200000 },
   { id: 'addonExtraPhotographer', nameVi: 'Thêm 01 Nhiếp ảnh gia phụ', nameEn: '1 Additional Lead Photographer', nameZh: '增加1位资深副摄影师', priceVnd: 1800000 },
   { id: 'addonMUA', nameVi: 'Chuyên viên Trang điểm & Làm tóc', nameEn: 'On-Location Makeup Artist & Hair Styling', nameZh: '专属造型师跟妆与发型设计', priceVnd: 1000000 },
@@ -70,6 +67,8 @@ const I18N_BOOKING = {
     selectCategory: 'Chọn Danh Mục Dịch Vụ',
     selectProvince: 'Chọn Tỉnh / Thành Phố',
     selectPackage: 'Chọn Gói Dịch Vụ',
+    selectedPackageHeader: 'Gói Dịch Vụ Đã Chọn',
+    changePackage: 'Đổi gói khác',
     addOnsTitle: 'Tùy Chọn Bổ Sung (Add-ons)',
     estimatedTotal: 'Tổng Chi Phí Ước Tính:',
     shootDate: 'Ngày chụp / quay dự kiến',
@@ -189,6 +188,8 @@ const I18N_BOOKING = {
     selectCategory: 'Select Service Category',
     selectProvince: 'Select Province / City',
     selectPackage: 'Select Service Package',
+    selectedPackageHeader: 'Selected Service Package',
+    changePackage: 'Change package',
     addOnsTitle: 'Optional Production Add-ons',
     estimatedTotal: 'Estimated Total:',
     shootDate: 'Estimated Shoot Date',
@@ -308,6 +309,8 @@ const I18N_BOOKING = {
     selectCategory: '选择服务类别',
     selectProvince: '选择服务省份/城市',
     selectPackage: '选择精选套餐',
+    selectedPackageHeader: '已选服务套餐',
+    changePackage: '更换其他套餐',
     addOnsTitle: '可选增值服务（Add-ons）',
     estimatedTotal: '预估总费用：',
     shootDate: '预计拍摄日期',
@@ -424,6 +427,7 @@ function BookingForm({ locale }: { locale: Locale }) {
   const [selectedCategory, setSelectedCategory] = useState<CategoryId>('photography');
   const [selectedProvince, setSelectedProvince] = useState<ProvinceId>('danang');
   const [selectedPackageId, setSelectedPackageId] = useState<string>('');
+  const [showAllPackages, setShowAllPackages] = useState<boolean>(false);
   const [selectedAddons, setSelectedAddons] = useState<string[]>([]);
   
   const [shootDate, setShootDate] = useState<string>('');
@@ -1344,49 +1348,113 @@ function BookingForm({ locale }: { locale: Locale }) {
                 </div>
               ) : (
                 /* Category Standard Packages */
-                <div>
-                  <h3 className="font-heading font-bold text-lg text-white mb-3">
-                    {t.selectPackage}
-                  </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {availablePackages.map((pkg) => {
-                      const isSelected = selectedPackageId === pkg.id;
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-heading font-bold text-lg text-white">
+                      {showAllPackages ? t.selectPackage : t.selectedPackageHeader}
+                    </h3>
+                    {!showAllPackages && (
+                      <button
+                        type="button"
+                        onClick={() => setShowAllPackages(true)}
+                        className="px-3 py-1.5 rounded-xl bg-surface-elevated hover:bg-surface border border-surface-border text-brand text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm"
+                      >
+                        <RotateCcw className="w-3.5 h-3.5" />
+                        <span>{t.changePackage}</span>
+                      </button>
+                    )}
+                  </div>
+
+                  {showAllPackages ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {availablePackages.map((pkg) => {
+                        const isSelected = selectedPackageId === pkg.id;
+                        const name = locale === 'zh' ? pkg.nameZh : locale === 'en' ? pkg.nameEn : pkg.nameVi;
+                        const deliverables = locale === 'zh' ? pkg.deliverablesZh : locale === 'en' ? pkg.deliverablesEn : pkg.deliverablesVi;
+
+                        return (
+                          <div
+                            key={pkg.id}
+                            onClick={() => {
+                              setSelectedPackageId(pkg.id);
+                              setShowAllPackages(false);
+                            }}
+                            className={`cursor-pointer rounded-2xl p-4 border transition-all flex flex-col justify-between ${
+                              isSelected
+                                ? 'bg-brand/10 border-brand shadow-glow'
+                                : 'bg-surface-muted hover:bg-surface-elevated border-surface-border'
+                            }`}
+                          >
+                            <div className="flex gap-3">
+                              <div className="relative w-20 h-20 rounded-xl overflow-hidden shrink-0">
+                                <Image src={pkg.imageUrl} alt={name} fill className="object-cover" />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <h4 className="font-bold text-sm text-white line-clamp-1">{name}</h4>
+                                <p className="font-extrabold text-base text-brand mt-1">{pkg.priceVndFormatted}</p>
+                                <p className="text-[11px] text-zinc-400 mt-1">{pkg.duration}</p>
+                              </div>
+                            </div>
+
+                            <div className="mt-3 pt-3 border-t border-surface-border/60 space-y-1">
+                              {deliverables.slice(0, 2).map((del, i) => (
+                                <div key={i} className="flex items-center gap-1.5 text-[11px] text-zinc-300">
+                                  <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                                  <span className="truncate">{del}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    /* Display ONLY the single selected package card */
+                    (() => {
+                      const pkg = activePackage;
                       const name = locale === 'zh' ? pkg.nameZh : locale === 'en' ? pkg.nameEn : pkg.nameVi;
                       const deliverables = locale === 'zh' ? pkg.deliverablesZh : locale === 'en' ? pkg.deliverablesEn : pkg.deliverablesVi;
 
                       return (
-                        <div
-                          key={pkg.id}
-                          onClick={() => setSelectedPackageId(pkg.id)}
-                          className={`cursor-pointer rounded-2xl p-4 border transition-all flex flex-col justify-between ${
-                            isSelected
-                              ? 'bg-brand/10 border-brand shadow-glow'
-                              : 'bg-surface-muted hover:bg-surface-elevated border-surface-border'
-                          }`}
-                        >
-                          <div className="flex gap-3">
-                            <div className="relative w-20 h-20 rounded-xl overflow-hidden shrink-0">
-                              <Image src={pkg.imageUrl} alt={name} fill className="object-cover" />
+                        <div className="rounded-2xl p-4 sm:p-5 border border-brand bg-brand/10 shadow-glow flex flex-col justify-between">
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <div className="flex gap-3.5 items-center">
+                              <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden shrink-0 border border-brand/40 shadow-md">
+                                <Image src={pkg.imageUrl} alt={name} fill className="object-cover" />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <span className="inline-block px-2.5 py-0.5 rounded-md bg-brand text-black text-[10px] font-black uppercase mb-1 shadow-sm">
+                                  {locale === 'zh' ? '已选择套餐' : locale === 'en' ? 'Selected Package' : 'Gói Đã Chọn'}
+                                </span>
+                                <h4 className="font-bold text-base sm:text-lg text-white">{name}</h4>
+                                <div className="flex items-center gap-3 mt-1">
+                                  <span className="font-extrabold text-lg sm:text-xl text-brand">{pkg.priceVndFormatted}</span>
+                                  <span className="text-xs text-zinc-400">⏱️ {pkg.duration}</span>
+                                </div>
+                              </div>
                             </div>
-                            <div className="flex-1 min-w-0">
-                              <h4 className="font-bold text-sm text-white line-clamp-1">{name}</h4>
-                              <p className="font-extrabold text-base text-brand mt-1">{pkg.priceVndFormatted}</p>
-                              <p className="text-[11px] text-zinc-400 mt-1">{pkg.duration}</p>
-                            </div>
+                            <button
+                              type="button"
+                              onClick={() => setShowAllPackages(true)}
+                              className="self-start sm:self-center px-4 py-2 rounded-xl bg-surface-elevated hover:bg-surface border border-surface-border text-zinc-200 hover:text-brand text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm shrink-0"
+                            >
+                              <RotateCcw className="w-3.5 h-3.5 text-brand" />
+                              <span>{t.changePackage}</span>
+                            </button>
                           </div>
 
-                          <div className="mt-3 pt-3 border-t border-surface-border/60 space-y-1">
-                            {deliverables.slice(0, 2).map((del, i) => (
-                              <div key={i} className="flex items-center gap-1.5 text-[11px] text-zinc-300">
-                                <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                          <div className="mt-3.5 pt-3.5 border-t border-surface-border/60 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            {deliverables.map((del, i) => (
+                              <div key={i} className="flex items-center gap-2 text-xs text-zinc-200">
+                                <Check className="w-4 h-4 text-emerald-400 shrink-0" />
                                 <span className="truncate">{del}</span>
                               </div>
                             ))}
                           </div>
                         </div>
                       );
-                    })}
-                  </div>
+                    })()
+                  )}
                 </div>
               )}
 
