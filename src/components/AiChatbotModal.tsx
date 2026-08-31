@@ -150,7 +150,7 @@ export default function AiChatbotModal({
   const [input, setInput] = useState('');
   const [attachments, setAttachments] = useState<ChatAttachment[]>([]);
   const [loading, setLoading] = useState(false);
-  const [showBuilder, setShowBuilder] = useState(false);
+  const [showBuilder, setShowBuilder] = useState(true);
 
   // Added to cart notification
   const [cartSuccessNotice, setCartSuccessNotice] = useState<string | null>(null);
@@ -192,6 +192,13 @@ export default function AiChatbotModal({
   ]);
 
   const chatEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      setShowBuilder(true);
+      chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     if (isOpen) {
