@@ -27,21 +27,26 @@ export async function POST(req: NextRequest) {
       messages.length > 0 ? messages[messages.length - 1].content : '';
     const lowerQuery = (latestUserMsg || '').toLowerCase();
 
-    // Contextual matching from standard packages
-    const recommended = PACKAGES.filter((pkg) => {
-      const matchCat =
-        lowerQuery.includes('ảnh') || lowerQuery.includes('chụp') || lowerQuery.includes('photo') || lowerQuery.includes('相') || lowerQuery.includes('摄影')
-          ? pkg.categoryId === 'photography'
-          : lowerQuery.includes('quay') || lowerQuery.includes('video') || lowerQuery.includes('phim') || lowerQuery.includes('film') || lowerQuery.includes('cinema') || lowerQuery.includes('视频') || lowerQuery.includes('摄制')
-          ? pkg.categoryId === 'videography'
-          : lowerQuery.includes('sự kiện') || lowerQuery.includes('event') || lowerQuery.includes('conference') || lowerQuery.includes('gala') || lowerQuery.includes('活动') || lowerQuery.includes('会议')
-          ? pkg.categoryId === 'event-coverage'
-          : lowerQuery.includes('du lịch') || lowerQuery.includes('tour') || lowerQuery.includes('travel') || lowerQuery.includes('旅游') || lowerQuery.includes('度假')
-          ? pkg.categoryId === 'travel-photography'
-          : true;
-      return matchCat;
-    })
-      .slice(0, 3)
+    // Smart contextual matching: select 3 to 5 best matching standard packages from PACKAGES
+    const matchedPackages = PACKAGES.filter((pkg) => {
+      const searchSpace = `${pkg.nameVi} ${pkg.nameEn} ${pkg.nameZh} ${pkg.descriptionVi} ${pkg.descriptionEn} ${pkg.tags.join(' ')} ${pkg.categoryId}`.toLowerCase();
+      
+      const words = lowerQuery.split(/\s+/).filter((w: string) => w.length > 1);
+      if (words.some((w: string) => searchSpace.includes(w))) return true;
+
+      if ((lowerQuery.includes('cưới') || lowerQuery.includes('wedding')) && (pkg.tags.includes('Wedding') || pkg.slug.includes('wedding'))) return true;
+      if ((lowerQuery.includes('sự kiện') || lowerQuery.includes('event') || lowerQuery.includes('hội nghị') || lowerQuery.includes('gala')) && (pkg.categoryId === 'event-coverage' || pkg.tags.includes('Event'))) return true;
+      if ((lowerQuery.includes('tvc') || lowerQuery.includes('doanh nghiệp') || lowerQuery.includes('quảng cáo')) && (pkg.categoryId === 'videography' || pkg.tags.includes('TVC'))) return true;
+      if ((lowerQuery.includes('du lịch') || lowerQuery.includes('travel') || lowerQuery.includes('tour') || lowerQuery.includes('nghỉ dưỡng')) && (pkg.categoryId === 'travel-photography' || pkg.tags.includes('Travel'))) return true;
+      if ((lowerQuery.includes('ẩm thực') || lowerQuery.includes('món ăn') || lowerQuery.includes('menu') || lowerQuery.includes('food')) && pkg.tags.includes('Food')) return true;
+      if ((lowerQuery.includes('ảnh') || lowerQuery.includes('chụp') || lowerQuery.includes('photo')) && pkg.categoryId === 'photography') return true;
+      if ((lowerQuery.includes('quay') || lowerQuery.includes('video') || lowerQuery.includes('film') || lowerQuery.includes('cinema')) && pkg.categoryId === 'videography') return true;
+
+      return false;
+    });
+
+    const recommended = (matchedPackages.length >= 3 ? matchedPackages : PACKAGES.filter((p) => p.popular || p.featured))
+      .slice(0, 5)
       .map((p) => ({
         id: p.id,
         name: locale === 'zh' ? p.nameZh : locale === 'en' ? p.nameEn : p.nameVi,
@@ -108,7 +113,7 @@ NHIEP.NET Knowledge Base & Operations:
 - Official Bank Account: MB BANK 89052667799 - NGUYEN XUAN TOI.
 - Cinema gear: Sony FX3 Cinema Line, Sony FX6, Sony A7R V (61MP 8K), Sony A7 IV, DJI Mavic 3 Pro / Inspire 5.1K Drones, DJI Ronin RS3 Pro Gimbals, Sennheiser / Rode Wireless Pro Microphones, Aputure 600d / Nanlite Studio Lights.
 - Color grading: Full HD 1080p, 4K Cinema 10-bit DaVinci Resolve, 6K Master RAW.
-- Pricing rules:
+- Pricing rules for Custom Crew & Gear:
   + Thợ quay Gimbal: Full HD 3.200.000 đ/thợ, 4K 4.200.000 đ/thợ, 6K RAW 5.700.000 đ/thợ
   + Flycam DJI: Full HD 2.200.000 đ/máy, 4K 3.200.000 đ/máy, 6K RAW 4.700.000 đ/máy
   + Thợ chụp ảnh: 2.500.000 đ/thợ (cố định mọi độ phân giải)
@@ -116,21 +121,20 @@ NHIEP.NET Knowledge Base & Operations:
   + Dựng phim nâng cao: Full HD 2.800.000 đ/video, 4K 3.500.000 đ/video, 6K RAW 6.500.000 đ/video
   + Voice talent: Tiêu chuẩn 800.000 đ, Cao cấp 2.500.000 đ/video
   + Hậu kỳ ảnh: Tiêu chuẩn 400.000 đ, Cao cấp 1.500.000 đ/show
-- Available matching packages on website: ${recommended.map((r) => `${r.name} (${r.price})`).join(', ')}
+- Available matching packages on website:
+${recommended.map((r, i) => `${i + 1}. ${r.name} - Giá: ${r.price}`).join('\n')}
 `;
 
-      const promptInstructions = `You are NHIEP.NET.
-CRITICAL LANGUAGE & TONE RULES:
-1. You MUST respond 100% in ${targetLangName}.
-2. Tone of voice: Speak naturally, warmly, politely, and empathetically like a real human creative director and production consultant at NHIEP.NET.
-3. STRICTLY AVOID markdown asterisks like **bold** or *italic* anywhere in your text. Write clean, natural sentences without robotic punctuation or asterisks.
-4. Deeply analyze the customer's actual input, specific context, and all attached files (.xlsx, .ods, .html, .csv, .pptx, .docx, word, pdf, images, voice notes, drive link).
-5. Address the customer's specific needs, scale, timeline, and keywords directly.
-6. Provide helpful recommendations:
-   - Propose an optimal crew breakdown (number of gimbal operators, photographers, drones, editing quality, audio/lighting).
-   - Suggest that the customer can use the "Tự chỉnh Thợ & Máy theo ngân sách" (Custom Crew & Gear) feature on the interface to freely customize equipment and crew numbers.
-   - Mention the relevant packages currently available on NHIEP.NET (${recommended.map((r) => r.name).join(', ')}).
-7. In addition to your detailed conversational response, you MUST provide a JSON block at the very end enclosed in \`\`\`json ... \`\`\` with this exact schema (ALL VALUES IN ${targetLangName}):
+      const promptInstructions = `You are NHIEP.NET AI Consultant.
+CRITICAL RESPONSE GUIDELINES:
+1. Language: 100% in ${targetLangName}.
+2. Tone: Warm, natural, concise, polite, and human-like. Speak directly to the point without verbose, repetitive, or robotic greetings.
+3. STRICT PROHIBITION: DO NOT use markdown bold asterisks (**) or underscores (__) anywhere in the text. Write clean, natural text.
+4. Response Flow:
+   - Part 1: Directly address and solve the customer's specific question or request in 1-2 focused, insightful sentences.
+   - Part 2: Introduce 3 to 5 matching packages currently available on the nhiep.net website (with package names and prices).
+   - Part 3: Guide the customer to the "TỰ CHỈNH THỢ & MÁY" (Custom Crew & Gear) panel right below to flexibly adjust the number of gimbal operators, photographers, drones, and video editing according to their exact budget.
+5. In addition to your conversational text, you MUST provide a JSON block at the very end enclosed in \`\`\`json ... \`\`\` with this exact schema (ALL VALUES IN ${targetLangName}):
 {
   "conceptTitle": "Title of the custom script in ${targetLangName}",
   "summary": "Specific analysis summary in ${targetLangName}",
@@ -198,9 +202,15 @@ Customer Project Details:
 ${attachmentDetails || 'No files attached'}
 ${customConfig ? `- Customer Manual Customizer Configuration: ${JSON.stringify(customConfig)}` : ''}
 
-Please analyze this specific customer request deeply, formulate the production response in ${targetLangName} (remember: NO markdown asterisks in text), recommend equipment and crew, and output the response and the json structure.`;
+Please analyze this customer request, deliver a focused and natural answer in ${targetLangName} (NO markdown asterisks), suggest the 3-5 packages, guide to the customizer, and output the response and json block.`;
 
-      const candidateModels = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash'];
+      const candidateModels = [
+        'gemini-3.5-flash',
+        'gemini-3.6-flash',
+        'gemini-flash-latest',
+        'gemini-3.7-flash',
+        'gemini-3.1-pro-preview'
+      ];
 
       for (const modelName of candidateModels) {
         try {
