@@ -143,8 +143,8 @@ export default function PaymentQrModal({
   const currentAmount = calculateDepositAmount(effectiveTotalAmount, depositPercent);
 
   const transferMemo = isVat10
-    ? `NHIEP VAT ${bookingCode || 'DIRECT'}`
-    : `NHIEP ${bookingCode || 'DIRECT'}`;
+    ? `COC VAT ${bookingCode || 'DIRECT'}`
+    : `COC ${bookingCode || 'DIRECT'}`;
 
   const activeQrSrc = qrType === 'dynamic'
     ? (PAYMENT_CONFIG.qrImageStatic || '/qrmb.jpg')

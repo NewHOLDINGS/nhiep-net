@@ -25,7 +25,7 @@ export interface VietQrOptions {
  */
 export function generateVietQrUrl(options: VietQrOptions): string {
   const { amount = 0, bookingCode = '', memo = '' } = options;
-  const content = memo || (bookingCode ? `NHIEP ${bookingCode}` : 'NHIEP DAT COC');
+  const content = memo || (bookingCode ? `COC ${bookingCode}` : 'COC NHIEP');
   const encodedContent = encodeURIComponent(content.slice(0, 50));
   const encodedAccountName = encodeURIComponent(PAYMENT_CONFIG.accountHolder);
 

@@ -704,7 +704,7 @@ function BookingForm({ locale }: { locale: Locale }) {
 
   const transferMemo = useMemo(() => {
     const code = bookingResult ? bookingResult.bookingCode : 'DIRECT';
-    return isStep5Vat10 ? `NHIEP VAT ${code}` : `NHIEP ${code}`;
+    return isStep5Vat10 ? `COC VAT ${code}` : `COC ${code}`;
   }, [bookingResult, isStep5Vat10]);
 
   const vietQrSrc = useMemo(() => {
