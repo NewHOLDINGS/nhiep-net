@@ -51,7 +51,7 @@ const I18N_BOOKING = {
     photoLabel: '📷 Thợ chụp ảnh',
     photoPrice: '2.500.000 ₫ / thợ',
     droneLabel: '🚁 Flycam DJI',
-    qualityLabel: '🎬 Tiêu chuẩn dựng màu sắc:',
+    qualityLabel: '🎬 Chất lượng:',
     stdEditLabel: '🎞️ Dựng phim tiêu chuẩn',
     advEditLabel: '🎬 Dựng phim nâng cao',
     voiceLabel: '🎙️ Voice talent',
@@ -170,7 +170,7 @@ const I18N_BOOKING = {
     photoLabel: '📷 Lead Photographer',
     photoPrice: '2,500,000 VND / crew',
     droneLabel: '🚁 DJI Flycam / Drone',
-    qualityLabel: '🎬 Color Grading Standard:',
+    qualityLabel: '🎬 Quality:',
     stdEditLabel: '🎞️ Standard Video Editing',
     advEditLabel: '🎬 Advanced Video Editing',
     voiceLabel: '🎙️ Voice Talent',
@@ -289,7 +289,7 @@ const I18N_BOOKING = {
     photoLabel: '📷 专业主摄影师',
     photoPrice: '2,500,000 ₫ / 位',
     droneLabel: '🚁 大疆无人机航拍',
-    qualityLabel: '🎬 调色与成片标准：',
+    qualityLabel: '🎬 成片画质：',
     stdEditLabel: '🎞️ 标准视频剪辑',
     advEditLabel: '🎬 高级电影感剪辑',
     voiceLabel: '🎙️ 专业配音旁白',
@@ -995,33 +995,38 @@ function BookingForm({ locale }: { locale: Locale }) {
                       </div>
                     </div>
 
-                    {/* 4. Tiêu chuẩn dựng màu sắc */}
+                    {/* 4. Voice talent */}
                     <div className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex flex-col justify-between space-y-1.5">
-                      <span className="font-bold text-white">{t.qualityLabel}</span>
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold text-white">{t.voiceLabel}</span>
+                        <span className="text-[10px] text-brand font-mono font-semibold">
+                          {priceVoiceTalent > 0 ? `+${priceVoiceTalent.toLocaleString('vi-VN')} ₫` : '0 ₫'}
+                        </span>
+                      </div>
                       <div className="grid grid-cols-3 gap-1">
                         {[
-                          { id: 'fullhd', label: 'Full HD' },
-                          { id: '4k', label: '4K Cinema (+1tr)' },
-                          { id: '6k', label: '6K RAW (+2.5tr)' }
-                        ].map((q) => (
+                          { id: 'none', label: t.optNone },
+                          { id: 'standard', label: `${t.optStandard} (800k)` },
+                          { id: 'premium', label: `${t.optPremium} (2.5tr)` }
+                        ].map((v) => (
                           <button
-                            key={q.id}
+                            key={v.id}
                             type="button"
-                            onClick={() => setEditingQuality(q.id as any)}
+                            onClick={() => setVoiceTalent(v.id as any)}
                             className={`py-1.5 px-1 rounded-lg text-[10px] font-bold border transition-colors ${
-                              editingQuality === q.id
+                              voiceTalent === v.id
                                 ? 'bg-brand text-black border-brand shadow-glow font-extrabold'
                                 : 'bg-surface-muted text-zinc-300 border-surface-border hover:bg-surface'
                             }`}
                           >
-                            {q.label}
+                            {v.label}
                           </button>
                         ))}
                       </div>
                     </div>
                   </div>
 
-                  {/* Post-production & Voice Grid */}
+                  {/* Post-production & Quality Grid */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs pt-1">
                     {/* 5. Dựng phim tiêu chuẩn */}
                     <div className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex items-center justify-between">
@@ -1097,31 +1102,26 @@ function BookingForm({ locale }: { locale: Locale }) {
                       </div>
                     </div>
 
-                    {/* 7. Voice talent */}
+                    {/* 7. Chất lượng */}
                     <div className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex flex-col justify-between space-y-1.5">
-                      <div className="flex items-center justify-between">
-                        <span className="font-bold text-white">{t.voiceLabel}</span>
-                        <span className="text-[10px] text-brand font-mono font-semibold">
-                          {priceVoiceTalent > 0 ? `+${priceVoiceTalent.toLocaleString('vi-VN')} ₫` : '0 ₫'}
-                        </span>
-                      </div>
+                      <span className="font-bold text-white">{t.qualityLabel}</span>
                       <div className="grid grid-cols-3 gap-1">
                         {[
-                          { id: 'none', label: t.optNone },
-                          { id: 'standard', label: `${t.optStandard} (800k)` },
-                          { id: 'premium', label: `${t.optPremium} (2.5tr)` }
-                        ].map((v) => (
+                          { id: 'fullhd', label: 'Full HD' },
+                          { id: '4k', label: '4K Cinema (+1tr)' },
+                          { id: '6k', label: '6K RAW (+2.5tr)' }
+                        ].map((q) => (
                           <button
-                            key={v.id}
+                            key={q.id}
                             type="button"
-                            onClick={() => setVoiceTalent(v.id as any)}
+                            onClick={() => setEditingQuality(q.id as any)}
                             className={`py-1.5 px-1 rounded-lg text-[10px] font-bold border transition-colors ${
-                              voiceTalent === v.id
+                              editingQuality === q.id
                                 ? 'bg-brand text-black border-brand shadow-glow font-extrabold'
                                 : 'bg-surface-muted text-zinc-300 border-surface-border hover:bg-surface'
                             }`}
                           >
-                            {v.label}
+                            {q.label}
                           </button>
                         ))}
                       </div>
