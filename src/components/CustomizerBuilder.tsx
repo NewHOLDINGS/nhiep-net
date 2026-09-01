@@ -238,18 +238,18 @@ export default function CustomizerBuilder({
       {/* Grid: Personnel & Gear */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
         {/* 1. Thợ quay Gimbal */}
-        <div className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex items-center justify-between">
+        <div className="p-3.5 rounded-2xl bg-surface-elevated border border-surface-border flex items-center justify-between">
           <div>
-            <span className="font-bold text-white block">{t.gimbalLabel}</span>
+            <span className="font-bold text-white text-sm sm:text-base block">{t.gimbalLabel}</span>
             <div className="flex items-center gap-1.5 mt-0.5">
-              <span className="text-[11px] text-brand font-bold font-mono">
+              <span className="text-xs text-brand font-bold font-mono">
                 {priceGimbalPerCrew.toLocaleString('vi-VN')} ₫ / thợ
               </span>
-              <span className="px-1 py-0.2 rounded bg-surface-muted border border-surface-border text-[9px] text-zinc-400">
+              <span className="px-1.5 py-0.5 rounded bg-surface-muted border border-surface-border text-[11px] font-semibold text-zinc-300">
                 {editingQuality.toUpperCase()}
               </span>
             </div>
-            <span className="text-[9px] text-zinc-400 block mt-0.5">
+            <span className="text-[11px] text-zinc-400 block mt-0.5 font-medium">
               {locale === 'zh' ? 'Full HD: 320万 • 4K: 420万 • 6K: 570万' : locale === 'en' ? 'Full HD: 3.2M • 4K: 4.2M • 6K: 5.7M' : 'Full HD: 3.2tr • 4K: 4.2tr • 6K: 5.7tr'}
             </span>
           </div>
@@ -257,31 +257,31 @@ export default function CustomizerBuilder({
             <button
               type="button"
               onClick={() => setGimbalOperators(Math.max(0, gimbalOperators - 1))}
-              className="w-7 h-7 rounded-lg bg-surface-muted hover:bg-surface text-white flex items-center justify-center font-bold"
+              className="w-8 h-8 rounded-xl bg-surface-muted hover:bg-surface text-white flex items-center justify-center font-bold transition-transform active:scale-95"
             >
-              <Minus className="w-3 h-3" />
+              <Minus className="w-3.5 h-3.5" />
             </button>
-            <span className="font-mono font-bold text-sm text-brand w-4 text-center">
+            <span className="font-mono font-bold text-base text-brand w-5 text-center">
               {gimbalOperators}
             </span>
             <button
               type="button"
               onClick={() => setGimbalOperators(Math.min(5, gimbalOperators + 1))}
-              className="w-7 h-7 rounded-lg bg-brand text-black flex items-center justify-center font-bold"
+              className="w-8 h-8 rounded-xl bg-brand text-black flex items-center justify-center font-bold transition-transform active:scale-95 shadow-glow"
             >
-              <Plus className="w-3 h-3" />
+              <Plus className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
 
         {/* 2. Thợ chụp ảnh */}
-        <div className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex items-center justify-between">
+        <div className="p-3.5 rounded-2xl bg-surface-elevated border border-surface-border flex items-center justify-between">
           <div>
-            <span className="font-bold text-white block">{t.photoLabel}</span>
+            <span className="font-bold text-white text-sm sm:text-base block">{t.photoLabel}</span>
             <div className="flex items-center gap-1.5 mt-0.5">
-              <span className="text-[11px] text-brand font-bold font-mono">{t.photoPrice}</span>
+              <span className="text-xs text-brand font-bold font-mono">{t.photoPrice}</span>
             </div>
-            <span className="text-[9px] text-zinc-400 block mt-0.5">
+            <span className="text-[11px] text-zinc-400 block mt-0.5 font-medium">
               {locale === 'zh' ? '固定价格，不受画质影响' : locale === 'en' ? 'Flat rate for all resolutions' : 'Giá cố định mọi độ phân giải'}
             </span>
           </div>
@@ -289,36 +289,36 @@ export default function CustomizerBuilder({
             <button
               type="button"
               onClick={() => setPhotographers(Math.max(0, photographers - 1))}
-              className="w-7 h-7 rounded-lg bg-surface-muted hover:bg-surface text-white flex items-center justify-center font-bold"
+              className="w-8 h-8 rounded-xl bg-surface-muted hover:bg-surface text-white flex items-center justify-center font-bold transition-transform active:scale-95"
             >
-              <Minus className="w-3 h-3" />
+              <Minus className="w-3.5 h-3.5" />
             </button>
-            <span className="font-mono font-bold text-sm text-brand w-4 text-center">
+            <span className="font-mono font-bold text-base text-brand w-5 text-center">
               {photographers}
             </span>
             <button
               type="button"
               onClick={() => setPhotographers(Math.min(5, photographers + 1))}
-              className="w-7 h-7 rounded-lg bg-brand text-black flex items-center justify-center font-bold"
+              className="w-8 h-8 rounded-xl bg-brand text-black flex items-center justify-center font-bold transition-transform active:scale-95 shadow-glow"
             >
-              <Plus className="w-3 h-3" />
+              <Plus className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
 
         {/* 3. Flycam DJI */}
-        <div className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex items-center justify-between">
+        <div className="p-3.5 rounded-2xl bg-surface-elevated border border-surface-border flex items-center justify-between">
           <div>
-            <span className="font-bold text-white block">{t.droneLabel}</span>
+            <span className="font-bold text-white text-sm sm:text-base block">{t.droneLabel}</span>
             <div className="flex items-center gap-1.5 mt-0.5">
-              <span className="text-[11px] text-brand font-bold font-mono">
+              <span className="text-xs text-brand font-bold font-mono">
                 {priceDronePerUnit.toLocaleString('vi-VN')} ₫ / máy
               </span>
-              <span className="px-1 py-0.2 rounded bg-surface-muted border border-surface-border text-[9px] text-zinc-400">
+              <span className="px-1.5 py-0.5 rounded bg-surface-muted border border-surface-border text-[11px] font-semibold text-zinc-300">
                 {editingQuality.toUpperCase()}
               </span>
             </div>
-            <span className="text-[9px] text-zinc-400 block mt-0.5">
+            <span className="text-[11px] text-zinc-400 block mt-0.5 font-medium">
               {locale === 'zh' ? 'Full HD: 220万 • 4K: 320万 • 6K: 470万' : locale === 'en' ? 'Full HD: 2.2M • 4K: 3.2M • 6K: 4.7M' : 'Full HD: 2.2tr • 4K: 3.2tr • 6K: 4.7tr'}
             </span>
           </div>
@@ -326,32 +326,32 @@ export default function CustomizerBuilder({
             <button
               type="button"
               onClick={() => setDrones(Math.max(0, drones - 1))}
-              className="w-7 h-7 rounded-lg bg-surface-muted hover:bg-surface text-white flex items-center justify-center font-bold"
+              className="w-8 h-8 rounded-xl bg-surface-muted hover:bg-surface text-white flex items-center justify-center font-bold transition-transform active:scale-95"
             >
-              <Minus className="w-3 h-3" />
+              <Minus className="w-3.5 h-3.5" />
             </button>
-            <span className="font-mono font-bold text-sm text-brand w-4 text-center">
+            <span className="font-mono font-bold text-base text-brand w-5 text-center">
               {drones}
             </span>
             <button
               type="button"
               onClick={() => setDrones(Math.min(3, drones + 1))}
-              className="w-7 h-7 rounded-lg bg-brand text-black flex items-center justify-center font-bold"
+              className="w-8 h-8 rounded-xl bg-brand text-black flex items-center justify-center font-bold transition-transform active:scale-95 shadow-glow"
             >
-              <Plus className="w-3 h-3" />
+              <Plus className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
 
         {/* 4. Voice talent */}
-        <div className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex flex-col justify-between space-y-1.5">
+        <div className="p-3.5 rounded-2xl bg-surface-elevated border border-surface-border flex flex-col justify-between space-y-2">
           <div className="flex items-center justify-between">
-            <span className="font-bold text-white">{t.voiceLabel}</span>
-            <span className="text-[10px] text-brand font-mono font-semibold">
+            <span className="font-bold text-white text-sm sm:text-base">{t.voiceLabel}</span>
+            <span className="text-xs text-brand font-mono font-bold">
               {priceVoiceTalent > 0 ? `+${priceVoiceTalent.toLocaleString('vi-VN')} ₫` : '0 ₫'}
             </span>
           </div>
-          <div className="grid grid-cols-3 gap-1">
+          <div className="grid grid-cols-3 gap-1.5">
             {[
               { id: 'none', label: t.optNone },
               { id: 'standard', label: `${t.optStandard} (800k)` },
@@ -361,9 +361,9 @@ export default function CustomizerBuilder({
                 key={v.id}
                 type="button"
                 onClick={() => setVoiceTalent(v.id as any)}
-                className={`py-1.5 px-1 rounded-lg text-[10px] font-bold border transition-colors ${
+                className={`py-2 px-1.5 rounded-xl text-xs font-bold border transition-colors ${
                   voiceTalent === v.id
-                    ? 'bg-brand text-black border-brand shadow-glow font-extrabold'
+                    ? 'bg-brand text-black border-brand shadow-glow font-black'
                     : 'bg-surface-muted text-zinc-300 border-surface-border hover:bg-surface'
                 }`}
               >
@@ -375,20 +375,20 @@ export default function CustomizerBuilder({
       </div>
 
       {/* Grid: Post-production & Quality Options */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
         {/* 5. Dựng phim tiêu chuẩn */}
-        <div className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex items-center justify-between">
+        <div className="p-3.5 rounded-2xl bg-surface-elevated border border-surface-border flex items-center justify-between">
           <div>
-            <span className="font-bold text-white block">{t.stdEditLabel}</span>
+            <span className="font-bold text-white text-sm sm:text-base block">{t.stdEditLabel}</span>
             <div className="flex items-center gap-1.5 mt-0.5">
-              <span className="text-[11px] text-brand font-bold font-mono">
+              <span className="text-xs text-brand font-bold font-mono">
                 {priceStdEditPerVideo.toLocaleString('vi-VN')} ₫ / video
               </span>
-              <span className="px-1 py-0.2 rounded bg-surface-muted border border-surface-border text-[9px] text-zinc-400">
+              <span className="px-1.5 py-0.5 rounded bg-surface-muted border border-surface-border text-[11px] font-semibold text-zinc-300">
                 {editingQuality.toUpperCase()}
               </span>
             </div>
-            <span className="text-[9px] text-zinc-400 block mt-0.5">
+            <span className="text-[11px] text-zinc-400 block mt-0.5 font-medium">
               {locale === 'zh' ? 'Full HD: 120万 • 4K: 150万 • 6K: 450万' : locale === 'en' ? 'Full HD: 1.2M • 4K: 1.5M • 6K: 4.5M' : 'Full HD: 1.2tr • 4K: 1.5tr • 6K: 4.5tr'}
             </span>
           </div>
@@ -396,36 +396,36 @@ export default function CustomizerBuilder({
             <button
               type="button"
               onClick={() => setStandardVideoEditing(Math.max(0, standardVideoEditing - 1))}
-              className="w-7 h-7 rounded-lg bg-surface-muted hover:bg-surface text-white flex items-center justify-center font-bold"
+              className="w-8 h-8 rounded-xl bg-surface-muted hover:bg-surface text-white flex items-center justify-center font-bold transition-transform active:scale-95"
             >
-              <Minus className="w-3 h-3" />
+              <Minus className="w-3.5 h-3.5" />
             </button>
-            <span className="font-mono font-bold text-sm text-brand w-4 text-center">
+            <span className="font-mono font-bold text-base text-brand w-5 text-center">
               {standardVideoEditing}
             </span>
             <button
               type="button"
               onClick={() => setStandardVideoEditing(Math.min(10, standardVideoEditing + 1))}
-              className="w-7 h-7 rounded-lg bg-brand text-black flex items-center justify-center font-bold"
+              className="w-8 h-8 rounded-xl bg-brand text-black flex items-center justify-center font-bold transition-transform active:scale-95 shadow-glow"
             >
-              <Plus className="w-3 h-3" />
+              <Plus className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
 
         {/* 6. Dựng phim nâng cao */}
-        <div className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex items-center justify-between">
+        <div className="p-3.5 rounded-2xl bg-surface-elevated border border-surface-border flex items-center justify-between">
           <div>
-            <span className="font-bold text-white block">{t.advEditLabel}</span>
+            <span className="font-bold text-white text-sm sm:text-base block">{t.advEditLabel}</span>
             <div className="flex items-center gap-1.5 mt-0.5">
-              <span className="text-[11px] text-brand font-bold font-mono">
+              <span className="text-xs text-brand font-bold font-mono">
                 {priceAdvEditPerVideo.toLocaleString('vi-VN')} ₫ / video
               </span>
-              <span className="px-1 py-0.2 rounded bg-surface-muted border border-surface-border text-[9px] text-zinc-400">
+              <span className="px-1.5 py-0.5 rounded bg-surface-muted border border-surface-border text-[11px] font-semibold text-zinc-300">
                 {editingQuality.toUpperCase()}
               </span>
             </div>
-            <span className="text-[9px] text-zinc-400 block mt-0.5">
+            <span className="text-[11px] text-zinc-400 block mt-0.5 font-medium">
               {locale === 'zh' ? 'Full HD: 280万 • 4K: 350万 • 6K: 650万' : locale === 'en' ? 'Full HD: 2.8M • 4K: 3.5M • 6K: 6.5M' : 'Full HD: 2.8tr • 4K: 3.5tr • 6K: 6.5tr'}
             </span>
           </div>
@@ -433,27 +433,27 @@ export default function CustomizerBuilder({
             <button
               type="button"
               onClick={() => setAdvancedVideoEditing(Math.max(0, advancedVideoEditing - 1))}
-              className="w-7 h-7 rounded-lg bg-surface-muted hover:bg-surface text-white flex items-center justify-center font-bold"
+              className="w-8 h-8 rounded-xl bg-surface-muted hover:bg-surface text-white flex items-center justify-center font-bold transition-transform active:scale-95"
             >
-              <Minus className="w-3 h-3" />
+              <Minus className="w-3.5 h-3.5" />
             </button>
-            <span className="font-mono font-bold text-sm text-brand w-4 text-center">
+            <span className="font-mono font-bold text-base text-brand w-5 text-center">
               {advancedVideoEditing}
             </span>
             <button
               type="button"
               onClick={() => setAdvancedVideoEditing(Math.min(10, advancedVideoEditing + 1))}
-              className="w-7 h-7 rounded-lg bg-brand text-black flex items-center justify-center font-bold"
+              className="w-8 h-8 rounded-xl bg-brand text-black flex items-center justify-center font-bold transition-transform active:scale-95 shadow-glow"
             >
-              <Plus className="w-3 h-3" />
+              <Plus className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
 
         {/* 7. Chất lượng */}
-        <div className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex flex-col justify-between space-y-1.5">
-          <span className="font-bold text-white">{t.qualityLabel}</span>
-          <div className="grid grid-cols-3 gap-1">
+        <div className="p-3.5 rounded-2xl bg-surface-elevated border border-surface-border flex flex-col justify-between space-y-2">
+          <span className="font-bold text-white text-sm sm:text-base">{t.qualityLabel}</span>
+          <div className="grid grid-cols-3 gap-1.5">
             {[
               { id: 'fullhd', label: 'Full HD' },
               { id: '4k', label: '4K' },
@@ -463,9 +463,9 @@ export default function CustomizerBuilder({
                 key={q.id}
                 type="button"
                 onClick={() => setEditingQuality(q.id as any)}
-                className={`py-1.5 px-1 rounded-lg text-[10px] font-bold border transition-colors ${
+                className={`py-2 px-1.5 rounded-xl text-xs font-bold border transition-colors ${
                   editingQuality === q.id
-                    ? 'bg-brand text-black border-brand shadow-glow font-extrabold'
+                    ? 'bg-brand text-black border-brand shadow-glow font-black'
                     : 'bg-surface-muted text-zinc-300 border-surface-border hover:bg-surface'
                 }`}
               >
@@ -476,14 +476,14 @@ export default function CustomizerBuilder({
         </div>
 
         {/* 8. Hậu kỳ ảnh */}
-        <div className="p-3 rounded-xl bg-surface-elevated border border-surface-border flex flex-col justify-between space-y-1.5">
+        <div className="p-3.5 rounded-2xl bg-surface-elevated border border-surface-border flex flex-col justify-between space-y-2">
           <div className="flex items-center justify-between">
-            <span className="font-bold text-white">{t.photoRetouchLabel}</span>
-            <span className="text-[10px] text-brand font-mono font-semibold">
+            <span className="font-bold text-white text-sm sm:text-base">{t.photoRetouchLabel}</span>
+            <span className="text-xs text-brand font-mono font-bold">
               {pricePhotoRetouch > 0 ? `+${pricePhotoRetouch.toLocaleString('vi-VN')} ₫` : '0 ₫'}
             </span>
           </div>
-          <div className="grid grid-cols-3 gap-1">
+          <div className="grid grid-cols-3 gap-1.5">
             {[
               { id: 'none', label: t.optNone },
               { id: 'standard', label: `${t.optStandard} (400k)` },
@@ -493,9 +493,9 @@ export default function CustomizerBuilder({
                 key={p.id}
                 type="button"
                 onClick={() => setPhotoRetouch(p.id as any)}
-                className={`py-1.5 px-1 rounded-lg text-[10px] font-bold border transition-colors ${
+                className={`py-2 px-1.5 rounded-xl text-xs font-bold border transition-colors ${
                   photoRetouch === p.id
-                    ? 'bg-brand text-black border-brand shadow-glow font-extrabold'
+                    ? 'bg-brand text-black border-brand shadow-glow font-black'
                     : 'bg-surface-muted text-zinc-300 border-surface-border hover:bg-surface'
                 }`}
               >
@@ -507,49 +507,49 @@ export default function CustomizerBuilder({
       </div>
 
       {/* Addons Checklist */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
-        <label className="flex items-center gap-2 p-2.5 rounded-xl bg-surface-elevated border border-surface-border cursor-pointer text-xs hover:border-brand/40 transition-colors">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
+        <label className="flex items-center gap-2.5 p-3 rounded-2xl bg-surface-elevated border border-surface-border cursor-pointer text-xs sm:text-sm hover:border-brand/40 transition-colors">
           <input
             type="checkbox"
             checked={express24h}
             onChange={(e) => setExpress24h(e.target.checked)}
-            className="rounded text-brand focus:ring-brand"
+            className="rounded text-brand focus:ring-brand w-4 h-4"
           />
-          <span className="text-zinc-200">{t.expressLabel}</span>
+          <span className="text-zinc-200 font-medium">{t.expressLabel}</span>
         </label>
 
-        <label className="flex items-center gap-2 p-2.5 rounded-xl bg-surface-elevated border border-surface-border cursor-pointer text-xs hover:border-brand/40 transition-colors">
+        <label className="flex items-center gap-2.5 p-3 rounded-2xl bg-surface-elevated border border-surface-border cursor-pointer text-xs sm:text-sm hover:border-brand/40 transition-colors">
           <input
             type="checkbox"
             checked={makeupMUA}
             onChange={(e) => setMakeupMUA(e.target.checked)}
-            className="rounded text-brand focus:ring-brand"
+            className="rounded text-brand focus:ring-brand w-4 h-4"
           />
-          <span className="text-zinc-200">{t.makeupLabel}</span>
+          <span className="text-zinc-200 font-medium">{t.makeupLabel}</span>
         </label>
 
-        <label className="flex items-center gap-2 p-2.5 rounded-xl bg-surface-elevated border border-surface-border cursor-pointer text-xs hover:border-brand/40 transition-colors">
+        <label className="flex items-center gap-2.5 p-3 rounded-2xl bg-surface-elevated border border-surface-border cursor-pointer text-xs sm:text-sm hover:border-brand/40 transition-colors">
           <input
             type="checkbox"
             checked={luxuryPhotobook}
             onChange={(e) => setLuxuryPhotobook(e.target.checked)}
-            className="rounded text-brand focus:ring-brand"
+            className="rounded text-brand focus:ring-brand w-4 h-4"
           />
-          <span className="text-zinc-200">{t.photobookLabel}</span>
+          <span className="text-zinc-200 font-medium">{t.photobookLabel}</span>
         </label>
       </div>
 
       {/* Realtime Total Calculation Box */}
-      <div className="p-4 rounded-2xl bg-brand/10 border border-brand/40 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      <div className="p-4 sm:p-5 rounded-2xl bg-brand/10 border border-brand/40 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div>
-          <span className="text-[10px] text-zinc-400 uppercase tracking-wider block font-bold">
+          <span className="text-xs text-zinc-400 uppercase tracking-wider block font-bold">
             {t.totalLabel}
           </span>
           <div className="flex items-baseline gap-2 mt-0.5">
             <span className="font-heading font-black text-2xl sm:text-3xl text-brand">
               {totalPrice.toLocaleString('vi-VN')} ₫
             </span>
-            <span className="text-xs text-zinc-300">
+            <span className="text-xs sm:text-sm text-zinc-300 font-medium">
               ({t.deposit40Prefix} <strong className="text-white font-mono">{deposit40.toLocaleString('vi-VN')} ₫</strong>)
             </span>
           </div>
