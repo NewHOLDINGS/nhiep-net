@@ -7,9 +7,9 @@ export const metadata: Metadata = {
   description: 'ĐẶT LỊCH QUAY PHIM CHỤP HÌNH, HẬU KỲ',
   manifest: '/manifest.json',
   icons: {
-    icon: '/nhiep.jpg',
-    shortcut: '/nhiep.jpg',
-    apple: '/nhiep.jpg',
+    icon: '/logo.png',
+    shortcut: '/logo.png',
+    apple: '/logo.png',
   },
   openGraph: {
     type: 'website',
@@ -20,14 +20,14 @@ export const metadata: Metadata = {
     description: 'ĐẶT LỊCH QUAY PHIM CHỤP HÌNH, HẬU KỲ',
     images: [
       {
-        url: 'https://nhiep.net/nhiep.jpg',
+        url: 'https://nhiep.net/og-image.png',
         width: 1200,
         height: 1200,
         alt: 'nhiep.net — ĐẶT LỊCH QUAY PHIM CHỤP HÌNH, HẬU KỲ',
-        type: 'image/jpeg'
+        type: 'image/png'
       },
       {
-        url: 'https://nhiep.net/logo.jpg',
+        url: 'https://nhiep.net/nhiep.jpg',
         width: 1200,
         height: 1200,
         alt: 'nhiep.net — ĐẶT LỊCH QUAY PHIM CHỤP HÌNH, HẬU KỲ',
@@ -39,11 +39,11 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'nhiep.net — Đặt Lịch Quay Phim Chụp Hình, Hậu Kỳ',
     description: 'ĐẶT LỊCH QUAY PHIM CHỤP HÌNH, HẬU KỲ',
-    images: ['https://nhiep.net/nhiep.jpg']
+    images: ['https://nhiep.net/og-image.png']
   },
   other: {
-    'og:image:secure_url': 'https://nhiep.net/nhiep.jpg',
-    'og:image:type': 'image/jpeg',
+    'og:image:secure_url': 'https://nhiep.net/og-image.png',
+    'og:image:type': 'image/png',
     'og:image:width': '1200',
     'og:image:height': '1200'
   }

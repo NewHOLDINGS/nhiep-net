@@ -18,7 +18,7 @@ export async function generateMetadata({
   const dict = getDictionary(locale);
 
   const title = `nhiep.net — ${dict.hero.badge}`;
-  const desc = dict.hero.badge;
+  const desc = 'ĐẶT LỊCH QUAY PHIM CHỤP HÌNH, HẬU KỲ';
 
   return {
     metadataBase: new URL('https://nhiep.net'),
@@ -42,17 +42,17 @@ export async function generateMetadata({
       type: 'website',
       images: [
         {
+          url: 'https://nhiep.net/og-image.png',
+          width: 1200,
+          height: 1200,
+          alt: `${title} — ${desc}`,
+          type: 'image/png'
+        },
+        {
           url: 'https://nhiep.net/nhiep.jpg',
           width: 1200,
           height: 1200,
-          alt: `${title} - ${desc}`,
-          type: 'image/jpeg'
-        },
-        {
-          url: 'https://nhiep.net/logo.jpg',
-          width: 1200,
-          height: 1200,
-          alt: `${title} - ${desc}`,
+          alt: `${title} — ${desc}`,
           type: 'image/jpeg'
         }
       ]
@@ -61,11 +61,11 @@ export async function generateMetadata({
       card: 'summary_large_image',
       title,
       description: desc,
-      images: ['https://nhiep.net/nhiep.jpg']
+      images: ['https://nhiep.net/og-image.png']
     },
     other: {
-      'og:image:secure_url': 'https://nhiep.net/nhiep.jpg',
-      'og:image:type': 'image/jpeg',
+      'og:image:secure_url': 'https://nhiep.net/og-image.png',
+      'og:image:type': 'image/png',
       'og:image:width': '1200',
       'og:image:height': '1200',
       'DC.Language': locale
