@@ -203,10 +203,10 @@ ${customConfig ? `- Customer Manual Customizer Configuration: ${JSON.stringify(c
 Please analyze this customer request, deliver a focused and natural answer in ${targetLangName} (NO markdown asterisks), suggest the 3-5 packages, guide to the customizer, and output the response and json block.`;
 
       const candidateModels = [
-        'gemini-3.5-flash',
         'gemini-3.6-flash',
-        'gemini-flash-latest',
         'gemini-3.7-flash',
+        'gemini-3-flash-preview',
+        'gemini-flash-latest',
         'gemini-3.1-pro-preview'
       ];
 
