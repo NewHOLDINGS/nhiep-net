@@ -72,6 +72,25 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
           rel="stylesheet"
         />
+        {/* Universal Social Sharing Meta Tags (Facebook, Zalo, X, Messenger, WhatsApp, YouTube, Telegram) */}
+        <meta property="og:title" content="nhiep.net — Đặt Lịch Quay Phim Chụp Hình, Hậu Kỳ" />
+        <meta property="og:description" content="ĐẶT LỊCH QUAY PHIM CHỤP HÌNH, HẬU KỲ" />
+        <meta property="og:image" content="https://nhiep.net/og-image.png" />
+        <meta property="og:image:secure_url" content="https://nhiep.net/og-image.png" />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="1200" />
+        <meta property="og:image:alt" content="nhiep.net — ĐẶT LỊCH QUAY PHIM CHỤP HÌNH, HẬU KỲ" />
+        <meta property="og:url" content="https://nhiep.net" />
+        <meta property="og:site_name" content="nhiep.net" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="nhiep.net — Đặt Lịch Quay Phim Chụp Hình, Hậu Kỳ" />
+        <meta name="twitter:description" content="ĐẶT LỊCH QUAY PHIM CHỤP HÌNH, HẬU KỲ" />
+        <meta name="twitter:image" content="https://nhiep.net/og-image.png" />
+        <meta name="description" content="ĐẶT LỊCH QUAY PHIM CHỤP HÌNH, HẬU KỲ" />
+        <meta name="thumbnail" content="https://nhiep.net/og-image.png" />
+        <link rel="image_src" href="https://nhiep.net/og-image.png" />
       </head>
       <body className="min-h-screen bg-background text-foreground antialiased selection:bg-brand selection:text-black">
         {children}

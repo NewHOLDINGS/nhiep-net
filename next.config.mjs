@@ -23,6 +23,14 @@ const nextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: '/',
+        destination: '/vi',
+      },
+    ];
+  },
 };
 
 export default nextConfig;
